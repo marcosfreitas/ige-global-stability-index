@@ -1,148 +1,36 @@
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+@import './styles/tokens.css';
 
-html, body, #root {
-  height: 100%;
-  overflow: hidden;   /* desktop: fixed viewport, internal panels scroll */
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Mobile: allow natural page scroll, block only horizontal overflow */
-@media (max-width: 768px) {
-  html, body, #root {
-    height: auto;
-    min-height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-}
-
-body {
-  background: #0A0E17;
-  color: #E8F4F0;
-  font-family: 'Inter', sans-serif;
+html, body {
+  background: var(--surface-page);
+  color: var(--text-strong);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scanline overlay — very subtle CRT atmosphere */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.025) 2px,
-    rgba(0, 0, 0, 0.025) 4px
-  );
-  pointer-events: none;
-  z-index: 9999;
+#root { min-height: 100vh; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: var(--ige-border-2); border-radius: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+input, select, button { font-family: inherit; }
+input::placeholder { color: var(--ige-text-faint); }
+select { appearance: none; -webkit-appearance: none; }
+
+/* Radix ScrollArea */
+[data-radix-scroll-area-viewport] { scrollbar-width: none; }
+[data-radix-scroll-area-viewport]::-webkit-scrollbar { display: none; }
+
+/* Radix Tabs — active state */
+[role='tab'][data-state='active'] {
+  background: var(--ige-surface-1) !important;
+  color: var(--text-strong) !important;
 }
 
-/* Thin terminal scrollbar */
-::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
-::-webkit-scrollbar-track {
-  background: #0A0E17;
-}
-::-webkit-scrollbar-thumb {
-  background: #1B2535;
-  border-radius: 2px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #7B8FA6;
-}
-
-/* Native select reset */
-select {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-select option {
-  background: #0F1521;
-  color: #E8F4F0;
-}
-
-button {
-  all: unset;
-}
-
-/* Blink cursor animation */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.cursor-blink {
-  animation: blink 1s step-end infinite;
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-  }
-}
-
-/* Mobile: collapse grid to single column, page scrolls naturally */
-@media (max-width: 768px) {
-  /* Content wrapper no longer restricts height — page scrolls */
-  .layout-grid {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: auto auto !important;
-    height: auto !important;
-    overflow: visible !important;
-    min-height: 0;
-  }
-
-  /* Left panel: flex-column, full-width top strip */
-  .left-panel {
-    border-right: none !important;
-    border-bottom: 1px solid #1B2535;
-    flex-direction: column !important;
-    overflow: visible !important;
-    max-height: none !important;
-    height: auto !important;
-  }
-
-  /* Country list becomes a horizontal pill strip */
-  .country-list-scroll {
-    flex-direction: row !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    display: flex !important;
-    padding: 6px 8px 10px !important;
-    gap: 4px;
-    height: 88px;
-    flex-shrink: 0;
-  }
-
-  .country-row {
-    flex-direction: column !important;
-    width: 70px !important;
-    min-width: 70px;
-    height: 72px;
-    padding: 6px 5px !important;
-    gap: 3px !important;
-    flex-shrink: 0;
-    align-items: center;
-  }
-
-  .zone-bar-wrap {
-    display: none !important;
-  }
-
-  /* Right panel detail: full width, no fixed height */
-  .detail-panel {
-    overflow-y: visible !important;
-    height: auto !important;
-  }
-}
+/* Radix Select */
+[data-radix-select-trigger]:focus { outline: none; }
+[data-radix-select-item]:focus { outline: none; }
