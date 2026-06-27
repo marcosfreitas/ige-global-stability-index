@@ -393,7 +393,15 @@ export default function App() {
   const latestEntry = useMemo(() => {
     if (!selectedIso || !countryMap[selectedIso]) return null
     const withIge = countryMap[selectedIso].entries.filter(e => e.ige != null)
-    return withIge.length ? withIge[withIge.length - 1] : null
+    if (!withIge.length) return null
+    // Prefer the most recent year where at least 3 factors were available.
+    // Publication lag often means the newest row has only 1-2 factors, making
+    // the factor panel look mostly empty.  Fall back to the absolute latest
+    // row only if no ≥3-factor row exists (e.g. very small/data-sparse states).
+    const meaningful = withIge.filter(e => (e.factors_used?.length ?? 0) >= 3)
+    return meaningful.length
+      ? meaningful[meaningful.length - 1]
+      : withIge[withIge.length - 1]
   }, [countryMap, selectedIso])
 
   const currentIge  = latestEntry?.ige ?? null
