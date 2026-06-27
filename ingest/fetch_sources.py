@@ -255,40 +255,100 @@ def fetch_imf_debt(out_file: Path) -> pd.DataFrame | None:
 # UCDP conflict data
 # ---------------------------------------------------------------------------
 
-# Correlates of War (COW) gwno_a → ISO-3 mapping (partial, major countries)
+# GW (Gleditsch-Ward) country_id → ISO-3 mapping, calibrated against
+# the UCDP Organized Violence by Country-Year dataset (v26.1).
+# All codes verified directly from the OVCY CSV — codes here match what
+# UCDP actually stores in the `country_id` field, which deviates from
+# COW in several regions (Balkans, post-Soviet, Africa, Central Asia).
 GW_TO_ISO3 = {
+    # Americas
     2: "USA", 20: "CAN", 40: "CUB", 41: "HTI", 42: "DOM", 51: "JAM",
     52: "TTO", 53: "BRB", 54: "DMA", 55: "GRD", 56: "SLV", 57: "VCT",
     58: "ATG", 60: "KNA", 70: "MEX", 80: "BLZ", 90: "GTM", 91: "HND",
     92: "SLV", 93: "NIC", 94: "CRI", 95: "PAN", 100: "COL", 101: "VEN",
     110: "GUY", 115: "SUR", 130: "ECU", 135: "PER", 140: "BRA", 145: "BOL",
-    150: "PRY", 155: "CHL", 160: "ARG", 165: "URY", 200: "GBR", 205: "IRL",
-    210: "NLD", 211: "BEL", 212: "LUX", 220: "FRA", 221: "MCO", 222: "AND",
-    223: "ESP", 225: "PRT", 230: "ITA", 232: "SMR", 235: "MLT", 240: "ALB",
-    245: "MNE", 246: "MKD", 247: "XKX", 265: "DEU", 269: "SVN", 270: "HRV",
-    271: "BIH", 272: "SRB", 273: "MNE", 275: "DEU", 290: "POL", 305: "AUT",
-    310: "HUN", 315: "CZE", 316: "SVK", 317: "SVK", 325: "ITA", 338: "MLT",
-    339: "ALB", 341: "MNE", 343: "MKD", 344: "BIH", 346: "SRB", 349: "XKX",
-    350: "GRC", 352: "CYP", 355: "BGR", 360: "ROU", 365: "RUS", 366: "EST",
-    367: "LVA", 368: "LTU", 370: "BLR", 371: "UKR", 372: "GEO", 373: "ARM",
-    374: "AZE", 375: "FIN", 380: "SWE", 385: "NOR", 390: "DNK", 395: "ISL",
-    402: "CPV", 404: "GNB", 411: "EQG", 420: "GMB", 432: "MLI", 433: "SEN",
-    434: "BEN", 435: "MRT", 436: "NER", 437: "CIV", 438: "GIN", 439: "BFA",
-    450: "LBR", 451: "SLE", 452: "GHA", 461: "TGO", 471: "CMR", 475: "NGA",
-    481: "GAB", 482: "CAF", 483: "COG", 484: "COD", 490: "UGA", 500: "KEN",
-    501: "DJI", 510: "ETH", 516: "ERI", 517: "SOM", 520: "SOM", 522: "SSD",
-    530: "ETH", 540: "AGO", 541: "MOZ", 551: "ZMB", 552: "ZWE", 553: "MWI",
-    560: "ZAF", 565: "NAM", 570: "LSO", 571: "BWA", 572: "SWZ", 580: "MDG",
-    581: "COM", 590: "MUS", 600: "MAR", 615: "DZA", 616: "TUN", 620: "LBY",
-    625: "SDN", 626: "SSD", 630: "IRN", 640: "TUR", 645: "IRQ", 651: "EGY",
-    652: "SYR", 660: "LBN", 663: "JOR", 666: "ISR", 670: "SAU", 678: "YEM",
-    690: "KWT", 692: "BHR", 694: "QAT", 696: "ARE", 698: "OMN", 700: "AFG",
-    701: "PAK", 703: "BGD", 704: "BTN", 705: "IND", 710: "CHN", 711: "MNG",
-    712: "TWN", 713: "PRK", 730: "KOR", 732: "KOR", 735: "JPN", 740: "JPN",
-    750: "IND", 760: "MMR", 761: "BGD", 771: "PAK", 775: "MMR", 780: "LKA",
-    781: "MDV", 790: "NPL", 800: "THA", 811: "KHM", 812: "LAO", 816: "VNM",
-    817: "VNM", 820: "MYS", 830: "SGP", 835: "BRN", 840: "PHL", 850: "IDN",
-    860: "TLS", 900: "AUS", 920: "PNG", 935: "VUT", 940: "SLB", 950: "FJI",
+    150: "PRY", 155: "CHL", 160: "ARG", 165: "URY",
+    # Western Europe
+    200: "GBR", 205: "IRL", 210: "NLD", 211: "BEL", 212: "LUX",
+    220: "FRA", 221: "MCO", 222: "AND", 223: "ESP", 225: "PRT",
+    230: "ITA", 232: "SMR", 235: "MLT", 240: "ALB", 265: "DEU",
+    290: "POL", 305: "AUT", 310: "HUN", 315: "CZE", 316: "SVK",
+    325: "ITA", 338: "MLT", 339: "ALB", 350: "GRC", 352: "CYP",
+    355: "BGR", 360: "ROU", 375: "FIN", 380: "SWE", 385: "NOR",
+    390: "DNK", 395: "ISL",
+    # Former Yugoslavia — codes verified from UCDP OVCY v26.1
+    # (UCDP does NOT use the COW 2xx codes for these states)
+    341: "MNE",   # Montenegro
+    343: "MKD",   # North Macedonia
+    344: "HRV",   # Croatia   ← was "BIH" (wrong)
+    345: "SRB",   # Serbia / Yugoslavia
+    346: "BIH",   # Bosnia-Herzegovina  ← was "SRB" (wrong)
+    347: "XKX",   # Kosovo     ← was missing
+    349: "SVN",   # Slovenia   ← was "XKX" (wrong)
+    # Post-Soviet — codes verified from UCDP OVCY v26.1
+    359: "MDA",   # Moldova    ← was missing (Fix 2)
+    365: "RUS",
+    366: "EST", 367: "LVA", 368: "LTU",
+    369: "UKR",   # Ukraine    ← was missing (371 was wrong)
+    370: "BLR",
+    371: "ARM",   # Armenia    ← was "UKR" (wrong)
+    372: "GEO",   # Georgia
+    373: "AZE",   # Azerbaijan ← was "ARM" (wrong); UCDP uses 373 not 374
+    # Sub-Saharan Africa — codes verified from UCDP OVCY v26.1
+    402: "CPV", 404: "GNB", 411: "EQG", 420: "GMB", 432: "MLI",
+    433: "SEN", 434: "BEN", 435: "MRT", 436: "NER", 437: "CIV",
+    438: "GIN", 439: "BFA", 450: "LBR", 451: "SLE", 452: "GHA",
+    461: "TGO", 471: "CMR", 475: "NGA",
+    481: "GAB", 482: "CAF",
+    483: "TCD",   # Chad            ← was "COG" (wrong; entire Africa block was shifted)
+    484: "COG",   # Republic of Congo  ← was "COD"
+    490: "COD",   # DR Congo / Zaire   ← was "UGA"
+    500: "UGA",   # Uganda             ← was "KEN"
+    501: "KEN",   # Kenya              ← was "DJI"
+    510: "TZA",   # Tanzania           ← was "ETH" (Ethiopia=530)
+    516: "BDI",   # Burundi            ← was "ERI" (Fix 2)
+    517: "RWA",   # Rwanda             ← was "SOM" (Fix 2)
+    520: "SOM",   # Somalia            ✓
+    522: "DJI",   # Djibouti           ← was "SSD" (wrong; was missing)
+    530: "ETH",   # Ethiopia           ✓
+    531: "ERI",   # Eritrea            ← was missing
+    540: "AGO", 541: "MOZ", 551: "ZMB", 552: "ZWE", 553: "MWI",
+    560: "ZAF", 565: "NAM", 570: "LSO", 571: "BWA", 572: "SWZ",
+    580: "MDG", 581: "COM", 590: "MUS",
+    # North Africa & Middle East
+    600: "MAR", 615: "DZA", 616: "TUN", 620: "LBY",
+    625: "SDN", 626: "SSD", 630: "IRN", 640: "TUR", 645: "IRQ",
+    651: "EGY", 652: "SYR", 660: "LBN", 663: "JOR", 666: "ISR",
+    670: "SAU", 678: "YEM", 690: "KWT", 692: "BHR", 694: "QAT",
+    696: "ARE", 698: "OMN",
+    # Central Asia — codes verified from UCDP OVCY v26.1
+    700: "AFG",
+    701: "TKM",   # Turkmenistan ← was "PAK"
+    702: "TJK",   # Tajikistan   ← was missing (Fix 2)
+    703: "KGZ",   # Kyrgyzstan   ← was "BGD"
+    704: "UZB",   # Uzbekistan   ← was "BTN"
+    705: "KAZ",   # Kazakhstan   ← was "IND"
+    # East Asia
+    710: "CHN",
+    712: "MNG",   # Mongolia     ← was "TWN" (UCDP: 712=MNG, 713=TWN)
+    713: "TWN",   # Taiwan       ← was "PRK"
+    731: "PRK",   # North Korea  ← was missing (713 was wrong)
+    732: "KOR",   # South Korea  ✓
+    740: "JPN",   # Japan        ✓
+    # South & Southeast Asia — codes verified from UCDP OVCY v26.1
+    750: "IND",   # India   ✓
+    760: "BTN",   # Bhutan       ← was "MMR"
+    770: "PAK",   # Pakistan     ← was missing (701 was wrong)
+    771: "BGD",   # Bangladesh   ← was "PAK"
+    775: "MMR",   # Myanmar      ✓
+    780: "LKA",   # Sri Lanka    ✓
+    781: "MDV",   # Maldives
+    790: "NPL",   # Nepal
+    800: "THA", 811: "KHM", 812: "LAO", 816: "VNM",
+    820: "MYS", 830: "SGP", 835: "BRN", 840: "PHL", 850: "IDN",
+    860: "TLS",
+    # Pacific
+    900: "AUS", 920: "PNG", 935: "VUT", 940: "SLB", 950: "FJI",
     983: "NZL",
 }
 

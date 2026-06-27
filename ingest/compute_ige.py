@@ -160,6 +160,25 @@ def main():
         df_debt = df_debt_wb
         log.warning("IMF debt file not found; using World Bank debt only")
 
+    # ── Fix 1: hard cap at 2025 ──────────────────────────────────────────────
+    # The IMF WEO debt source includes projections through 2031.  Letting those
+    # rows enter the z-score expansion window is harmless (expanding window
+    # uses only data up to each row), but it pollutes the *output* with future
+    # scores computed from a single projection factor.  Cap every input source
+    # at 2025 so no forward-looking rows reach the output JSON.
+    MAX_YEAR = 2025
+    for name, df_ref in [
+        ("inflation", df_inf), ("gdp_growth", df_gdp),
+        ("unemployment", df_unem), ("debt", df_debt),
+        ("gdp_usd", df_gdp_usd), ("population", df_pop),
+    ]:
+        before = len(df_ref)
+        df_ref.drop(df_ref[df_ref["year"] > MAX_YEAR].index, inplace=True)
+        dropped = before - len(df_ref)
+        if dropped:
+            log.info("Year cap: dropped %d rows > %d from %s", dropped, MAX_YEAR, name)
+    log.info("All sources capped at year <= %d", MAX_YEAR)
+
     # Merge all on iso3, year
     # Start with all unique iso3-year combos across all sources
     all_pairs = set()
@@ -331,14 +350,35 @@ def main():
 
     log.info("Generated %d country-year records (before region filter)", len(records))
 
-    # Filter out World Bank aggregate / supra-national codes that have no region
-    # (None region) or were classified as "global" (e.g., iso="WORLD").
-    # These are not individual countries and would pollute the UI country grid.
+    # ── Fix 3: filter regional pseudo-ISO codes ──────────────────────────────
+    # World Bank raw data includes aggregate regions (EAP, ECA, LAC, SAS, SSA,
+    # MNA, NAC, WLD, WORLD, etc.) that have 3-letter codes but are not sovereign
+    # countries.  Cross-reference against REGION_MAP: any iso3 NOT found there
+    # and whose region is None or "global" is an aggregate → drop it.
+    from regions import REGION_MAP
+    valid_isos = set(REGION_MAP.keys())
+    # Also known aggregate ISO codes that might slip through
+    AGGREGATE_ISOS = {
+        "EAP", "ECA", "LAC", "SAS", "SSA", "MNA", "NAC",
+        "WLD", "HIC", "LIC", "LMC", "UMC", "LMY", "MIC",
+        "IBT", "IBD", "IDB", "IDX", "IDA",
+        "EMU", "EUU", "FCS", "HPC", "OED", "PRE",
+        "PST", "TEA", "TEC", "TLA", "TMN", "TSA", "TSS",
+    }
+    before = len(records)
     records = [
         r for r in records
-        if r.get("region") is not None and r.get("region") != "global"
+        if (
+            r.get("region") not in (None, "global")
+            and r.get("iso") not in AGGREGATE_ISOS
+            and (r.get("iso") in valid_isos or len(r.get("iso", "")) == 3)
+        )
     ]
-    log.info("After region filter: %d country-year records", len(records))
+    dropped = before - len(records)
+    log.info(
+        "After pseudo-ISO filter: %d country-year records (%d dropped)",
+        len(records), dropped,
+    )
 
     # Regional aggregation
     log.info("Computing regional aggregates...")
