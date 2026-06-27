@@ -292,7 +292,7 @@ function RegionSummaryBar({ summary }) {
     v == null ? '—' : `${Math.abs(v).toFixed(1)}%`
 
   const Cell = ({ label, value, valueColor }) => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', gap: 2, minWidth: 0, minHeight: 38 }}>
       <span style={{
         fontSize: 8, fontFamily: MONO, color: C.slate,
         letterSpacing: '0.12em', textTransform: 'uppercase',
@@ -314,6 +314,7 @@ function RegionSummaryBar({ summary }) {
       padding: '8px 12px 6px',
       borderBottom: `1px solid ${C.border}`,
       background: C.surface,
+      flexShrink: 0,         /* never collapse inside a flex column */
     }}>
       {/* 3-column grid — fits the 256px left panel without overflow */}
       <div style={{
@@ -665,38 +666,42 @@ export default function App() {
             overflow: 'hidden',
           }}
         >
-          {/* LEFT — Country grid */}
+          {/* LEFT — Country grid: flex column so header+bar are sticky, list scrolls */}
           <div
             className="left-panel"
             style={{
               borderRight: `1px solid ${C.border}`,
-              overflowY: 'auto',
-              paddingTop: 4,
-              paddingBottom: 16,
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',   /* outer wrapper does NOT scroll */
             }}
           >
-            <div style={{
-              padding: '10px 12px 6px',
-              borderBottom: `1px solid ${C.border}`,
-              overflow: 'hidden',
-            }}>
+            {/* ── Fixed top: region label + summary bar ── */}
+            <div style={{ flexShrink: 0 }}>
               <div style={{
-                fontSize: 9, color: C.textDim, letterSpacing: '0.18em',
-                fontFamily: MONO, whiteSpace: 'nowrap', overflow: 'hidden',
-                textOverflow: 'ellipsis',
+                padding: '10px 12px 6px',
+                borderBottom: `1px solid ${C.border}`,
+                overflow: 'hidden',
               }}>
-                {regionLabel(selectedRegion).toUpperCase()}
+                <div style={{
+                  fontSize: 9, color: C.textDim, letterSpacing: '0.18em',
+                  fontFamily: MONO, whiteSpace: 'nowrap', overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}>
+                  {regionLabel(selectedRegion).toUpperCase()}
+                </div>
+                <div style={{
+                  fontSize: 8, color: C.slate, letterSpacing: '0.14em',
+                  fontFamily: MONO, marginTop: 2, whiteSpace: 'nowrap',
+                }}>
+                  {regionCountries.length} PAÍSES · IGE ↓
+                </div>
               </div>
-              <div style={{
-                fontSize: 8, color: C.slate, letterSpacing: '0.14em',
-                fontFamily: MONO, marginTop: 2, whiteSpace: 'nowrap',
-              }}>
-                {regionCountries.length} PAÍSES · IGE ↓
-              </div>
+              <RegionSummaryBar summary={regionSummary} />
             </div>
 
-            <RegionSummaryBar summary={regionSummary} />
-
+            {/* ── Scrollable country list ── */}
+            <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 16 }}>
             {regionCountries.map(({ iso, ige }) => {
               const z          = getZone(ige)
               const isSelected = iso === selectedIso
@@ -757,6 +762,7 @@ export default function App() {
                 </button>
               )
             })}
+            </div>{/* end scrollable list */}
           </div>
 
           {/* RIGHT — Detail panel */}
@@ -769,7 +775,7 @@ export default function App() {
                     <span style={{ fontFamily: MONO, fontSize: 30, fontWeight: 700, color: C.text, letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>
                       {selectedIso}
                     </span>
-                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.textDim, letterSpacing: '0.06em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '14ch' }}>
+                    <span style={{ fontFamily: MONO, fontSize: 10, color: C.textDim, letterSpacing: '0.04em', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '22ch', whiteSpace: 'nowrap' }}>
                       {regionLabel(countryMap[selectedIso]?.region)}
                     </span>
                     <span style={{ fontFamily: MONO, fontSize: 11, color: C.slate, whiteSpace: 'nowrap' }}>
