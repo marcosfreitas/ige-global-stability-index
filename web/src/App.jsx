@@ -457,6 +457,7 @@ export default function App() {
   const [countryMap, setCountryMap]     = useState({})   // iso -> { region, entries[] }
   const [selectedRegion, setSelectedRegion] = useState(null)
   const [selectedIso, setSelectedIso]   = useState(null)
+  const [searchQuery, setSearchQuery]   = useState('')
 
   // Fetch and process dataset
   useEffect(() => {
@@ -506,11 +507,21 @@ export default function App() {
     return [...ordered, ...rest]
   }, [countryMap])
 
-  // Countries in the selected region, sorted by latest IGE descending
+  // Countries in the selected region (or matching search), sorted by latest IGE descending
   const regionCountries = useMemo(() => {
-    if (!selectedRegion) return []
-    return Object.entries(countryMap)
-      .filter(([iso, c]) => c.region === selectedRegion && !AGGREGATE_ISOS.has(iso))
+    const q = searchQuery.trim().toLowerCase()
+
+    // When searching: show matches across ALL regions
+    const pool = q
+      ? Object.entries(countryMap).filter(([iso]) => !AGGREGATE_ISOS.has(iso))
+      : Object.entries(countryMap).filter(([iso, c]) => c.region === selectedRegion && !AGGREGATE_ISOS.has(iso))
+
+    return pool
+      .filter(([iso]) => {
+        if (!q) return true
+        const name = (COUNTRY_NAMES[iso] || '').toLowerCase()
+        return iso.toLowerCase().includes(q) || name.includes(q)
+      })
       .map(([iso, c]) => {
         const withIge = c.entries.filter(e => e.ige != null)
         const last    = withIge.length ? withIge[withIge.length - 1] : null
@@ -522,7 +533,7 @@ export default function App() {
         if (b.ige == null) return -1
         return b.ige - a.ige
       })
-  }, [countryMap, selectedRegion])
+  }, [countryMap, selectedRegion, searchQuery])
 
   // Helper: best entry for a country iso (same ≥3-factor logic as latestEntry)
   const bestEntry = (iso) => {
@@ -592,6 +603,7 @@ export default function App() {
 
   // When region changes, pick top country in new region
   const handleRegionChange = (r) => {
+    setSearchQuery('')
     setSelectedRegion(r)
     const top = Object.entries(countryMap)
       .filter(([iso, c]) => c.region === r && !AGGREGATE_ISOS.has(iso))
@@ -700,6 +712,46 @@ export default function App() {
               <RegionSummaryBar summary={regionSummary} />
             </div>
 
+            {/* ── Search box ── */}
+            <div style={{ padding: '6px 10px', borderBottom: `1px solid ${C.border}`, flexShrink: 0 }}>
+              <div style={{ position: 'relative' }}>
+                <span style={{
+                  position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)',
+                  fontSize: 10, color: C.slate, pointerEvents: 'none', fontFamily: MONO,
+                }}>⌕</span>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  placeholder="buscar país..."
+                  style={{
+                    width: '100%', boxSizing: 'border-box',
+                    background: C.surface2, border: `1px solid ${searchQuery ? C.teal : C.border}`,
+                    borderRadius: 3, color: C.text, fontFamily: MONO, fontSize: 10,
+                    padding: '5px 24px 5px 22px', outline: 'none',
+                    transition: 'border-color 0.15s',
+                  }}
+                  onFocus={e => { e.target.style.borderColor = C.teal }}
+                  onBlur={e => { e.target.style.borderColor = searchQuery ? C.teal : C.border }}
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    style={{
+                      position: 'absolute', right: 6, top: '50%', transform: 'translateY(-50%)',
+                      background: 'none', border: 'none', color: C.slate, cursor: 'pointer',
+                      fontFamily: MONO, fontSize: 11, padding: '0 2px', lineHeight: 1,
+                    }}
+                  >×</button>
+                )}
+              </div>
+              {searchQuery && (
+                <div style={{ fontSize: 8, color: C.slate, fontFamily: MONO, marginTop: 3, letterSpacing: '0.1em' }}>
+                  {regionCountries.length} RESULTADO{regionCountries.length !== 1 ? 'S' : ''}
+                </div>
+              )}
+            </div>
+
             {/* ── Scrollable country list ── */}
             <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 16 }}>
             {regionCountries.map(({ iso, ige }) => {
@@ -709,7 +761,13 @@ export default function App() {
                 <button
                   key={iso}
                   className="country-row"
-                  onClick={() => setSelectedIso(iso)}
+                  onClick={() => {
+                    setSelectedIso(iso)
+                    // If search returned a cross-region result, switch region context
+                    const r = countryMap[iso]?.region
+                    if (r && r !== selectedRegion) setSelectedRegion(r)
+                    setSearchQuery('')
+                  }}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
