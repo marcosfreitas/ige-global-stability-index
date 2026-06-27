@@ -753,7 +753,7 @@ export default function App() {
             </div>
 
             {/* ── Scrollable country list ── */}
-            <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 16 }}>
+            <div className="country-list-scroll" style={{ flex: 1, overflowY: 'auto', paddingBottom: 16 }}>
             {regionCountries.map(({ iso, ige }) => {
               const z          = getZone(ige)
               const isSelected = iso === selectedIso
