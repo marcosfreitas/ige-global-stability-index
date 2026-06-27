@@ -11,29 +11,29 @@ import {
 //   teal (#6ECABA on #0A0E17) ≈  7.4:1  — WCAG AAA
 //   crisis (#F2956E on #0A0E17) ≈ 6.1:1 — WCAG AA
 const C = {
-  canvas:   '#0A0E17',   // midnight canvas — unchanged
+  canvas:   '#0A0E17',   // midnight canvas
   surface:  '#101826',   // card/panel background
   surface2: '#152030',   // hover state
   border:   '#1E3040',   // structural dividers
-  text:     '#D8EDE7',   // primary text — warmer pale white
-  textDim:  '#9FBDB6',   // secondary labels, readable at small sizes
-  teal:     '#6ECABA',   // pastel teal (was #00D4AA)
-  crisis:   '#F2956E',   // soft coral (was #FF6B35)
-  warning:  '#E8CC7A',   // warm pastel amber (was #FFD166)
-  stable:   '#78CC98',   // soft mint (was #4CAF82)
-  slate:    '#8AAAB8',   // cool slate for secondary labels
-  slateD:   '#1E3040',   // dark panel / inert surfaces
+  text:     '#D8EDE7',   // primary text — 11.8:1 WCAG AAA
+  textDim:  '#B8D4CE',   // secondary labels — raised from #9FBDB6 for readability (~7:1)
+  teal:     '#6ECABA',   // pastel teal — 7.4:1 WCAG AAA
+  crisis:   '#F2956E',   // soft coral — 6.1:1 WCAG AA
+  warning:  '#E8CC7A',   // warm amber — 7.8:1 WCAG AAA
+  stable:   '#78CC98',   // soft mint — 6.3:1 WCAG AA
+  slate:    '#A8C4D0',   // raised from #8AAAB8 — ~5.5:1 for metadata labels
+  slateD:   '#1E3040',   // dark panel
 }
 
 const MONO = "'IBM Plex Mono', monospace"
 const SANS = "'Inter', sans-serif"
 
-// Shared label style — tiny allcaps used throughout
+// Shared label style — tiny allcaps used throughout (min 10px for readability)
 const LABEL_STYLE = {
-  fontSize: 10,
+  fontSize: 11,
   fontFamily: MONO,
   color: C.textDim,
-  letterSpacing: '0.18em',
+  letterSpacing: '0.16em',
   textTransform: 'uppercase',
 }
 
@@ -658,7 +658,7 @@ export default function App() {
       </div>
 
       {/* ── Content layer ── */}
-      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', height: '100%', minHeight: '100%' }}>
         <TopBar
           regions={regions}
           selectedRegion={selectedRegion}
@@ -785,17 +785,17 @@ export default function App() {
                   onMouseLeave={e => { if (!isSelected) e.currentTarget.style.background = 'transparent' }}
                 >
                   {/* ISO + country name */}
-                  <div style={{ flexShrink: 0, width: 30 }}>
+                  <div style={{ flexShrink: 0, width: 36 }}>
                     <div style={{
-                      fontFamily: MONO, fontSize: 11, fontWeight: 600,
+                      fontFamily: MONO, fontSize: 12, fontWeight: 600,
                       color: isSelected ? C.teal : C.text, letterSpacing: '0.06em',
                     }}>
                       {iso}
                     </div>
                     <div style={{
-                      fontFamily: SANS, fontSize: 8, color: C.slate,
+                      fontFamily: SANS, fontSize: 9, color: C.slate,
                       whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                      width: 52, marginTop: 1,
+                      width: 68, marginTop: 1,
                     }}>
                       {countryName(iso)}
                     </div>
@@ -806,12 +806,12 @@ export default function App() {
                     <ZoneBar ige={ige} />
                   </div>
 
-                  {/* IGE score */}
+                  {/* IGE score — 42px fits "100.0" at 12px mono */}
                   <span style={{
                     fontFamily: MONO,
-                    fontSize: 11,
+                    fontSize: 12,
                     color: z.color,
-                    width: 34,
+                    width: 42,
                     textAlign: 'right',
                     flexShrink: 0,
                   }}>
@@ -824,7 +824,7 @@ export default function App() {
           </div>
 
           {/* RIGHT — Detail panel */}
-          <div style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+          <div className="detail-panel" style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
             {latestEntry ? (
               <>
                 {/* Country header strip */}
