@@ -46,6 +46,59 @@ const DATA_URL = 'https://raw.githubusercontent.com/marcosfreitas/ige-global-sta
 // they only exist for potential future regional comparison features.
 const AGGREGATE_ISOS = new Set(['EAP','ECA','LAC','MENA','NAM','SAS','SSA','WORLD'])
 
+// ISO-3 → country name lookup (covers all 214 countries in the dataset)
+const COUNTRY_NAMES = {
+  ABW:'Aruba',AFG:'Afeganistão',AGO:'Angola',ALB:'Albânia',AND:'Andorra',
+  ARE:'Emirados Árabes',ARG:'Argentina',ARM:'Armênia',ASM:'Samoa Americana',
+  ATG:'Antígua e Barbuda',AUS:'Austrália',AUT:'Áustria',AZE:'Azerbaijão',
+  BDI:'Burundi',BEL:'Bélgica',BEN:'Benin',BFA:'Burkina Faso',BGD:'Bangladesh',
+  BGR:'Bulgária',BHR:'Bahrein',BHS:'Bahamas',BIH:'Bósnia-Herzegovina',
+  BLR:'Bielorrússia',BLZ:'Belize',BMU:'Bermudas',BOL:'Bolívia',BRA:'Brasil',
+  BRB:'Barbados',BRN:'Brunei',BTN:'Butão',BWA:'Botsuana',CAF:'Rep. Centro-Africana',
+  CAN:'Canadá',CHE:'Suíça',CHI:'Ilhas do Canal',CHL:'Chile',CHN:'China',
+  CIV:'Costa do Marfim',CMR:'Camarões',COD:'RD Congo',COG:'Congo',COL:'Colômbia',
+  COM:'Comores',CPV:'Cabo Verde',CRI:'Costa Rica',CUB:'Cuba',CUW:'Curaçao',
+  CYM:'Ilhas Caiman',CYP:'Chipre',CZE:'Rep. Tcheca',DEU:'Alemanha',DJI:'Djibuti',
+  DMA:'Dominica',DNK:'Dinamarca',DOM:'Rep. Dominicana',DZA:'Argélia',ECU:'Equador',
+  EGY:'Egito',ERI:'Eritreia',ESP:'Espanha',EST:'Estônia',ETH:'Etiópia',
+  FIN:'Finlândia',FJI:'Fiji',FRA:'França',FRO:'Ilhas Faroé',FSM:'Micronésia',
+  GAB:'Gabão',GBR:'Reino Unido',GEO:'Geórgia',GHA:'Gana',GIN:'Guiné',
+  GMB:'Gâmbia',GNB:'Guiné-Bissau',GNQ:'Guiné Equatorial',GRC:'Grécia',
+  GRD:'Granada',GRL:'Groenlândia',GTM:'Guatemala',GUM:'Guam',GUY:'Guiana',
+  HKG:'Hong Kong',HND:'Honduras',HRV:'Croácia',HTI:'Haiti',HUN:'Hungria',
+  IDN:'Indonésia',IMN:'Ilha de Man',IND:'Índia',IRL:'Irlanda',IRN:'Irã',
+  IRQ:'Iraque',ISL:'Islândia',ISR:'Israel',ITA:'Itália',JAM:'Jamaica',
+  JOR:'Jordânia',JPN:'Japão',KAZ:'Cazaquistão',KEN:'Quênia',KGZ:'Quirguistão',
+  KHM:'Camboja',KIR:'Kiribati',KNA:'São Cristóvão e Névis',KOR:'Coreia do Sul',
+  KWT:'Kuwait',LAO:'Laos',LBN:'Líbano',LBR:'Libéria',LBY:'Líbia',LCA:'Santa Lúcia',
+  LIE:'Liechtenstein',LKA:'Sri Lanka',LSO:'Lesoto',LTU:'Lituânia',LUX:'Luxemburgo',
+  LVA:'Letônia',MAC:'Macau',MAR:'Marrocos',MCO:'Mônaco',MDA:'Moldávia',
+  MDG:'Madagáscar',MDV:'Maldivas',MEX:'México',MHL:'Ilhas Marshall',MKD:'Macedônia do Norte',
+  MLI:'Mali',MLT:'Malta',MMR:'Mianmar',MNE:'Montenegro',MNG:'Mongólia',
+  MNP:'Ilhas Marianas do Norte',MOZ:'Moçambique',MRT:'Mauritânia',MUS:'Maurícia',
+  MWI:'Malawi',MYS:'Malásia',NCL:'Nova Caledônia',NER:'Níger',NGA:'Nigéria',
+  NIC:'Nicarágua',NLD:'Países Baixos',NOR:'Noruega',NPL:'Nepal',NRU:'Nauru',
+  NZL:'Nova Zelândia',OMN:'Omã',PAK:'Paquistão',PAN:'Panamá',PER:'Peru',
+  PHL:'Filipinas',PLW:'Palau',PNG:'Papua Nova Guiné',POL:'Polônia',PRI:'Porto Rico',
+  PRK:'Coreia do Norte',PRT:'Portugal',PRY:'Paraguai',PSE:'Palestina',
+  PYF:'Polinésia Francesa',QAT:'Qatar',ROU:'Romênia',RUS:'Rússia',RWA:'Ruanda',
+  SAU:'Arábia Saudita',SDN:'Sudão',SEN:'Senegal',SGP:'Singapura',SLB:'Ilhas Salomão',
+  SLE:'Serra Leoa',SLV:'El Salvador',SMR:'San Marino',SOM:'Somália',SRB:'Sérvia',
+  SSD:'Sudão do Sul',STP:'São Tomé e Príncipe',SUR:'Suriname',SVK:'Eslováquia',
+  SVN:'Eslovênia',SWE:'Suécia',SWZ:'Essuatíni',SXM:'Sint Maarten',SYC:'Seychelles',
+  SYR:'Síria',TCA:'Turks e Caicos',TCD:'Chade',TGO:'Togo',THA:'Tailândia',
+  TJK:'Tajiquistão',TKM:'Turcomenistão',TLS:'Timor-Leste',TON:'Tonga',
+  TTO:'Trinidad e Tobago',TUN:'Tunísia',TUR:'Turquia',TUV:'Tuvalu',TWN:'Taiwan',
+  TZA:'Tanzânia',UGA:'Uganda',UKR:'Ucrânia',URY:'Uruguai',USA:'Estados Unidos',
+  UZB:'Uzbequistão',VCT:'São Vicente e Granadinas',VEN:'Venezuela',
+  VIR:'Ilhas Virgens (EUA)',VNM:'Vietnã',VUT:'Vanuatu',WSM:'Samoa',
+  XKX:'Kosovo',YEM:'Iêmen',ZAF:'África do Sul',ZMB:'Zâmbia',ZWE:'Zimbábue',
+}
+
+function countryName(iso) {
+  return COUNTRY_NAMES[iso] || iso
+}
+
 const REGION_LABELS = {
   latin_america_caribbean:    'Latin America & Caribbean',
   europe_central_asia:        'Europe & Central Asia',
@@ -624,16 +677,22 @@ export default function App() {
           >
             <div style={{
               padding: '10px 12px 6px',
-              fontSize: 9,
-              color: C.textDim,
-              letterSpacing: '0.18em',
-              fontFamily: MONO,
               borderBottom: `1px solid ${C.border}`,
               overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
             }}>
-              {regionLabel(selectedRegion).toUpperCase()} · {regionCountries.length}
+              <div style={{
+                fontSize: 9, color: C.textDim, letterSpacing: '0.18em',
+                fontFamily: MONO, whiteSpace: 'nowrap', overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}>
+                {regionLabel(selectedRegion).toUpperCase()}
+              </div>
+              <div style={{
+                fontSize: 8, color: C.slate, letterSpacing: '0.14em',
+                fontFamily: MONO, marginTop: 2, whiteSpace: 'nowrap',
+              }}>
+                {regionCountries.length} PAÍSES · IGE ↓
+              </div>
             </div>
 
             <RegionSummaryBar summary={regionSummary} />
@@ -662,18 +721,22 @@ export default function App() {
                   onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = C.surface2 }}
                   onMouseLeave={e => { if (!isSelected) e.currentTarget.style.background = 'transparent' }}
                 >
-                  {/* ISO code */}
-                  <span style={{
-                    fontFamily: MONO,
-                    fontSize: 11,
-                    fontWeight: 600,
-                    color: isSelected ? C.teal : C.text,
-                    width: 30,
-                    flexShrink: 0,
-                    letterSpacing: '0.06em',
-                  }}>
-                    {iso}
-                  </span>
+                  {/* ISO + country name */}
+                  <div style={{ flexShrink: 0, width: 30 }}>
+                    <div style={{
+                      fontFamily: MONO, fontSize: 11, fontWeight: 600,
+                      color: isSelected ? C.teal : C.text, letterSpacing: '0.06em',
+                    }}>
+                      {iso}
+                    </div>
+                    <div style={{
+                      fontFamily: SANS, fontSize: 8, color: C.slate,
+                      whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                      width: 52, marginTop: 1,
+                    }}>
+                      {countryName(iso)}
+                    </div>
+                  </div>
 
                   {/* Zone bar */}
                   <div className="zone-bar-wrap" style={{ flex: 1, minWidth: 0 }}>
