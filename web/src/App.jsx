@@ -673,7 +673,7 @@ export default function App() {
           className="layout-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: '256px 1fr',
+            gridTemplateColumns: '320px 1fr',
             flex: 1,
             overflow: 'hidden',
           }}
