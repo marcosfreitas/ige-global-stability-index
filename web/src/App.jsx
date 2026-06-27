@@ -228,21 +228,29 @@ function ErrorScreen({ message }) {
 }
 
 // Region summary bar — compact strip above country list
+// Layout: 3-column CSS grid so it wraps cleanly to two rows on narrow panels
 function RegionSummaryBar({ summary }) {
   if (!summary) return null
   const { totalDeaths, inConflict, inCrise, medInflation, medGdp, medUnem } = summary
 
-  const fmt = (v, decimals = 1) =>
-    v == null ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(decimals)}%`
-  const fmtInfl = (v) =>
-    v == null ? '—' : `${v >= 0 ? '' : '-'}${Math.abs(v).toFixed(1)}%`
+  const fmtSigned = (v) =>
+    v == null ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(1)}%`
+  const fmtPct = (v) =>
+    v == null ? '—' : `${Math.abs(v).toFixed(1)}%`
 
   const Cell = ({ label, value, valueColor }) => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: '1 1 0' }}>
-      <span style={{ fontSize: 8, fontFamily: MONO, color: C.slate, letterSpacing: '0.14em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
+      <span style={{
+        fontSize: 8, fontFamily: MONO, color: C.slate,
+        letterSpacing: '0.12em', textTransform: 'uppercase',
+        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+      }}>
         {label}
       </span>
-      <span style={{ fontSize: 11, fontFamily: MONO, fontWeight: 600, color: valueColor || C.text, whiteSpace: 'nowrap' }}>
+      <span style={{
+        fontSize: 11, fontFamily: MONO, fontWeight: 600,
+        color: valueColor || C.text, whiteSpace: 'nowrap',
+      }}>
         {value}
       </span>
     </div>
@@ -250,58 +258,60 @@ function RegionSummaryBar({ summary }) {
 
   return (
     <div style={{
-      display: 'flex',
-      gap: 0,
-      padding: '8px 14px',
+      padding: '8px 12px 6px',
       borderBottom: `1px solid ${C.border}`,
       background: C.surface,
-      alignItems: 'flex-start',
-      flexWrap: 'wrap',
-      rowGap: 6,
     }}>
-      <Cell
-        label="mortes conflito"
-        value={totalDeaths > 0 ? totalDeaths.toLocaleString() : '0'}
-        valueColor={totalDeaths > 0 ? C.crisis : C.slate}
-      />
-      <Cell
-        label="em conflito"
-        value={inConflict > 0 ? `${inConflict} países` : '—'}
-        valueColor={inConflict > 0 ? C.warning : C.slate}
-      />
-      <Cell
-        label="inflação (med.)"
-        value={fmtInfl(medInflation)}
-        valueColor={medInflation != null && medInflation > 10 ? C.warning : C.textDim}
-      />
-      <Cell
-        label="PIB (med.)"
-        value={fmt(medGdp)}
-        valueColor={medGdp != null && medGdp < 0 ? C.crisis : medGdp != null && medGdp > 2 ? C.stable : C.textDim}
-      />
-      <Cell
-        label="desemprego (med.)"
-        value={medUnem != null ? `${medUnem.toFixed(1)}%` : '—'}
-        valueColor={C.textDim}
-      />
-      {inCrise > 0 && (
-        <div style={{
-          alignSelf: 'center',
-          marginLeft: 'auto',
-          background: `${C.crisis}22`,
-          border: `1px solid ${C.crisis}55`,
-          borderRadius: 3,
-          padding: '2px 7px',
-          fontSize: 9,
-          fontFamily: MONO,
-          color: C.crisis,
-          letterSpacing: '0.1em',
-          whiteSpace: 'nowrap',
-          flexShrink: 0,
-        }}>
-          {inCrise} EM CRISE
+      {/* 3-column grid — fits the 256px left panel without overflow */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: '6px 8px',
+      }}>
+        <Cell
+          label="Mortes"
+          value={totalDeaths > 0 ? totalDeaths.toLocaleString() : '0'}
+          valueColor={totalDeaths > 0 ? C.crisis : C.slate}
+        />
+        <Cell
+          label="Conflito"
+          value={inConflict > 0 ? `${inConflict} países` : '—'}
+          valueColor={inConflict > 0 ? C.warning : C.slate}
+        />
+        <Cell
+          label="Inflação"
+          value={fmtPct(medInflation)}
+          valueColor={medInflation != null && medInflation > 10 ? C.warning : C.textDim}
+        />
+        <Cell
+          label="PIB"
+          value={fmtSigned(medGdp)}
+          valueColor={medGdp != null && medGdp < 0 ? C.crisis : medGdp != null && medGdp > 2 ? C.stable : C.textDim}
+        />
+        <Cell
+          label="Desemprego"
+          value={medUnem != null ? `${medUnem.toFixed(1)}%` : '—'}
+          valueColor={C.textDim}
+        />
+        {/* 6th cell: crise badge or empty placeholder to keep grid even */}
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          {inCrise > 0 && (
+            <div style={{
+              background: `${C.crisis}22`,
+              border: `1px solid ${C.crisis}55`,
+              borderRadius: 3,
+              padding: '1px 5px',
+              fontSize: 8,
+              fontFamily: MONO,
+              color: C.crisis,
+              letterSpacing: '0.08em',
+              whiteSpace: 'nowrap',
+            }}>
+              {inCrise} CRISE
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   )
 }
@@ -613,12 +623,15 @@ export default function App() {
             }}
           >
             <div style={{
-              padding: '10px 16px 6px',
+              padding: '10px 12px 6px',
               fontSize: 9,
               color: C.textDim,
               letterSpacing: '0.18em',
               fontFamily: MONO,
               borderBottom: `1px solid ${C.border}`,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
             }}>
               {regionLabel(selectedRegion).toUpperCase()} · {regionCountries.length}
             </div>
@@ -689,16 +702,15 @@ export default function App() {
               <>
                 {/* Country header strip */}
                 <div style={{ padding: '20px 28px 16px', borderBottom: `1px solid ${C.border}`, flexShrink: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 12 }}>
-                    <span style={{ fontFamily: MONO, fontSize: 30, fontWeight: 700, color: C.text, letterSpacing: '0.06em' }}>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 12, flexWrap: 'wrap' }}>
+                    <span style={{ fontFamily: MONO, fontSize: 30, fontWeight: 700, color: C.text, letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>
                       {selectedIso}
                     </span>
-                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.textDim, letterSpacing: '0.06em' }}>
+                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.textDim, letterSpacing: '0.06em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '14ch' }}>
                       {regionLabel(countryMap[selectedIso]?.region)}
                     </span>
-                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.slate }}>·</span>
-                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.textDim }}>
-                      {latestEntry.year}
+                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.slate, whiteSpace: 'nowrap' }}>
+                      · {latestEntry.year}
                     </span>
                   </div>
 
@@ -737,10 +749,10 @@ export default function App() {
                 {/* Time series chart */}
                 <div style={{ padding: '20px 28px 16px', borderBottom: `1px solid ${C.border}`, flexShrink: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                    <div style={{ ...LABEL_STYLE, fontSize: 9 }}>
-                      SÉRIE HISTÓRICA
+                    <div style={{ ...LABEL_STYLE, fontSize: 9, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {'SÉRIE HISTÓRICA'}
                       {timeSeries.length > 0 &&
-                        ` · ${timeSeries[0].year}–${timeSeries[timeSeries.length - 1].year}`
+                        <span style={{ whiteSpace: 'nowrap' }}>{` · ${timeSeries[0].year}–${timeSeries[timeSeries.length - 1].year}`}</span>
                       }
                     </div>
                     {/* Legend */}
