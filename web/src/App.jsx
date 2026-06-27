@@ -938,13 +938,38 @@ export default function App() {
                 {/* Factor breakdown */}
                 <div style={{ padding: '20px 28px 28px', flexShrink: 0 }}>
                   <div style={{ ...LABEL_STYLE, fontSize: 9, marginBottom: 14 }}>
-                    FATORES ECONÓMICOS · {latestEntry.year}
+                    FATORES · {latestEntry.year}
                     {latestEntry.factors_used?.length > 0 &&
                       <span style={{ color: C.slate, marginLeft: 12 }}>
                         [{latestEntry.factors_used.join(' · ')}]
                       </span>
                     }
                   </div>
+
+                  {/* Data quality notice — yellow when any factor missing */}
+                  {latestEntry.data_quality?.length > 0 && (
+                    <div style={{
+                      marginBottom: 14,
+                      padding: '8px 12px',
+                      background: `${C.warning}18`,
+                      border: `1px solid ${C.warning}55`,
+                      borderRadius: 4,
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: 8,
+                    }}>
+                      <span style={{ color: C.warning, fontSize: 13, lineHeight: 1.2, flexShrink: 0 }}>⚠</span>
+                      <div>
+                        <div style={{ fontSize: 10, fontFamily: MONO, color: C.warning, letterSpacing: '0.08em', marginBottom: 2 }}>
+                          DADOS INCOMPLETOS
+                        </div>
+                        <div style={{ fontSize: 9, fontFamily: SANS, color: C.textDim, lineHeight: 1.5 }}>
+                          {`Fatores ausentes: ${latestEntry.data_quality.join(', ')}. O IGE foi rebalanceado entre os pilares disponíveis.`}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 10 }}>
                     <FactorCard
                       label="INFLAÇÃO"
@@ -979,6 +1004,13 @@ export default function App() {
                       value={latestEntry.conflict_deaths}
                       unit=""
                       isWarn={latestEntry.conflict_deaths != null && latestEntry.conflict_deaths > 0}
+                      zoneColor={zone.color}
+                    />
+                    <FactorCard
+                      label="GOVERNANÇA (CPI)"
+                      value={latestEntry.governance_cpi}
+                      unit=""
+                      isWarn={latestEntry.governance_cpi != null && latestEntry.governance_cpi < 30}
                       zoneColor={zone.color}
                     />
                   </div>

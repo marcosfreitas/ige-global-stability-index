@@ -252,6 +252,74 @@ def fetch_imf_debt(out_file: Path) -> pd.DataFrame | None:
 
 
 # ---------------------------------------------------------------------------
+# Transparency International CPI — via Our World in Data (OWID)
+# Governance proxy: 0 (most corrupt) → 100 (least corrupt), 2012–2024
+# OWID long-format CSV is reliable; WB WGI bulk zip returns bad values.
+# ---------------------------------------------------------------------------
+
+OWID_CPI_URL = (
+    "https://ourworldindata.org/grapher/ti-corruption-perception-index.csv"
+    "?v=1&csvType=full&useColumnShortNames=true"
+)
+
+
+def fetch_governance(out_file: Path) -> pd.DataFrame | None:
+    """
+    Fetch TI Corruption Perceptions Index (0–100, higher = less corrupt)
+    from OWID long-format CSV.  Coverage: ~182 countries, 2012–2024.
+    Saved with columns: iso3, year, value.
+    Years before 2012 will carry data_quality="missing_governance".
+    """
+    import io as _io
+
+    try:
+        log.info("Fetching TI CPI governance from OWID...")
+        resp = SESSION.get(
+            OWID_CPI_URL, timeout=30,
+            headers={"User-Agent": "IGE-Pipeline/2.0"},
+        )
+        resp.raise_for_status()
+
+        df = pd.read_csv(_io.StringIO(resp.text))
+        # OWID columns: entity, code, year, cpi_score, owid_region
+        df = df.rename(columns={"code": "iso3", "cpi_score": "value"})
+        df["iso3"] = df["iso3"].astype(str).str.strip().str.upper()
+
+        df = df[df["iso3"].str.match(r"^[A-Z]{3}$")]
+        df = df.dropna(subset=["iso3", "year", "value"])
+        df["year"] = pd.to_numeric(df["year"], errors="coerce").astype("Int64")
+        df["value"] = pd.to_numeric(df["value"], errors="coerce")
+        df = df.dropna(subset=["value"])
+
+        out_df = df[["iso3", "year", "value"]].copy()
+        out_df.to_csv(out_file, index=False)
+        log.info(
+            "Governance (TI CPI): %d rows, %d countries → %s",
+            len(out_df), out_df["iso3"].nunique(), out_file,
+        )
+        fetch_log["governance_cpi"] = {
+            "url": OWID_CPI_URL,
+            "status": 200,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rows": len(out_df),
+            "countries": out_df["iso3"].nunique(),
+            "years": f"{int(out_df['year'].min())}–{int(out_df['year'].max())}",
+            "source": "owid_ti_cpi",
+        }
+        return out_df
+
+    except Exception as exc:
+        log.warning("TI CPI governance fetch failed: %s", exc)
+        fetch_log["governance_cpi"] = {
+            "url": OWID_CPI_URL,
+            "status": "error",
+            "error": str(exc),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
+        return None
+
+
+# ---------------------------------------------------------------------------
 # UCDP conflict data
 # ---------------------------------------------------------------------------
 
@@ -616,6 +684,10 @@ def main():
     # Fetch IMF WEO debt (fallback / supplement to World Bank GC.DOD.TOTL.GD.ZS)
     log.info("Fetching IMF WEO debt data...")
     fetch_imf_debt(RAW_DIR / "debt_imf_raw.csv")
+
+    # Fetch WB WGI governance (Control of Corruption Percentile Rank)
+    log.info("Fetching WB WGI governance data...")
+    fetch_governance(RAW_DIR / "governance_raw.csv")
 
     # Fetch UCDP conflict data
     log.info("Fetching UCDP conflict data...")

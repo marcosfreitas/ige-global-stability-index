@@ -2,6 +2,14 @@
 IGE Compute — Índice Global de Estabilidade
 Reads raw CSVs from ingest/raw/, computes IGE per country-year,
 and writes data/ige-dataset-real.json and data/ige-dataset-real.min.json.
+
+Methodology v3.0 — hierarchical pillars:
+  Economic  (40%): GDP growth 30% | Inflation 25% | Unemployment 25% | Debt 20%
+  Security  (30%): Conflict deaths 100%
+  Governance(30%): TI CPI score 100% (OWID, 2012–2024)
+
+Missing pillars reweighted proportionally. Each record carries
+'data_quality' listing absent factors so the UI can show a yellow notice.
 """
 import json
 import math
@@ -20,13 +28,24 @@ RAW_DIR = REPO_DIR / "ingest" / "raw"
 DATA_DIR = REPO_DIR / "data"
 DATA_DIR.mkdir(exist_ok=True)
 
-BASE_WEIGHTS = {
-    "conflict": 0.30,
-    "gdp_growth": 0.25,
-    "inflation": 0.20,
-    "unemployment": 0.15,
-    "debt": 0.10,
+# ---------------------------------------------------------------------------
+# Pillar / factor weights
+# ---------------------------------------------------------------------------
+
+ECON_WEIGHTS = {
+    "gdp_growth":   0.30,
+    "inflation":    0.25,
+    "unemployment": 0.25,
+    "debt":         0.20,
 }
+
+PILLAR_WEIGHTS = {
+    "economic":   0.40,
+    "security":   0.30,
+    "governance": 0.30,
+}
+
+ALL_FACTORS = list(ECON_WEIGHTS.keys()) + ["conflict", "governance"]
 
 
 # ---------------------------------------------------------------------------
@@ -66,17 +85,67 @@ def z_to_score(z: float) -> float:
 
 
 # ---------------------------------------------------------------------------
-# NÍVEL computation with reweighting
+# Hierarchical NÍVEL computation
 # ---------------------------------------------------------------------------
 
-def compute_nivel(scores: dict) -> tuple[float, list[str]]:
-    """scores: {factor: score_or_nan}. Returns (nivel, factors_used_list)."""
-    available = {k: v for k, v in scores.items() if not math.isnan(v)}
-    if not available:
-        return float("nan"), []
-    total_weight = sum(BASE_WEIGHTS[k] for k in available)
-    nivel = sum(BASE_WEIGHTS[k] * available[k] for k in available) / total_weight
-    return nivel, list(available.keys())
+def compute_nivel(scores: dict) -> tuple[float, list[str], list[str]]:
+    """
+    scores: {factor: score_or_nan} with keys from ALL_FACTORS.
+    Returns (nivel, factors_used_list, missing_factors_list).
+
+    Economic pillar: GDP growth, inflation, unemployment, debt (ECON_WEIGHTS)
+    Security pillar: conflict
+    Governance pillar: governance (TI CPI-based)
+
+    Missing pillars are reweighted proportionally among available pillars.
+    """
+    def nan_safe(v):
+        return isinstance(v, float) and math.isnan(v)
+
+    # Economic sub-score
+    econ_avail = {k: scores[k] for k in ECON_WEIGHTS
+                  if k in scores and not nan_safe(scores[k])}
+    if econ_avail:
+        ew_total = sum(ECON_WEIGHTS[k] for k in econ_avail)
+        econ_score = sum(ECON_WEIGHTS[k] * econ_avail[k] for k in econ_avail) / ew_total
+    else:
+        econ_score = float("nan")
+
+    # Security sub-score
+    conflict_score = scores.get("conflict", float("nan"))
+    if nan_safe(conflict_score):
+        conflict_score = float("nan")
+
+    # Governance sub-score
+    gov_score = scores.get("governance", float("nan"))
+    if nan_safe(gov_score):
+        gov_score = float("nan")
+
+    # Pillar-level reweighting
+    pillar_scores = {}
+    if not math.isnan(econ_score):
+        pillar_scores["economic"] = econ_score
+    if not math.isnan(conflict_score):
+        pillar_scores["security"] = conflict_score
+    if not math.isnan(gov_score):
+        pillar_scores["governance"] = gov_score
+
+    if not pillar_scores:
+        return float("nan"), [], ALL_FACTORS[:]
+
+    pw_total = sum(PILLAR_WEIGHTS[p] for p in pillar_scores)
+    nivel = sum(PILLAR_WEIGHTS[p] * pillar_scores[p] for p in pillar_scores) / pw_total
+
+    factors_used = []
+    if "economic" in pillar_scores:
+        factors_used.extend(list(econ_avail.keys()))
+    if "security" in pillar_scores:
+        factors_used.append("conflict")
+    if "governance" in pillar_scores:
+        factors_used.append("governance")
+
+    missing = [f for f in ALL_FACTORS if f not in factors_used]
+    return nivel, factors_used, missing
 
 
 # ---------------------------------------------------------------------------
@@ -88,7 +157,7 @@ def clamp(val: float, lo: float, hi: float) -> float:
 
 
 # ---------------------------------------------------------------------------
-# Load raw data
+# Load raw data helpers
 # ---------------------------------------------------------------------------
 
 def load_wb(filepath: Path, value_col: str = "value") -> pd.DataFrame:
@@ -131,46 +200,43 @@ def load_fetch_log() -> dict:
 # ---------------------------------------------------------------------------
 
 def main():
-    log.info("=== IGE Compute ===")
+    log.info("=== IGE Compute v3.0 (hierarchical pillars) ===")
     fetch_log = load_fetch_log()
 
     # Load all raw data
-    df_inf = load_wb(RAW_DIR / "inflation_raw.csv", "inflation")
-    df_gdp = load_wb(RAW_DIR / "gdp_growth_raw.csv", "gdp_growth")
-    df_unem = load_wb(RAW_DIR / "unemployment_raw.csv", "unemployment")
-    df_debt_wb = load_wb(RAW_DIR / "debt_raw.csv", "debt")
-    df_gdp_usd = load_wb(RAW_DIR / "gdp_usd_raw.csv", "gdp_usd")
-    df_pop = load_wb(RAW_DIR / "population_raw.csv", "population")
+    df_inf   = load_wb(RAW_DIR / "inflation_raw.csv",   "inflation")
+    df_gdp   = load_wb(RAW_DIR / "gdp_growth_raw.csv",  "gdp_growth")
+    df_unem  = load_wb(RAW_DIR / "unemployment_raw.csv","unemployment")
+    df_debt_wb = load_wb(RAW_DIR / "debt_raw.csv",      "debt")
+    df_gdp_usd = load_wb(RAW_DIR / "gdp_usd_raw.csv",  "gdp_usd")
+    df_pop   = load_wb(RAW_DIR / "population_raw.csv",  "population")
     df_conflict = load_conflict(RAW_DIR / "conflict_raw.csv")
+    df_gov   = load_wb(RAW_DIR / "governance_raw.csv",  "governance")
 
     # Merge World Bank debt with IMF WEO debt as fallback
-    # IMF has far broader country/year coverage for government debt (% GDP)
     df_debt_imf = load_wb(RAW_DIR / "debt_imf_raw.csv", "debt_imf")
     if not df_debt_imf.empty:
         df_debt = df_debt_wb.merge(df_debt_imf, on=["iso3", "year"], how="outer")
-        # Prefer WB value; fill nulls from IMF
         df_debt["debt"] = df_debt["debt"].combine_first(df_debt["debt_imf"])
         df_debt = df_debt[["iso3", "year", "debt"]].copy()
         log.info(
             "Debt after WB+IMF merge: %d rows, %.1f%% non-null",
-            len(df_debt),
-            df_debt["debt"].notna().mean() * 100,
+            len(df_debt), df_debt["debt"].notna().mean() * 100,
         )
     else:
         df_debt = df_debt_wb
         log.warning("IMF debt file not found; using World Bank debt only")
 
-    # ── Fix 1: hard cap at 2025 ──────────────────────────────────────────────
-    # The IMF WEO debt source includes projections through 2031.  Letting those
-    # rows enter the z-score expansion window is harmless (expanding window
-    # uses only data up to each row), but it pollutes the *output* with future
-    # scores computed from a single projection factor.  Cap every input source
-    # at 2025 so no forward-looking rows reach the output JSON.
+    # Hard cap at 2025 — drop IMF/WB forward projections
     MAX_YEAR = 2025
     for name, df_ref in [
-        ("inflation", df_inf), ("gdp_growth", df_gdp),
-        ("unemployment", df_unem), ("debt", df_debt),
-        ("gdp_usd", df_gdp_usd), ("population", df_pop),
+        ("inflation",    df_inf),
+        ("gdp_growth",   df_gdp),
+        ("unemployment", df_unem),
+        ("debt",         df_debt),
+        ("gdp_usd",      df_gdp_usd),
+        ("population",   df_pop),
+        ("governance",   df_gov),
     ]:
         before = len(df_ref)
         df_ref.drop(df_ref[df_ref["year"] > MAX_YEAR].index, inplace=True)
@@ -179,10 +245,9 @@ def main():
             log.info("Year cap: dropped %d rows > %d from %s", dropped, MAX_YEAR, name)
     log.info("All sources capped at year <= %d", MAX_YEAR)
 
-    # Merge all on iso3, year
-    # Start with all unique iso3-year combos across all sources
-    all_pairs = set()
-    for df, col in [
+    # Collect all iso3-year pairs from economic + governance sources
+    all_pairs: set[tuple[str, int]] = set()
+    for df, _ in [
         (df_inf, "inflation"), (df_gdp, "gdp_growth"),
         (df_unem, "unemployment"), (df_debt, "debt"),
     ]:
@@ -193,40 +258,37 @@ def main():
 
     # Build master wide table
     base = pd.DataFrame(list(all_pairs), columns=["iso3", "year"])
-    base = base.merge(df_inf, on=["iso3", "year"], how="left")
-    base = base.merge(df_gdp, on=["iso3", "year"], how="left")
-    base = base.merge(df_unem, on=["iso3", "year"], how="left")
-    base = base.merge(df_debt, on=["iso3", "year"], how="left")
-    base = base.merge(df_gdp_usd, on=["iso3", "year"], how="left")
-    base = base.merge(df_pop, on=["iso3", "year"], how="left")
+    base = base.merge(df_inf,      on=["iso3", "year"], how="left")
+    base = base.merge(df_gdp,      on=["iso3", "year"], how="left")
+    base = base.merge(df_unem,     on=["iso3", "year"], how="left")
+    base = base.merge(df_debt,     on=["iso3", "year"], how="left")
+    base = base.merge(df_gdp_usd,  on=["iso3", "year"], how="left")
+    base = base.merge(df_pop,      on=["iso3", "year"], how="left")
     base = base.merge(df_conflict, on=["iso3", "year"], how="left")
+    base = base.merge(df_gov,      on=["iso3", "year"], how="left")
 
-    # Conflict deaths per 100k
-    # Pre-1989: NaN (no UCDP coverage). Post-1989 missing: NaN if no data, 0 if country exists in dataset
     base["year_int"] = base["year"].astype(int)
 
-    # For conflict: country-years >= 1989 where battle_deaths is NaN and the country
-    # appears at least once in conflict data → treat as 0 (no active conflict recorded)
+    # Conflict deaths: zero-fill for countries with any UCDP coverage post-1989
     countries_in_conflict = set(df_conflict["iso3"].unique())
 
     def conflict_value(row):
-        yr = row["year_int"]
+        yr  = row["year_int"]
         iso = row["iso3"]
-        bd = row["battle_deaths"]
+        bd  = row["battle_deaths"]
         if yr < 1989:
             return float("nan")
         if pd.isna(bd):
-            # If country appears in conflict dataset, assume 0; else NaN
             return 0.0 if iso in countries_in_conflict else float("nan")
         return float(bd)
 
     base["battle_deaths_clean"] = base.apply(conflict_value, axis=1)
 
-    # deaths per 100k
+    # Deaths per 100k
     def deaths_per_100k(row):
-        bd = row["battle_deaths_clean"]
+        bd  = row["battle_deaths_clean"]
         pop = row["population"]
-        if math.isnan(bd) if isinstance(bd, float) else pd.isna(bd):
+        if isinstance(bd, float) and math.isnan(bd):
             return float("nan")
         if pd.isna(pop) or pop <= 0:
             return float("nan")
@@ -234,53 +296,57 @@ def main():
 
     base["deaths_per_100k"] = base.apply(deaths_per_100k, axis=1)
 
-    # Inflation penalty: -|inf - 2.0|
+    # Inflation penalty: -(|inf - 2.0|)
     base["inf_pen"] = base["inflation"].apply(
         lambda x: -abs(x - 2.0) if pd.notna(x) else float("nan")
     )
 
-    # Sort for expanding z-score
     base = base.sort_values(["iso3", "year_int"]).reset_index(drop=True)
 
-    # Apply expanding z-score per country, per factor
+    # Expanding z-score per country, per factor
     log.info("Computing expanding z-scores per country...")
     records = []
 
     for iso3, grp in base.groupby("iso3"):
         grp = grp.sort_values("year_int").reset_index(drop=True)
 
-        # Expanding z-scores
-        z_gdp = expanding_zscore(grp["gdp_growth"])             # direct
-        z_unem = -expanding_zscore(grp["unemployment"])          # inverted
-        z_debt = -expanding_zscore(grp["debt"])                  # inverted
-        z_conflict = -expanding_zscore(grp["deaths_per_100k"])   # inverted
-        z_inf = expanding_zscore(grp["inf_pen"])                  # direct (already inverted via pen)
+        # Z-scores (expanding, no look-ahead)
+        z_gdp      = expanding_zscore(grp["gdp_growth"])
+        z_unem     = -expanding_zscore(grp["unemployment"])   # inverted
+        z_debt     = -expanding_zscore(grp["debt"])            # inverted
+        z_conflict = -expanding_zscore(grp["deaths_per_100k"])# inverted
+        z_inf      = expanding_zscore(grp["inf_pen"])          # direct (penalty already inverted)
+        z_gov      = expanding_zscore(grp["governance"])       # direct (higher CPI = better)
 
-        # Convert to 0-100 scores
-        s_gdp = z_gdp.apply(z_to_score)
-        s_unem = z_unem.apply(z_to_score)
-        s_debt = z_debt.apply(z_to_score)
+        # 0-100 scores
+        s_gdp      = z_gdp.apply(z_to_score)
+        s_unem     = z_unem.apply(z_to_score)
+        s_debt     = z_debt.apply(z_to_score)
         s_conflict = z_conflict.apply(z_to_score)
-        s_inf = z_inf.apply(z_to_score)
+        s_inf      = z_inf.apply(z_to_score)
+        s_gov      = z_gov.apply(z_to_score)
 
-        # NÍVEL per year
-        niveles = []
-        factors_used_list = []
+        niveles          = []
+        factors_used_all = []
+        missing_all      = []
+
         for i in range(len(grp)):
             scores_dict = {
-                "gdp_growth": s_gdp.iloc[i],
+                "gdp_growth":   s_gdp.iloc[i],
                 "unemployment": s_unem.iloc[i],
-                "debt": s_debt.iloc[i],
-                "conflict": s_conflict.iloc[i],
-                "inflation": s_inf.iloc[i],
+                "debt":         s_debt.iloc[i],
+                "conflict":     s_conflict.iloc[i],
+                "inflation":    s_inf.iloc[i],
+                "governance":   s_gov.iloc[i],
             }
-            nv, fu = compute_nivel(scores_dict)
+            nv, fu, missing = compute_nivel(scores_dict)
             niveles.append(nv)
-            factors_used_list.append(fu)
+            factors_used_all.append(fu)
+            missing_all.append(missing)
 
         nivel_series = pd.Series(niveles)
 
-        # MOMENTUM: 50 + 2.2 * (nivel_t - nivel_{t-2})
+        # Momentum: 50 + 2.2 * (nivel_t - nivel_{t-2})
         momentums = []
         for i in range(len(grp)):
             if i < 2 or math.isnan(nivel_series.iloc[i]):
@@ -293,8 +359,7 @@ def main():
 
         momentum_series = pd.Series(momentums)
 
-        # IGE: 0.60 * nivel + 0.40 * momentum
-        # When momentum is NaN (first 2 data years), use nivel only
+        # IGE: 0.60 * nivel + 0.40 * momentum (nivel-only when momentum NaN)
         iges = []
         for i in range(len(grp)):
             nv = nivel_series.iloc[i]
@@ -302,7 +367,7 @@ def main():
             if math.isnan(nv):
                 iges.append(float("nan"))
             elif math.isnan(mo):
-                iges.append(nv)  # nivel only
+                iges.append(nv)
             else:
                 iges.append(0.60 * nv + 0.40 * mo)
 
@@ -315,7 +380,8 @@ def main():
             nv = nivel_series.iloc[i]
             mo = momentum_series.iloc[i]
             ig = ige_series.iloc[i]
-            fu = factors_used_list[i]
+            fu = factors_used_all[i]
+            missing = missing_all[i]
 
             if math.isnan(nv) and math.isnan(ig):
                 continue  # skip fully missing rows
@@ -323,41 +389,39 @@ def main():
             def r2(x):
                 return round(float(x), 2) if not math.isnan(x) else None
 
-            inf_val = row["inflation"]
-            gdp_val = row["gdp_growth"]
+            inf_val  = row["inflation"]
+            gdp_val  = row["gdp_growth"]
             unem_val = row["unemployment"]
             debt_val = row["debt"]
-            bd_val = row["battle_deaths_clean"]
+            bd_val   = row["battle_deaths_clean"]
+            gov_val  = row["governance"]
 
             records.append({
                 "iso": iso3,
                 "region": region,
                 "year": int(row["year_int"]),
-                "inflation": r2(inf_val) if pd.notna(inf_val) else None,
-                "gdp_growth": r2(gdp_val) if pd.notna(gdp_val) else None,
-                "unemployment": r2(unem_val) if pd.notna(unem_val) else None,
-                "debt": r2(debt_val) if pd.notna(debt_val) else None,
+                "inflation":      r2(inf_val)  if pd.notna(inf_val)  else None,
+                "gdp_growth":     r2(gdp_val)  if pd.notna(gdp_val)  else None,
+                "unemployment":   r2(unem_val) if pd.notna(unem_val) else None,
+                "debt":           r2(debt_val) if pd.notna(debt_val) else None,
                 "conflict_deaths": r2(bd_val) if (
-                    not (isinstance(bd_val, float) and math.isnan(bd_val))
-                    and bd_val is not None
+                    bd_val is not None
+                    and not (isinstance(bd_val, float) and math.isnan(bd_val))
                     and pd.notna(bd_val)
                 ) else None,
-                "nivel": r2(nv),
+                "governance_cpi": r2(gov_val) if pd.notna(gov_val) else None,
+                "nivel":    r2(nv),
                 "momentum": r2(mo),
-                "ige": r2(ig),
-                "factors_used": fu,
+                "ige":      r2(ig),
+                "factors_used":  fu,
+                "data_quality":  missing,   # [] = all present; non-empty = yellow notice
             })
 
     log.info("Generated %d country-year records (before region filter)", len(records))
 
-    # ── Fix 3: filter regional pseudo-ISO codes ──────────────────────────────
-    # World Bank raw data includes aggregate regions (EAP, ECA, LAC, SAS, SSA,
-    # MNA, NAC, WLD, WORLD, etc.) that have 3-letter codes but are not sovereign
-    # countries.  Cross-reference against REGION_MAP: any iso3 NOT found there
-    # and whose region is None or "global" is an aggregate → drop it.
+    # Filter regional pseudo-ISO codes
     from regions import REGION_MAP
     valid_isos = set(REGION_MAP.keys())
-    # Also known aggregate ISO codes that might slip through
     AGGREGATE_ISOS = {
         "EAP", "ECA", "LAC", "SAS", "SSA", "MNA", "NAC",
         "WLD", "HIC", "LIC", "LMC", "UMC", "LMY", "MIC",
@@ -374,10 +438,9 @@ def main():
             and (r.get("iso") in valid_isos or len(r.get("iso", "")) == 3)
         )
     ]
-    dropped = before - len(records)
     log.info(
         "After pseudo-ISO filter: %d country-year records (%d dropped)",
-        len(records), dropped,
+        len(records), before - len(records),
     )
 
     # Regional aggregation
@@ -386,180 +449,144 @@ def main():
 
     df_records = pd.DataFrame(records)
 
-    # Add gdp_usd for weighting
     df_gdp_weight = df_gdp_usd.rename(columns={"gdp_usd": "gdp_weight"})
     df_records = df_records.merge(
         df_gdp_weight[["iso3", "year", "gdp_weight"]].rename(columns={"iso3": "iso"}),
-        on=["iso", "year"], how="left"
+        on=["iso", "year"], how="left",
     )
 
     regional_records = []
+
+    def weighted_avg(yr_df: pd.DataFrame, col: str) -> float | None:
+        valid = yr_df[yr_df[col].notna() & yr_df["gdp_weight"].notna()].copy()
+        if valid.empty:
+            valid2 = yr_df[yr_df[col].notna()].copy()
+            if valid2.empty:
+                return None
+            return float(valid2[col].mean())
+        tw = valid["gdp_weight"].sum()
+        if tw == 0:
+            return float(valid[col].mean())
+        return float((valid[col] * valid["gdp_weight"]).sum() / tw)
+
+    def r2(x):
+        return round(float(x), 2) if x is not None and not math.isnan(x) else None
 
     for region_name, region_code in REGION_CODES.items():
         region_df = df_records[df_records["region"] == region_name].copy()
         if region_df.empty:
             continue
         for year, yr_df in region_df.groupby("year"):
-            valid = yr_df[yr_df["ige"].notna() & yr_df["gdp_weight"].notna()].copy()
-            if valid.empty:
-                valid = yr_df[yr_df["ige"].notna()].copy()
-                if valid.empty:
-                    continue
-                avg_ige = valid["ige"].mean()
-                avg_nivel = valid["nivel"].mean() if valid["nivel"].notna().any() else None
-                avg_mom = valid["momentum"].mean() if valid["momentum"].notna().any() else None
-            else:
-                total_w = valid["gdp_weight"].sum()
-                if total_w == 0:
-                    avg_ige = valid["ige"].mean()
-                    avg_nivel = valid["nivel"].mean()
-                    avg_mom = valid["momentum"].mean()
-                else:
-                    avg_ige = (valid["ige"] * valid["gdp_weight"]).sum() / total_w
-                    avg_nivel = (valid["nivel"].fillna(valid["nivel"].mean()) * valid["gdp_weight"]).sum() / total_w
-                    avg_mom_df = valid[valid["momentum"].notna()]
-                    avg_mom = None
-                    if not avg_mom_df.empty:
-                        tw2 = avg_mom_df["gdp_weight"].sum()
-                        avg_mom = (avg_mom_df["momentum"] * avg_mom_df["gdp_weight"]).sum() / tw2 if tw2 > 0 else avg_mom_df["momentum"].mean()
-
-            def r2(x):
-                return round(float(x), 2) if x is not None and not math.isnan(x) else None
-
+            avg_ige    = weighted_avg(yr_df, "ige")
+            avg_nivel  = weighted_avg(yr_df, "nivel")
+            avg_mom    = weighted_avg(yr_df, "momentum")
+            if avg_ige is None:
+                continue
             regional_records.append({
                 "iso": region_code,
                 "region": region_name,
                 "year": int(year),
-                "inflation": None,
-                "gdp_growth": None,
-                "unemployment": None,
-                "debt": None,
-                "conflict_deaths": None,
+                "inflation": None, "gdp_growth": None,
+                "unemployment": None, "debt": None,
+                "conflict_deaths": None, "governance_cpi": None,
                 "nivel": r2(avg_nivel),
                 "momentum": r2(avg_mom),
                 "ige": r2(avg_ige),
                 "factors_used": [],
+                "data_quality": [],
             })
 
     # Global aggregate
     for year, yr_df in df_records.groupby("year"):
-        valid = yr_df[yr_df["ige"].notna() & yr_df["gdp_weight"].notna()].copy()
-        if valid.empty:
-            valid = yr_df[yr_df["ige"].notna()].copy()
-            if valid.empty:
-                continue
-            avg_ige = valid["ige"].mean()
-            avg_nivel = valid["nivel"].mean() if valid["nivel"].notna().any() else None
-            avg_mom = valid["momentum"].mean() if valid["momentum"].notna().any() else None
-        else:
-            total_w = valid["gdp_weight"].sum()
-            avg_ige = (valid["ige"] * valid["gdp_weight"]).sum() / total_w if total_w > 0 else valid["ige"].mean()
-            avg_nivel = (valid["nivel"].fillna(valid["nivel"].mean()) * valid["gdp_weight"]).sum() / total_w if total_w > 0 else valid["nivel"].mean()
-            avg_mom_df = valid[valid["momentum"].notna()]
-            avg_mom = None
-            if not avg_mom_df.empty:
-                tw2 = avg_mom_df["gdp_weight"].sum()
-                avg_mom = (avg_mom_df["momentum"] * avg_mom_df["gdp_weight"]).sum() / tw2 if tw2 > 0 else avg_mom_df["momentum"].mean()
-
-        def r2(x):
-            return round(float(x), 2) if x is not None and not math.isnan(x) else None
-
+        avg_ige   = weighted_avg(yr_df, "ige")
+        avg_nivel = weighted_avg(yr_df, "nivel")
+        avg_mom   = weighted_avg(yr_df, "momentum")
+        if avg_ige is None:
+            continue
         regional_records.append({
             "iso": "WORLD",
             "region": "global",
             "year": int(year),
-            "inflation": None,
-            "gdp_growth": None,
-            "unemployment": None,
-            "debt": None,
-            "conflict_deaths": None,
+            "inflation": None, "gdp_growth": None,
+            "unemployment": None, "debt": None,
+            "conflict_deaths": None, "governance_cpi": None,
             "nivel": r2(avg_nivel),
             "momentum": r2(avg_mom),
             "ige": r2(avg_ige),
             "factors_used": [],
+            "data_quality": [],
         })
 
     # Combine and sort
     all_records = records + regional_records
-
-    # Drop gdp_weight column from df_records if present (not in output schema)
-    all_records_clean = []
     for rec in all_records:
         rec.pop("gdp_weight", None)
-        all_records_clean.append(rec)
+    all_records.sort(key=lambda r: (r["iso"], r["year"]))
 
-    all_records_clean.sort(key=lambda r: (r["iso"], r["year"]))
-
-    # Determine meta info
-    country_isos = [r["iso"] for r in records]
+    # Meta
+    country_isos  = [r["iso"] for r in records]
     unique_countries = len(set(country_isos))
     years_all = [r["year"] for r in records]
     year_range = [int(min(years_all)), int(max(years_all))] if years_all else [1960, 2025]
 
     def source_meta(key, name, indicator_info):
         entry = fetch_log.get(key, {})
-        return {
-            "name": name,
-            "fetched": entry.get("timestamp", ""),
-            "url": entry.get("url", indicator_info),
-        }
+        return {"name": name, "fetched": entry.get("timestamp", ""), "url": entry.get("url", indicator_info)}
 
     output = {
         "meta": {
             "generated_at": datetime.now(timezone.utc).isoformat(),
-            "methodology_version": "2.0",
+            "methodology_version": "3.0",
+            "pillar_weights": PILLAR_WEIGHTS,
+            "economic_factor_weights": ECON_WEIGHTS,
             "sources": {
                 "inflation": source_meta(
-                    "FP.CPI.TOTL.ZG",
-                    "World Bank WDI FP.CPI.TOTL.ZG",
-                    "https://api.worldbank.org/v2/country/all/indicator/FP.CPI.TOTL.ZG?format=json",
-                ),
+                    "FP.CPI.TOTL.ZG", "World Bank WDI FP.CPI.TOTL.ZG",
+                    "https://api.worldbank.org/v2/country/all/indicator/FP.CPI.TOTL.ZG?format=json"),
                 "gdp_growth": source_meta(
-                    "NY.GDP.PCAP.KD.ZG",
-                    "World Bank NY.GDP.PCAP.KD.ZG",
-                    "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.KD.ZG?format=json",
-                ),
+                    "NY.GDP.PCAP.KD.ZG", "World Bank NY.GDP.PCAP.KD.ZG",
+                    "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.KD.ZG?format=json"),
                 "unemployment": source_meta(
-                    "SL.UEM.TOTL.ZS",
-                    "World Bank SL.UEM.TOTL.ZS",
-                    "https://api.worldbank.org/v2/country/all/indicator/SL.UEM.TOTL.ZS?format=json",
-                ),
+                    "SL.UEM.TOTL.ZS", "World Bank SL.UEM.TOTL.ZS",
+                    "https://api.worldbank.org/v2/country/all/indicator/SL.UEM.TOTL.ZS?format=json"),
                 "debt": source_meta(
-                    "GC.DOD.TOTL.GD.ZS",
-                    "World Bank GC.DOD.TOTL.GD.ZS",
-                    "https://api.worldbank.org/v2/country/all/indicator/GC.DOD.TOTL.GD.ZS?format=json",
-                ),
+                    "GC.DOD.TOTL.GD.ZS", "World Bank GC.DOD.TOTL.GD.ZS + IMF WEO GGXWDG_NGDP",
+                    "https://api.worldbank.org/v2/country/all/indicator/GC.DOD.TOTL.GD.ZS?format=json"),
                 "conflict": source_meta(
-                    "conflict",
-                    "UCDP/PRIO BRD",
-                    "https://ucdp.uu.se/downloads/",
-                ),
+                    "conflict", "UCDP/PRIO BRD", "https://ucdp.uu.se/downloads/"),
+                "governance": source_meta(
+                    "governance_cpi",
+                    "Transparency International CPI via OWID (2012–2024)",
+                    "https://ourworldindata.org/grapher/ti-corruption-perception-index"),
             },
             "year_range": year_range,
             "countries": unique_countries,
             "notes": (
-                "expanding z-score (no look-ahead); weights rebalanced when factor absent; "
-                "IGE uses nivel-only when momentum unavailable (first 2 data years per country); "
-                "conflict coverage starts 1989 (UCDP); debt coverage irregular"
+                "Hierarchical pillars: Economic 40% (GDP growth 30%, inflation 25%, "
+                "unemployment 25%, debt 20%) | Security 30% (conflict) | "
+                "Governance 30% (TI CPI). Expanding z-score, no look-ahead. "
+                "Missing pillars reweighted proportionally. Governance coverage "
+                "starts 2012 (CPI); pre-2012 records missing governance pillar. "
+                "IGE = 0.60 * nivel + 0.40 * momentum (nivel-only first 2 years)."
             ),
         },
-        "data": all_records_clean,
+        "data": all_records,
     }
 
-    # Write pretty JSON
     out_pretty = DATA_DIR / "ige-dataset-real.json"
     with open(out_pretty, "w") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
     log.info("Written %s (%d bytes)", out_pretty, out_pretty.stat().st_size)
 
-    # Write minified JSON
     out_min = DATA_DIR / "ige-dataset-real.min.json"
     with open(out_min, "w") as f:
         json.dump(output, f, separators=(",", ":"), ensure_ascii=False)
     log.info("Written %s (%d bytes)", out_min, out_min.stat().st_size)
 
-    log.info("=== Compute complete: %d records, %d countries, years %d-%d ===",
-             len(all_records_clean), unique_countries, year_range[0], year_range[1])
+    log.info(
+        "=== Compute complete: %d records, %d countries, years %d–%d ===",
+        len(all_records), unique_countries, year_range[0], year_range[1],
+    )
 
 
 if __name__ == "__main__":
