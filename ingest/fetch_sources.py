@@ -186,6 +186,72 @@ def fetch_gdp_mirror(out_file: Path, col: str, indicator: str) -> pd.DataFrame |
 
 
 # ---------------------------------------------------------------------------
+# IMF World Economic Outlook — debt fallback
+# ---------------------------------------------------------------------------
+
+IMF_WEO_URL = "https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP"
+
+
+def fetch_imf_debt(out_file: Path) -> pd.DataFrame | None:
+    """
+    Fetch General Government Gross Debt (% of GDP) from IMF DataMapper API.
+    Covers ~190 countries from ~1980 onwards — far broader than World Bank GC.DOD.TOTL.GD.ZS.
+    Saves to debt_imf_raw.csv with columns iso3, year, value.
+    """
+    try:
+        log.info("Fetching IMF WEO debt data from %s", IMF_WEO_URL)
+        resp = SESSION.get(IMF_WEO_URL, timeout=TIMEOUT)
+        resp.raise_for_status()
+        payload = resp.json()
+
+        country_data = payload.get("values", {}).get("GGXWDG_NGDP", {})
+        if not country_data:
+            log.warning("IMF WEO: no data in response")
+            return None
+
+        rows = []
+        for iso_code, year_vals in country_data.items():
+            iso3 = iso_code.strip().upper()
+            if len(iso3) != 3:
+                continue  # skip aggregates like "WORLD", "G20", etc.
+            for year_str, value in year_vals.items():
+                try:
+                    year = int(year_str)
+                    val = float(value) if value is not None else None
+                except (ValueError, TypeError):
+                    continue
+                if val is not None:
+                    rows.append({"iso3": iso3, "year": year, "value": val})
+
+        df = pd.DataFrame(rows)
+        if df.empty:
+            log.warning("IMF WEO: parsed 0 valid rows")
+            return None
+
+        df.to_csv(out_file, index=False)
+        log.info("IMF WEO debt: saved %d rows to %s", len(df), out_file)
+        fetch_log["imf_debt"] = {
+            "url": IMF_WEO_URL,
+            "status": 200,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rows": len(df),
+            "source": "imf_datamapper",
+        }
+        return df
+
+    except Exception as exc:
+        log.warning("IMF WEO debt fetch failed: %s", exc)
+        fetch_log["imf_debt"] = {
+            "url": IMF_WEO_URL,
+            "status": "error",
+            "error": str(exc),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "rows": 0,
+        }
+        return None
+
+
+# ---------------------------------------------------------------------------
 # UCDP conflict data
 # ---------------------------------------------------------------------------
 
@@ -486,6 +552,10 @@ def main():
                 log.info("Trying OWID population fallback...")
                 fetch_log.setdefault(indicator, {})
                 fetch_gdp_mirror(out_file, "population", indicator)
+
+    # Fetch IMF WEO debt (fallback / supplement to World Bank GC.DOD.TOTL.GD.ZS)
+    log.info("Fetching IMF WEO debt data...")
+    fetch_imf_debt(RAW_DIR / "debt_imf_raw.csv")
 
     # Fetch UCDP conflict data
     log.info("Fetching UCDP conflict data...")

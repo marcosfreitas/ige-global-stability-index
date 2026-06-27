@@ -138,10 +138,27 @@ def main():
     df_inf = load_wb(RAW_DIR / "inflation_raw.csv", "inflation")
     df_gdp = load_wb(RAW_DIR / "gdp_growth_raw.csv", "gdp_growth")
     df_unem = load_wb(RAW_DIR / "unemployment_raw.csv", "unemployment")
-    df_debt = load_wb(RAW_DIR / "debt_raw.csv", "debt")
+    df_debt_wb = load_wb(RAW_DIR / "debt_raw.csv", "debt")
     df_gdp_usd = load_wb(RAW_DIR / "gdp_usd_raw.csv", "gdp_usd")
     df_pop = load_wb(RAW_DIR / "population_raw.csv", "population")
     df_conflict = load_conflict(RAW_DIR / "conflict_raw.csv")
+
+    # Merge World Bank debt with IMF WEO debt as fallback
+    # IMF has far broader country/year coverage for government debt (% GDP)
+    df_debt_imf = load_wb(RAW_DIR / "debt_imf_raw.csv", "debt_imf")
+    if not df_debt_imf.empty:
+        df_debt = df_debt_wb.merge(df_debt_imf, on=["iso3", "year"], how="outer")
+        # Prefer WB value; fill nulls from IMF
+        df_debt["debt"] = df_debt["debt"].combine_first(df_debt["debt_imf"])
+        df_debt = df_debt[["iso3", "year", "debt"]].copy()
+        log.info(
+            "Debt after WB+IMF merge: %d rows, %.1f%% non-null",
+            len(df_debt),
+            df_debt["debt"].notna().mean() * 100,
+        )
+    else:
+        df_debt = df_debt_wb
+        log.warning("IMF debt file not found; using World Bank debt only")
 
     # Merge all on iso3, year
     # Start with all unique iso3-year combos across all sources
@@ -312,7 +329,16 @@ def main():
                 "factors_used": fu,
             })
 
-    log.info("Generated %d country-year records", len(records))
+    log.info("Generated %d country-year records (before region filter)", len(records))
+
+    # Filter out World Bank aggregate / supra-national codes that have no region
+    # (None region) or were classified as "global" (e.g., iso="WORLD").
+    # These are not individual countries and would pollute the UI country grid.
+    records = [
+        r for r in records
+        if r.get("region") is not None and r.get("region") != "global"
+    ]
+    log.info("After region filter: %d country-year records", len(records))
 
     # Regional aggregation
     log.info("Computing regional aggregates...")

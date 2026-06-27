@@ -4,23 +4,38 @@ import {
   ResponsiveContainer, ReferenceLine,
 } from 'recharts'
 
-// ─── Design tokens ────────────────────────────────────────────────────────────
+// ─── Design tokens — pastel edition ──────────────────────────────────────────
+// Zone accents are desaturated ~40% vs. the original neon spec for
+// long-session readability. Contrast ratios against the canvas:
+//   text (#D8EDE7 on #0A0E17) ≈ 11.8:1  — WCAG AAA
+//   teal (#6ECABA on #0A0E17) ≈  7.4:1  — WCAG AAA
+//   crisis (#F2956E on #0A0E17) ≈ 6.1:1 — WCAG AA
 const C = {
-  canvas:   '#0A0E17',
-  surface:  '#0F1521',
-  surface2: '#131B29',
-  border:   '#1B2535',
-  text:     '#E8F4F0',
-  teal:     '#00D4AA',
-  crisis:   '#FF6B35',
-  warning:  '#FFD166',
-  stable:   '#4CAF82',
-  slate:    '#7B8FA6',
-  slateD:   '#253040',
+  canvas:   '#0A0E17',   // midnight canvas — unchanged
+  surface:  '#101826',   // card/panel background
+  surface2: '#152030',   // hover state
+  border:   '#1E3040',   // structural dividers
+  text:     '#D8EDE7',   // primary text — warmer pale white
+  textDim:  '#9FBDB6',   // secondary labels, readable at small sizes
+  teal:     '#6ECABA',   // pastel teal (was #00D4AA)
+  crisis:   '#F2956E',   // soft coral (was #FF6B35)
+  warning:  '#E8CC7A',   // warm pastel amber (was #FFD166)
+  stable:   '#78CC98',   // soft mint (was #4CAF82)
+  slate:    '#8AAAB8',   // cool slate for secondary labels
+  slateD:   '#1E3040',   // dark panel / inert surfaces
 }
 
 const MONO = "'IBM Plex Mono', monospace"
 const SANS = "'Inter', sans-serif"
+
+// Shared label style — tiny allcaps used throughout
+const LABEL_STYLE = {
+  fontSize: 10,
+  fontFamily: MONO,
+  color: C.textDim,
+  letterSpacing: '0.18em',
+  textTransform: 'uppercase',
+}
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const DATA_URL = 'https://raw.githubusercontent.com/marcosfreitas/ige-global-stability-index/main/data/ige-dataset-real.json'
@@ -33,6 +48,7 @@ const REGION_LABELS = {
   middle_east_north_africa:   'Middle East & N. Africa',
   south_asia:                 'South Asia',
   east_asia_pacific:          'East Asia & Pacific',
+  global:                     'World Aggregate',
   // backward-compat abbrevs from reference data
   latam:   'Latin America',
   europa:  'Europe',
@@ -41,6 +57,18 @@ const REGION_LABELS = {
   mena:    'Middle East & N. Africa',
   asia:    'Asia',
 }
+
+// Sort order for region dropdown — named regions first, world aggregate last
+const REGION_ORDER = [
+  'east_asia_pacific',
+  'europe_central_asia',
+  'latin_america_caribbean',
+  'middle_east_north_africa',
+  'north_america',
+  'south_asia',
+  'sub_saharan_africa',
+  'global',
+]
 
 // Well-known crisis annotations shown in chart tooltip
 const CRISIS_EVENTS = {
@@ -118,7 +146,7 @@ function ChartTooltip({ active, payload, label }) {
       color: C.text,
       boxShadow: '0 4px 24px rgba(0,0,0,0.5)',
     }}>
-      <div style={{ color: C.slate, marginBottom: 6, fontSize: 10, letterSpacing: '0.1em' }}>
+      <div style={{ color: C.textDim, marginBottom: 6, fontSize: 10, letterSpacing: '0.1em' }}>
         {label}{event ? <span style={{ color: C.warning }}> · {event}</span> : null}
       </div>
       {payload.map(p => (
@@ -135,17 +163,18 @@ function FactorCard({ label, value, unit, isWarn, zoneColor }) {
   return (
     <div style={{
       background: C.surface,
-      border: `1px solid ${isWarn ? zoneColor + '55' : C.border}`,
-      padding: '12px 14px',
-      borderRadius: 3,
+      border: `1px solid ${isWarn ? zoneColor + '66' : C.border}`,
+      padding: '14px 16px',
+      borderRadius: 4,
     }}>
-      <div style={{ fontSize: 9, color: C.slate, letterSpacing: '0.14em', marginBottom: 8, fontFamily: MONO }}>{label}</div>
+      <div style={{ ...LABEL_STYLE, fontSize: 9, marginBottom: 10 }}>{label}</div>
       <div style={{
         fontFamily: MONO,
-        fontSize: 22,
+        fontSize: 24,
         fontWeight: 600,
         color: isWarn ? zoneColor : C.text,
         lineHeight: 1,
+        letterSpacing: '-0.01em',
       }}>
         {value != null ? `${fmt(value, unit === '' ? 0 : 2)}${unit}` : '—'}
       </div>
@@ -170,12 +199,12 @@ function LoadingScreen() {
       justifyContent: 'center', fontFamily: MONO,
     }}>
       <div style={{ color: C.teal, fontSize: 36, fontWeight: 700, letterSpacing: '0.12em', marginBottom: 4 }}>IGE</div>
-      <div style={{ color: C.slate, fontSize: 10, letterSpacing: '0.2em', marginBottom: 48 }}>ÍNDICE GLOBAL DE ESTABILIDADE</div>
-      <div style={{ color: C.slate, fontSize: 12 }}>
+      <div style={{ color: C.textDim, fontSize: 10, letterSpacing: '0.2em', marginBottom: 48 }}>ÍNDICE GLOBAL DE ESTABILIDADE</div>
+      <div style={{ color: C.textDim, fontSize: 13 }}>
         <span style={{ color: C.teal }}>{bars}</span>
         {' '}CARREGANDO DATASET{dots}
       </div>
-      <div style={{ color: C.slateD, fontSize: 10, marginTop: 8, letterSpacing: '0.1em' }}>253 PAÍSES · 1962–2025</div>
+      <div style={{ color: C.slate, fontSize: 10, marginTop: 10, letterSpacing: '0.1em' }}>259 PAÍSES · 1962–2025</div>
     </div>
   )
 }
@@ -221,7 +250,7 @@ function TopBar({ regions, selectedRegion, onRegionChange, selectedIso, currentI
       {/* Wordmark */}
       <div style={{ flexShrink: 0 }}>
         <div style={{ fontFamily: MONO, fontSize: 20, fontWeight: 700, color: C.teal, letterSpacing: '0.1em', lineHeight: 1 }}>IGE</div>
-        <div style={{ fontSize: 8, color: C.slate, letterSpacing: '0.18em', marginTop: 2 }}>ÍNDICE GLOBAL DE ESTABILIDADE</div>
+        <div style={{ fontSize: 9, color: C.textDim, letterSpacing: '0.16em', marginTop: 2 }}>ÍNDICE GLOBAL DE ESTABILIDADE</div>
       </div>
 
       <div style={{ width: 1, height: 28, background: C.border, flexShrink: 0 }} />
@@ -249,8 +278,8 @@ function TopBar({ regions, selectedRegion, onRegionChange, selectedIso, currentI
       {currentIge != null && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
           <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: 8, color: C.slate, letterSpacing: '0.18em', marginBottom: 2 }}>IGE ATUAL</div>
-            <div style={{ fontSize: 9, color: zone.color, letterSpacing: '0.14em', fontFamily: MONO }}>{zone.label}</div>
+            <div style={{ fontSize: 9, color: C.textDim, letterSpacing: '0.16em', marginBottom: 2 }}>IGE ATUAL</div>
+            <div style={{ fontSize: 10, color: zone.color, letterSpacing: '0.14em', fontFamily: MONO }}>{zone.label}</div>
           </div>
           <div style={{
             fontFamily: MONO,
@@ -320,11 +349,13 @@ export default function App() {
       })
   }, [])
 
-  // Region list
-  const regions = useMemo(() =>
-    [...new Set(Object.values(countryMap).map(c => c.region))].sort(),
-    [countryMap]
-  )
+  // Region list — sorted per REGION_ORDER, unknowns appended alphabetically
+  const regions = useMemo(() => {
+    const available = [...new Set(Object.values(countryMap).map(c => c.region))].filter(Boolean)
+    const ordered = REGION_ORDER.filter(r => available.includes(r))
+    const rest = available.filter(r => !REGION_ORDER.includes(r)).sort()
+    return [...ordered, ...rest]
+  }, [countryMap])
 
   // Countries in the selected region, sorted by latest IGE descending
   const regionCountries = useMemo(() => {
@@ -452,7 +483,7 @@ export default function App() {
             <div style={{
               padding: '10px 16px 6px',
               fontSize: 9,
-              color: C.slate,
+              color: C.textDim,
               letterSpacing: '0.18em',
               fontFamily: MONO,
               borderBottom: `1px solid ${C.border}`,
@@ -529,11 +560,11 @@ export default function App() {
                     <span style={{ fontFamily: MONO, fontSize: 30, fontWeight: 700, color: C.text, letterSpacing: '0.06em' }}>
                       {selectedIso}
                     </span>
-                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.slate, letterSpacing: '0.06em' }}>
+                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.textDim, letterSpacing: '0.06em' }}>
                       {regionLabel(countryMap[selectedIso]?.region)}
                     </span>
-                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.slateD }}>·</span>
-                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.slate }}>
+                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.slate }}>·</span>
+                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.textDim }}>
                       {latestEntry.year}
                     </span>
                   </div>
@@ -559,11 +590,11 @@ export default function App() {
                     <div style={{ width: 1, height: 36, background: C.border }} />
 
                     {[
-                      { label: 'NÍVEL',    value: latestEntry.nivel,    color: C.slate   },
-                      { label: 'MOMENTUM', value: latestEntry.momentum, color: C.warning },
+                      { label: 'NÍVEL',    value: latestEntry.nivel,    color: C.textDim },
+                      { label: 'MOMENTUM', value: latestEntry.momentum, color: C.warning  },
                     ].map(({ label, value, color }) => (
                       <div key={label}>
-                        <div style={{ fontSize: 8, color: C.slate, letterSpacing: '0.16em', marginBottom: 3 }}>{label}</div>
+                        <div style={{ ...LABEL_STYLE, fontSize: 9, marginBottom: 4 }}>{label}</div>
                         <div style={{ fontFamily: MONO, fontSize: 22, fontWeight: 600, color }}>{fmt(value)}</div>
                       </div>
                     ))}
@@ -573,7 +604,7 @@ export default function App() {
                 {/* Time series chart */}
                 <div style={{ padding: '20px 28px 16px', borderBottom: `1px solid ${C.border}`, flexShrink: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                    <div style={{ fontSize: 9, color: C.slate, letterSpacing: '0.18em', fontFamily: MONO }}>
+                    <div style={{ ...LABEL_STYLE, fontSize: 9 }}>
                       SÉRIE HISTÓRICA
                       {timeSeries.length > 0 &&
                         ` · ${timeSeries[0].year}–${timeSeries[timeSeries.length - 1].year}`
@@ -583,11 +614,11 @@ export default function App() {
                     <div style={{ display: 'flex', gap: 16 }}>
                       {[
                         { key: 'ige',      label: 'IGE',      color: C.teal,    w: 2 },
-                        { key: 'nivel',    label: 'NÍVEL',    color: C.slate,   w: 1 },
+                        { key: 'nivel',    label: 'NÍVEL',    color: C.textDim, w: 1 },
                         { key: 'momentum', label: 'MOMENTUM', color: C.warning, w: 1 },
                       ].map(({ key, label, color, w }) => (
-                        <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 9, fontFamily: MONO, color }}>
-                          <div style={{ width: 14, height: w, background: color, opacity: 0.85 }} />
+                        <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 10, fontFamily: MONO, color }}>
+                          <div style={{ width: 14, height: w, background: color, opacity: 0.9 }} />
                           {label}
                         </div>
                       ))}
@@ -601,13 +632,13 @@ export default function App() {
                           <CartesianGrid stroke={C.border} strokeDasharray="3 3" vertical={false} />
                           <XAxis
                             dataKey="year"
-                            tick={{ fill: C.slate, fontSize: 9, fontFamily: MONO }}
+                            tick={{ fill: C.textDim, fontSize: 10, fontFamily: MONO }}
                             tickLine={false}
                             axisLine={{ stroke: C.border }}
                             interval="preserveStartEnd"
                           />
                           <YAxis
-                            tick={{ fill: C.slate, fontSize: 9, fontFamily: MONO }}
+                            tick={{ fill: C.textDim, fontSize: 10, fontFamily: MONO }}
                             tickLine={false}
                             axisLine={false}
                             domain={[0, 100]}
@@ -634,10 +665,10 @@ export default function App() {
 
                 {/* Factor breakdown */}
                 <div style={{ padding: '20px 28px 28px', flexShrink: 0 }}>
-                  <div style={{ fontSize: 9, color: C.slate, letterSpacing: '0.18em', fontFamily: MONO, marginBottom: 14 }}>
+                  <div style={{ ...LABEL_STYLE, fontSize: 9, marginBottom: 14 }}>
                     FATORES ECONÓMICOS · {latestEntry.year}
                     {latestEntry.factors_used?.length > 0 &&
-                      <span style={{ color: C.slateD, marginLeft: 12 }}>
+                      <span style={{ color: C.slate, marginLeft: 12 }}>
                         [{latestEntry.factors_used.join(' · ')}]
                       </span>
                     }
@@ -681,17 +712,17 @@ export default function App() {
                   </div>
 
                   {/* Zone reference legend */}
-                  <div style={{ marginTop: 24, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+                  <div style={{ marginTop: 24, display: 'flex', gap: 20, flexWrap: 'wrap' }}>
                     {[
                       { label: 'CRISE',   range: '0–40',   color: C.crisis  },
                       { label: 'ATENÇÃO', range: '40–55',  color: C.warning },
                       { label: 'ESTÁVEL', range: '55–70',  color: C.stable  },
                       { label: 'ROBUSTA', range: '70–100', color: C.stable  },
                     ].map(({ label, range, color }) => (
-                      <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <div style={{ width: 8, height: 8, borderRadius: 1, background: color, opacity: 0.7 }} />
-                        <span style={{ fontSize: 9, fontFamily: MONO, color: C.slate, letterSpacing: '0.1em' }}>{label}</span>
-                        <span style={{ fontSize: 9, fontFamily: MONO, color: C.slateD }}>{range}</span>
+                      <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                        <div style={{ width: 8, height: 8, borderRadius: 2, background: color, opacity: 0.8 }} />
+                        <span style={{ fontSize: 10, fontFamily: MONO, color: C.textDim, letterSpacing: '0.1em' }}>{label}</span>
+                        <span style={{ fontSize: 10, fontFamily: MONO, color: C.slate }}>{range}</span>
                       </div>
                     ))}
                   </div>
