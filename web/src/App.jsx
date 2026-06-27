@@ -40,6 +40,12 @@ const LABEL_STYLE = {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const DATA_URL = 'https://raw.githubusercontent.com/marcosfreitas/ige-global-stability-index/main/data/ige-dataset-real.json'
 
+// Regional aggregate ISO codes emitted by the pipeline — these appear in the
+// JSON with a region value matching their constituent countries, so they would
+// pollute the per-region country list.  Exclude them from the country panel;
+// they only exist for potential future regional comparison features.
+const AGGREGATE_ISOS = new Set(['EAP','ECA','LAC','MENA','NAM','SAS','SSA','WORLD'])
+
 const REGION_LABELS = {
   latin_america_caribbean:    'Latin America & Caribbean',
   europe_central_asia:        'Europe & Central Asia',
@@ -332,7 +338,7 @@ export default function App() {
           const firstRegion = regions[0]
           setSelectedRegion(firstRegion)
           const top = Object.entries(map)
-            .filter(([, c]) => c.region === firstRegion)
+            .filter(([iso, c]) => c.region === firstRegion && !AGGREGATE_ISOS.has(iso))
             .map(([iso, c]) => {
               const withIge = c.entries.filter(e => e.ige != null)
               const last    = withIge.length ? withIge[withIge.length - 1] : null
@@ -361,7 +367,7 @@ export default function App() {
   const regionCountries = useMemo(() => {
     if (!selectedRegion) return []
     return Object.entries(countryMap)
-      .filter(([, c]) => c.region === selectedRegion)
+      .filter(([iso, c]) => c.region === selectedRegion && !AGGREGATE_ISOS.has(iso))
       .map(([iso, c]) => {
         const withIge = c.entries.filter(e => e.ige != null)
         const last    = withIge.length ? withIge[withIge.length - 1] : null
@@ -398,7 +404,7 @@ export default function App() {
   const handleRegionChange = (r) => {
     setSelectedRegion(r)
     const top = Object.entries(countryMap)
-      .filter(([, c]) => c.region === r)
+      .filter(([iso, c]) => c.region === r && !AGGREGATE_ISOS.has(iso))
       .map(([iso, c]) => {
         const withIge = c.entries.filter(e => e.ige != null)
         const last    = withIge.length ? withIge[withIge.length - 1] : null
