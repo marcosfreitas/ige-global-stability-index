@@ -227,6 +227,85 @@ function ErrorScreen({ message }) {
   )
 }
 
+// Region summary bar — compact strip above country list
+function RegionSummaryBar({ summary }) {
+  if (!summary) return null
+  const { totalDeaths, inConflict, inCrise, medInflation, medGdp, medUnem } = summary
+
+  const fmt = (v, decimals = 1) =>
+    v == null ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(decimals)}%`
+  const fmtInfl = (v) =>
+    v == null ? '—' : `${v >= 0 ? '' : '-'}${Math.abs(v).toFixed(1)}%`
+
+  const Cell = ({ label, value, valueColor }) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: '1 1 0' }}>
+      <span style={{ fontSize: 8, fontFamily: MONO, color: C.slate, letterSpacing: '0.14em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+        {label}
+      </span>
+      <span style={{ fontSize: 11, fontFamily: MONO, fontWeight: 600, color: valueColor || C.text, whiteSpace: 'nowrap' }}>
+        {value}
+      </span>
+    </div>
+  )
+
+  return (
+    <div style={{
+      display: 'flex',
+      gap: 0,
+      padding: '8px 14px',
+      borderBottom: `1px solid ${C.border}`,
+      background: C.surface,
+      alignItems: 'flex-start',
+      flexWrap: 'wrap',
+      rowGap: 6,
+    }}>
+      <Cell
+        label="mortes conflito"
+        value={totalDeaths > 0 ? totalDeaths.toLocaleString() : '0'}
+        valueColor={totalDeaths > 0 ? C.crisis : C.slate}
+      />
+      <Cell
+        label="em conflito"
+        value={inConflict > 0 ? `${inConflict} países` : '—'}
+        valueColor={inConflict > 0 ? C.warning : C.slate}
+      />
+      <Cell
+        label="inflação (med.)"
+        value={fmtInfl(medInflation)}
+        valueColor={medInflation != null && medInflation > 10 ? C.warning : C.textDim}
+      />
+      <Cell
+        label="PIB (med.)"
+        value={fmt(medGdp)}
+        valueColor={medGdp != null && medGdp < 0 ? C.crisis : medGdp != null && medGdp > 2 ? C.stable : C.textDim}
+      />
+      <Cell
+        label="desemprego (med.)"
+        value={medUnem != null ? `${medUnem.toFixed(1)}%` : '—'}
+        valueColor={C.textDim}
+      />
+      {inCrise > 0 && (
+        <div style={{
+          alignSelf: 'center',
+          marginLeft: 'auto',
+          background: `${C.crisis}22`,
+          border: `1px solid ${C.crisis}55`,
+          borderRadius: 3,
+          padding: '2px 7px',
+          fontSize: 9,
+          fontFamily: MONO,
+          color: C.crisis,
+          letterSpacing: '0.1em',
+          whiteSpace: 'nowrap',
+          flexShrink: 0,
+        }}>
+          {inCrise} EM CRISE
+        </div>
+      )}
+    </div>
+  )
+}
+
 // Top navigation bar
 function TopBar({ regions, selectedRegion, onRegionChange, selectedIso, currentIge, zone }) {
   const selectStyle = {
@@ -381,6 +460,45 @@ export default function App() {
       })
   }, [countryMap, selectedRegion])
 
+  // Helper: best entry for a country iso (same ≥3-factor logic as latestEntry)
+  const bestEntry = (iso) => {
+    const c = countryMap[iso]
+    if (!c) return null
+    const withIge = c.entries.filter(e => e.ige != null)
+    if (!withIge.length) return null
+    const meaningful = withIge.filter(e => (e.factors_used?.length ?? 0) >= 3)
+    return meaningful.length ? meaningful[meaningful.length - 1] : withIge[withIge.length - 1]
+  }
+
+  // Region summary stats — computed from the same filtered country set
+  const regionSummary = useMemo(() => {
+    const isos = selectedRegion === 'global'
+      ? Object.keys(countryMap).filter(iso => !AGGREGATE_ISOS.has(iso))
+      : Object.entries(countryMap)
+          .filter(([iso, c]) => c.region === selectedRegion && !AGGREGATE_ISOS.has(iso))
+          .map(([iso]) => iso)
+
+    const entries = isos.map(iso => bestEntry(iso)).filter(Boolean)
+    if (!entries.length) return null
+
+    const vals = (field) => entries.map(e => e[field]).filter(v => v != null)
+    const median = (arr) => {
+      if (!arr.length) return null
+      const s = [...arr].sort((a, b) => a - b)
+      const m = Math.floor(s.length / 2)
+      return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2
+    }
+
+    const totalDeaths   = entries.reduce((sum, e) => sum + (e.conflict_deaths ?? 0), 0)
+    const inConflict    = entries.filter(e => (e.conflict_deaths ?? 0) > 0).length
+    const inCrise       = entries.filter(e => e.ige != null && e.ige < 40).length
+    const medInflation  = median(vals('inflation'))
+    const medGdp        = median(vals('gdp_growth'))
+    const medUnem       = median(vals('unemployment'))
+
+    return { totalDeaths, inConflict, inCrise, medInflation, medGdp, medUnem, n: entries.length }
+  }, [countryMap, selectedRegion])
+
   // Time series for selected country
   const timeSeries = useMemo(() => {
     if (!selectedIso || !countryMap[selectedIso]) return []
@@ -501,10 +619,11 @@ export default function App() {
               letterSpacing: '0.18em',
               fontFamily: MONO,
               borderBottom: `1px solid ${C.border}`,
-              marginBottom: 4,
             }}>
               {regionLabel(selectedRegion).toUpperCase()} · {regionCountries.length}
             </div>
+
+            <RegionSummaryBar summary={regionSummary} />
 
             {regionCountries.map(({ iso, ige }) => {
               const z          = getZone(ige)
