@@ -181,10 +181,16 @@ export default function App() {
 
   const timeSeries = useMemo(() => {
     if (!selectedIso || !countryMap[selectedIso]) return []
-    // Use the same "meaningful" threshold as bestEntry (≥3 factors) so the chart
-    // never shows incomplete-year spikes that contradict the sidebar / detail panel.
-    return countryMap[selectedIso].entries
-      .filter(e => e.ige != null && (e.factors_used?.length ?? 0) >= 3)
+    const entries = countryMap[selectedIso].entries
+    // Use ≥3 factors when the country has at least one such entry (filters out
+    // incomplete-year spikes like RUS 2025 with only 2 factors).
+    // Fall back to ≥1 for countries that structurally never reach 3 factors
+    // (e.g. Taiwan, absent from WB APIs for political reasons) so the chart
+    // still renders using whatever legitimate data exists.
+    const hasMeaningful = entries.some(e => (e.factors_used?.length ?? 0) >= 3)
+    const minFactors = hasMeaningful ? 3 : 1
+    return entries
+      .filter(e => e.ige != null && (e.factors_used?.length ?? 0) >= minFactors)
       .map(e => ({ year: e.year, ige: e.ige, nivel: e.nivel, momentum: e.momentum }))
   }, [countryMap, selectedIso])
 

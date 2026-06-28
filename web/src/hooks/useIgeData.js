@@ -44,8 +44,16 @@ export function bestEntry(entries) {
   if (!entries?.length) return null
   const withIge = entries.filter(e => e.ige != null)
   if (!withIge.length) return null
+  // Prefer entries with ≥3 factors (full pillar coverage).
   const meaningful = withIge.filter(e => (e.factors_used?.length ?? 0) >= 3)
-  return meaningful.length ? meaningful[meaningful.length - 1] : withIge[withIge.length - 1]
+  if (meaningful.length) return meaningful[meaningful.length - 1]
+  // For countries that structurally never reach 3 factors (e.g. Taiwan — absent
+  // from WB APIs for political reasons), pick the most recent entry that has the
+  // most factors, so we don't surface a sparser future-year estimate over a
+  // richer historical one.
+  const maxFactors = Math.max(...withIge.map(e => e.factors_used?.length ?? 0))
+  const richest = withIge.filter(e => (e.factors_used?.length ?? 0) === maxFactors)
+  return richest[richest.length - 1]
 }
 
 /** Filtered + sorted country list for a given region / search query. */
