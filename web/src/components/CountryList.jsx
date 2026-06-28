@@ -5,7 +5,7 @@ import { CountryRow } from './ui/CountryRow.jsx'
 
 export function CountryList({ countries, selectedIso, onSelect, search, onSearch, style }) {
   return (
-    <Panel padding="18px" style={{ display: 'flex', flexDirection: 'column', minHeight: 0, ...style }}>
+    <Panel padding="18px" style={{ display: 'flex', flexDirection: 'column', ...style }}>
       <SearchInput
         value={search}
         onChange={e => onSearch(e.target.value)}
@@ -25,8 +25,8 @@ export function CountryList({ countries, selectedIso, onSelect, search, onSearch
         </span>
       </div>
 
-      <ScrollArea.Root style={{ flex: 1, overflow: 'hidden', marginTop: 4 }}>
-        <ScrollArea.Viewport style={{ height: '100%', maxHeight: 560 }}>
+      <ScrollArea.Root style={{ overflow: 'hidden', marginTop: 4 }}>
+        <ScrollArea.Viewport style={{ maxHeight: 560 }}>
           <div style={{ paddingBottom: 8 }}>
             {countries.map(({ iso, ige }) => (
               <CountryRow

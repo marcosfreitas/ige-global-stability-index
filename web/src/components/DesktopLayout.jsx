@@ -31,7 +31,6 @@ export function DesktopLayout({
           onSelect={onSelectCountry}
           search={search}
           onSearch={onSearch}
-          style={{ flex: 1 }}
         />
       </aside>
 
