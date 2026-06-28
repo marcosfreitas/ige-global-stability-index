@@ -1,44 +1,45 @@
 import { Panel, PanelHeader } from './ui/Panel.jsx'
 import { FactorCard } from './ui/FactorCard.jsx'
 import { BANDS } from '../lib/bands.js'
+import { useLang } from '../lib/LangContext.js'
 import { fmt, fmtInt } from '../lib/format.js'
 
-function buildFactors(entry) {
+function buildFactors(entry, t) {
   if (!entry) return []
   return [
     {
       key: 'inflation',
-      label: 'Inflação',
+      label: t('inflation'),
       value: entry.inflation != null ? `${fmt(entry.inflation, 2)}%` : '—',
       highlight: false,
     },
     {
       key: 'gdp_growth',
-      label: 'Crescimento PIB',
+      label: t('gdp'),
       value: entry.gdp_growth != null ? `${fmt(entry.gdp_growth, 2)}%` : '—',
       highlight: false,
     },
     {
       key: 'unemployment',
-      label: 'Desemprego',
+      label: t('unemployment'),
       value: entry.unemployment != null ? `${fmt(entry.unemployment, 1)}%` : '—',
       highlight: false,
     },
     {
       key: 'debt',
-      label: 'Dívida / PIB',
+      label: t('debt'),
       value: entry.debt != null ? `${fmt(entry.debt, 1)}%` : '—',
       highlight: false,
     },
     {
       key: 'conflict_deaths',
-      label: 'Mortes · Conflito',
+      label: t('conflict'),
       value: entry.conflict_deaths != null ? fmtInt(entry.conflict_deaths) : '—',
       highlight: entry.conflict_deaths != null && entry.conflict_deaths > 0,
     },
     {
       key: 'governance_cpi',
-      label: 'Governança (CPI)',
+      label: t('governance'),
       value: entry.governance_cpi != null ? String(entry.governance_cpi) : '—',
       highlight: false,
     },
@@ -46,15 +47,16 @@ function buildFactors(entry) {
 }
 
 export function FactorsSection({ entry, mobile = false, style }) {
+  const { t, bandLabel } = useLang()
   if (!entry) return null
-  const factors = buildFactors(entry)
+  const factors = buildFactors(entry, t)
   const missing = entry.data_quality || []
   const hasMissing = missing.length > 0
 
   return (
     <Panel padding={mobile ? '18px' : '24px 28px'} style={style}>
       <PanelHeader
-        title={`Fatores · ${entry.year}`}
+        title={`${t('factors_label')} · ${entry.year}`}
         meta={entry.factors_used?.length ? entry.factors_used.join(' · ') : undefined}
       />
 
@@ -70,10 +72,10 @@ export function FactorsSection({ entry, mobile = false, style }) {
           <span style={{ color: 'var(--ige-amber)', fontSize: 16, lineHeight: 1.2, flexShrink: 0 }}>⚠</span>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: 1, color: 'var(--ige-amber)' }}>
-              DADOS INCOMPLETOS
+              {t('incomplete_data')}
             </div>
             <div style={{ fontSize: 13, color: 'var(--text-body)', marginTop: 4, lineHeight: 1.5 }}>
-              {`Fatores ausentes: ${missing.join(', ')}. O IGE foi rebalanceado entre os pilares disponíveis.`}
+              {`${t('missing_factors')}: ${missing.join(', ')}. ${t('rebalanced')}`}
             </div>
           </div>
         </div>
@@ -89,7 +91,7 @@ export function FactorsSection({ entry, mobile = false, style }) {
         ))}
       </div>
 
-      {/* Band legend */}
+      {/* Band legend — translated labels */}
       <div style={{
         display: 'flex', gap: 18, flexWrap: 'wrap',
         marginTop: 20, paddingTop: 18,
@@ -100,7 +102,7 @@ export function FactorsSection({ entry, mobile = false, style }) {
           <div key={b.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
             <span style={{ width: 9, height: 9, borderRadius: 2, background: b.color, flexShrink: 0 }} />
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-label)', letterSpacing: '0.5px' }}>
-              {b.label} · {b.range}
+              {bandLabel(b.key)} · {b.range}
             </span>
           </div>
         ))}

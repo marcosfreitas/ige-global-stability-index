@@ -3,10 +3,12 @@ import { BandTag } from './ui/BandTag.jsx'
 import { BandMeter } from './ui/BandMeter.jsx'
 import { MetricBlock } from './ui/MetricBlock.jsx'
 import { bandColor, bandForScore } from '../lib/bands.js'
-import { regionLabel, countryName } from '../lib/constants.js'
+import { countryName } from '../lib/constants.js'
+import { useLang } from '../lib/LangContext.js'
 import { fmt } from '../lib/format.js'
 
 export function HeroSection({ iso, entry, region, mobile = false, style }) {
+  const { t, regionLabel, bandLabel } = useLang()
   if (!entry) return null
   const score = entry.ige ?? 0
   const color = bandColor(score)
@@ -42,12 +44,11 @@ export function HeroSection({ iso, entry, region, mobile = false, style }) {
             </div>
           )}
         </div>
-        <BandTag band={band} />
+        <BandTag band={band} label={bandLabel(band)} />
       </div>
 
       {/* Score row */}
       <div style={{ display: 'flex', alignItems: 'flex-end', gap: mobile ? 22 : 40, flexWrap: 'wrap', marginTop: mobile ? 14 : 24 }}>
-        {/* Hero number — value above label to match design */}
         <div>
           <div style={{
             fontFamily: 'var(--font-display)', fontWeight: 700,
@@ -63,13 +64,13 @@ export function HeroSection({ iso, entry, region, mobile = false, style }) {
             letterSpacing: '1.5px', textTransform: 'uppercase',
             color: 'var(--text-label)', marginTop: 10,
           }}>
-            Índice Global
+            {t('index')}
           </div>
         </div>
 
         <div style={{ display: 'flex', gap: mobile ? 20 : 36, paddingBottom: mobile ? 6 : 8 }}>
-          <MetricBlock label="Nível"    value={fmt(entry.nivel)}    size={mobile ? 'm' : 'l'} color="var(--ige-text-code)" />
-          <MetricBlock label="Momentum" value={fmt(entry.momentum)} size={mobile ? 'm' : 'l'} color="var(--ige-amber)" />
+          <MetricBlock label={t('nivel')}    value={fmt(entry.nivel)}    size={mobile ? 'm' : 'l'} color="var(--ige-text-code)" />
+          <MetricBlock label={t('momentum')} value={fmt(entry.momentum)} size={mobile ? 'm' : 'l'} color="var(--ige-amber)" />
         </div>
       </div>
 

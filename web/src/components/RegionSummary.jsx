@@ -1,30 +1,31 @@
 import { Panel } from './ui/Panel.jsx'
-import { regionLabel } from '../lib/constants.js'
+import { useLang } from '../lib/LangContext.js'
 import { fmtSigned, fmtPct, fmtInt, fmt } from '../lib/format.js'
 import { bandColor } from '../lib/bands.js'
 
 export function RegionSummary({ region, summary, style }) {
+  const { t, regionLabel } = useLang()
   if (!summary) return null
   const { totalDeaths, inConflict, inCrise, medInflation, medGdp, medUnem, medIge, n } = summary
 
   const stats = [
     {
-      label: 'Mortes',
+      label: t('deaths'),
       value: totalDeaths > 0 ? fmtInt(totalDeaths) : '0',
       color: totalDeaths > 0 ? 'var(--ige-alert-soft)' : 'var(--ige-text-code)',
     },
     {
-      label: 'Conflito',
-      value: inConflict > 0 ? `${inConflict} países` : '—',
+      label: t('in_conflict'),
+      value: inConflict > 0 ? `${inConflict}` : '—',
       color: 'var(--ige-text-code)',
     },
     {
-      label: 'Inflação',
+      label: t('median_inflation'),
       value: fmtPct(medInflation),
       color: medInflation != null && medInflation > 10 ? 'var(--ige-amber)' : 'var(--ige-text-code)',
     },
     {
-      label: 'PIB',
+      label: t('median_gdp'),
       value: fmtSigned(medGdp),
       color: medGdp != null && medGdp < 0
         ? 'var(--ige-band-crise)'
@@ -33,12 +34,12 @@ export function RegionSummary({ region, summary, style }) {
           : 'var(--ige-text-code)',
     },
     {
-      label: 'Desemprego',
+      label: t('median_unemployment'),
       value: medUnem != null ? `${medUnem.toFixed(1)}%` : '—',
       color: 'var(--ige-text-code)',
     },
     {
-      label: 'IGE médio',
+      label: t('median_ige'),
       value: fmt(medIge),
       color: bandColor(medIge),
     },
@@ -50,7 +51,7 @@ export function RegionSummary({ region, summary, style }) {
         {regionLabel(region)}
       </div>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-label)', marginTop: 5 }}>
-        {n} países · ordenado por IGE
+        {n} {t('countries_sorted')}
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '14px 12px', marginTop: 20 }}>
@@ -76,7 +77,7 @@ export function RegionSummary({ region, summary, style }) {
         }}>
           <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--ige-alert)', flexShrink: 0 }} />
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.5px', color: 'var(--ige-alert-soft)' }}>
-            {inCrise} EM CRISE
+            {inCrise} {t('in_crisis')}
           </span>
         </div>
       )}

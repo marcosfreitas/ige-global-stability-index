@@ -2,13 +2,17 @@ import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { Panel } from './ui/Panel.jsx'
 import { SearchInput } from './ui/SearchInput.jsx'
 import { CountryRow } from './ui/CountryRow.jsx'
+import { useLang } from '../lib/LangContext.js'
 
 export function CountryList({ countries, selectedIso, onSelect, search, onSearch, style }) {
+  const { t } = useLang()
+
   return (
     <Panel padding="18px" style={{ display: 'flex', flexDirection: 'column', ...style }}>
       <SearchInput
         value={search}
         onChange={e => onSearch(e.target.value)}
+        placeholder={t('search_placeholder')}
         style={{ marginBottom: 14 }}
       />
 
@@ -18,7 +22,7 @@ export function CountryList({ countries, selectedIso, onSelect, search, onSearch
         borderBottom: '1px solid var(--ige-divider)',
       }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 1, color: 'var(--text-label)' }}>
-          RANKING · IGE
+          {t('countries_label')}
         </span>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--text-label)' }}>
           {countries.length}
@@ -43,7 +47,7 @@ export function CountryList({ countries, selectedIso, onSelect, search, onSearch
                 fontFamily: 'var(--font-mono)', fontSize: 11,
                 color: 'var(--text-label)', textAlign: 'center', letterSpacing: 1,
               }}>
-                NENHUM RESULTADO
+                {t('no_results')}
               </div>
             )}
           </div>

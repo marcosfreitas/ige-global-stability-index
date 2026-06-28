@@ -1,7 +1,9 @@
 import * as Select from '@radix-ui/react-select'
-import { regionLabel } from '../../lib/constants.js'
+import { useLang } from '../../lib/LangContext.js'
 
 export function RegionSelect({ regions, value, onValueChange }) {
+  const { regionLabel } = useLang()
+
   return (
     <Select.Root value={value} onValueChange={onValueChange}>
       <Select.Trigger
