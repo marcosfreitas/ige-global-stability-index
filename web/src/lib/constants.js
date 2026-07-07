@@ -33,16 +33,6 @@ export const REGION_LABELS = {
   asia:    'Ásia',
 }
 
-export const CRISIS_EVENTS = {
-  1973: 'Crise do Petróleo',
-  1982: 'Crise da Dívida',
-  1998: 'Crise Asiática/Russa',
-  2001: '11 de Setembro',
-  2008: 'GFC',
-  2009: 'GFC',
-  2020: 'COVID-19',
-}
-
 export const COUNTRY_NAMES = {
   ABW:'Aruba',AFG:'Afeganistão',AGO:'Angola',ALB:'Albânia',AND:'Andorra',
   ARE:'Emirados Árabes',ARG:'Argentina',ARM:'Armênia',ASM:'Samoa Americana',
