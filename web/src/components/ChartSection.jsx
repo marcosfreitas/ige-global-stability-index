@@ -4,12 +4,13 @@ import {
   ResponsiveContainer, ReferenceLine,
 } from 'recharts'
 import { Panel, PanelHeader } from './ui/Panel.jsx'
-import { CRISIS_EVENTS } from '../lib/constants.js'
 import { useLang } from '../lib/LangContext.js'
 
-function ChartTooltip({ active, payload, label }) {
+const CRISIS_YEARS = [1973, 1982, 1998, 2001, 2008, 2009, 2020]
+
+function ChartTooltip({ active, payload, label, events }) {
   if (!active || !payload?.length) return null
-  const event = CRISIS_EVENTS[label]
+  const event = events?.[label]
   return (
     <div style={{
       background: 'var(--surface-card)',
@@ -82,6 +83,10 @@ export function ChartSection({ timeSeries, mobile = false, style }) {
   const { t } = useLang()
   const [visible, setVisible] = useState({ ige: true, nivel: true, momentum: true })
 
+  const crisisEvents = Object.fromEntries(
+    CRISIS_YEARS.map(y => [y, t(`event_${y}`)])
+  )
+
   const SERIES = [
     { key: 'ige',      label: t('series_ige'),      desc: t('series_ige_desc'),      color: 'var(--ige-series-ige)',      width: 2.5, opacity: 1   },
     { key: 'nivel',    label: t('series_nivel'),    desc: t('series_nivel_desc'),    color: 'var(--ige-series-nivel)',    width: 1.5, opacity: 0.7 },
@@ -147,7 +152,7 @@ export function ChartSection({ timeSeries, mobile = false, style }) {
                 domain={[0, 100]}
                 ticks={[0, 25, 40, 55, 70, 100]}
               />
-              <Tooltip content={<ChartTooltip />} />
+              <Tooltip content={<ChartTooltip events={crisisEvents} />} />
               <ReferenceLine y={40} stroke="var(--ige-band-crise)"   strokeDasharray="4 4" strokeOpacity={0.35} />
               <ReferenceLine y={55} stroke="var(--ige-band-atencao)" strokeDasharray="4 4" strokeOpacity={0.35} />
               <ReferenceLine y={70} stroke="var(--ige-band-estavel)" strokeDasharray="4 4" strokeOpacity={0.25} />
