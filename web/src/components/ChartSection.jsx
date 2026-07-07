@@ -6,7 +6,7 @@ import {
 import { Panel, PanelHeader } from './ui/Panel.jsx'
 import { useLang } from '../lib/LangContext.js'
 
-const CRISIS_YEARS = [1973, 1979, 1982, 1991, 1998, 2001, 2008, 2009, 2011, 2014, 2020, 2022, 2023, 2025]
+const CRISIS_YEARS = [1973, 1979, 1982, 1991, 1998, 2001, 2008, 2009, 2011, 2014, 2020, 2022, 2023, 2025, 2026]
 
 function ChartTooltip({ active, payload, label, events }) {
   if (!active || !payload?.length) return null
