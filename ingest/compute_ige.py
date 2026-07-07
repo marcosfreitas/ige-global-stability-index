@@ -227,8 +227,9 @@ def main():
         df_debt = df_debt_wb
         log.warning("IMF debt file not found; using World Bank debt only")
 
-    # Hard cap at 2025 — drop IMF/WB forward projections
-    MAX_YEAR = 2025
+    # Cap at current year — drops IMF/WB projections beyond the current calendar year
+    # while auto-advancing annually as source data matures.
+    MAX_YEAR = datetime.now(timezone.utc).year
     for name, df_ref in [
         ("inflation",    df_inf),
         ("gdp_growth",   df_gdp),
@@ -527,7 +528,7 @@ def main():
     country_isos  = [r["iso"] for r in records]
     unique_countries = len(set(country_isos))
     years_all = [r["year"] for r in records]
-    year_range = [int(min(years_all)), int(max(years_all))] if years_all else [1960, 2025]
+    year_range = [int(min(years_all)), int(max(years_all))] if years_all else [1960, datetime.now(timezone.utc).year]
 
     def source_meta(key, name, indicator_info):
         entry = fetch_log.get(key, {})

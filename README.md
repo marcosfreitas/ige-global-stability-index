@@ -1,6 +1,6 @@
 # IGE — Índice Global de Estabilidade
 
-The **IGE** (Índice Global de Estabilidade) is a composite macroeconomic, conflict, and governance stability index that scores countries on a 0–100 scale. It combines six factors across three pillars — Economic, Security, and Governance — into a single, comparable time-series covering 214 countries from 1962 to 2025, updated weekly. The year ceiling is hard-capped in the pipeline to exclude forward projections and is manually advanced each year as source data matures.
+The **IGE** (Índice Global de Estabilidade) is a composite macroeconomic, conflict, and governance stability index that scores countries on a 0–100 scale. It combines six factors across three pillars — Economic, Security, and Governance — into a single, comparable time-series covering 214 countries from 1962 to the current year, updated weekly. The pipeline caps at the current calendar year, automatically advancing each January while still excluding projections beyond that ceiling.
 
 The index is designed for analysts, journalists, and researchers who need a single stability signal that is **historically self-referential**: a country's IGE measures how stable it is *relative to its own history*, not relative to other countries.
 
@@ -13,7 +13,7 @@ The index is designed for analysts, journalists, and researchers who need a sing
 | Stat | Value |
 |------|-------|
 | Countries | 214 sovereign states |
-| Year range | 1962–2025 |
+| Year range | 1962–present (current year ceiling) |
 | Records | 12,042 country-year rows |
 | Update frequency | Weekly (GitHub Actions, every Monday 06:00 UTC) |
 
