@@ -5,10 +5,23 @@ import { fmt } from '../lib/format.js'
 
 const LANGS = ['en', 'es', 'pt']
 
-export function TopBar({ regions, selectedRegion, onRegionChange, regionIge }) {
+function formatGeneratedAt(iso, lang) {
+  if (!iso) return null
+  try {
+    const d = new Date(iso)
+    return new Intl.DateTimeFormat(lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es' : 'en', {
+      day: '2-digit', month: 'short', year: 'numeric',
+    }).format(d).toUpperCase()
+  } catch {
+    return null
+  }
+}
+
+export function TopBar({ regions, selectedRegion, onRegionChange, regionIge, generatedAt }) {
   const { lang, setLang, t, bandLabel } = useLang()
   const color = `var(--ige-band-${bandForScore(regionIge)})`
   const label = bandLabel(bandForScore(regionIge))
+  const syncedDate = formatGeneratedAt(generatedAt, lang)
 
   return (
     <header style={{
@@ -37,6 +50,14 @@ export function TopBar({ regions, selectedRegion, onRegionChange, regionIge }) {
           }}>
             {t('tagline')}
           </div>
+          {syncedDate && (
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontSize: 9,
+              color: 'var(--ige-text-faint)', letterSpacing: '0.4px', marginTop: 3,
+            }}>
+              {t('data_updated')} · {syncedDate}
+            </div>
+          )}
         </div>
       </div>
 

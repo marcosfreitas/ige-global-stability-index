@@ -82,7 +82,7 @@ function ErrorScreen({ message, lang }) {
 
 // ── Main App ───────────────────────────────────────────────────────────────────
 export default function App() {
-  const { loading, error, countryMap, regions } = useIgeData()
+  const { loading, error, countryMap, regions, generatedAt } = useIgeData()
   const isMobile = useMediaQuery('(max-width: 768px)')
 
   // Language state
@@ -229,6 +229,7 @@ export default function App() {
           selectedRegion={effectiveRegion}
           onRegionChange={handleRegionChange}
           regionIge={regionSummary?.medIge}
+          generatedAt={generatedAt}
         />
       ) : (
         <div style={{
@@ -242,6 +243,7 @@ export default function App() {
               selectedRegion={effectiveRegion}
               onRegionChange={handleRegionChange}
               regionIge={regionSummary?.medIge}
+              generatedAt={generatedAt}
             />
             <DesktopLayout {...sharedProps} />
           </div>

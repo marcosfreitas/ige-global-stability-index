@@ -14,18 +14,31 @@ import { fmt } from '../lib/format.js'
 
 const LANGS = ['en', 'es', 'pt']
 
+function formatGeneratedAt(iso, lang) {
+  if (!iso) return null
+  try {
+    const d = new Date(iso)
+    return new Intl.DateTimeFormat(lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es' : 'en', {
+      day: '2-digit', month: 'short', year: 'numeric',
+    }).format(d).toUpperCase()
+  } catch {
+    return null
+  }
+}
+
 export function MobileLayout({
   regions, selectedRegion, onRegionChange, regionIge,
   regionSummary, region,
   countries, selectedIso, onSelectCountry,
   search, onSearch,
   selectedEntry, timeSeries,
-  countryMap,
+  countryMap, generatedAt,
 }) {
   const { t, lang, setLang, bandLabel } = useLang()
   const color = `var(--ige-band-${bandForScore(regionIge)})`
   const label = bandLabel(bandForScore(regionIge))
   const selectedCountryRegion = countryMap[selectedIso]?.region
+  const syncedDate = formatGeneratedAt(generatedAt, lang)
   const [tab, setTab] = useState('detalhe')
 
   const handleSelectCountry = (iso) => {
@@ -46,8 +59,18 @@ export function MobileLayout({
       }}>
         {/* Row 1: wordmark + IGE badge + lang switcher */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 20, color: 'var(--ige-accent)', letterSpacing: '0.5px' }}>
-            IGE
+          <div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 20, color: 'var(--ige-accent)', letterSpacing: '0.5px', lineHeight: 1 }}>
+              IGE
+            </div>
+            {syncedDate && (
+              <div style={{
+                fontFamily: 'var(--font-mono)', fontSize: 8,
+                color: 'var(--ige-text-faint)', letterSpacing: '0.3px', marginTop: 2,
+              }}>
+                {t('data_updated')} · {syncedDate}
+              </div>
+            )}
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             {regionIge != null && (

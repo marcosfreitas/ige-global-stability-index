@@ -17,7 +17,18 @@ export const TRANSLATIONS = {
     zone_robusta: 'Robusta',
 
     // TopBar
-    region_ige: 'IGE REGIONAL',
+    region_ige:   'IGE REGIONAL',
+    data_updated: 'ATUALIZADO',
+
+    // Chart
+    chart_title:          'Série Histórica',
+    chart_no_data:        'SEM DADOS HISTÓRICOS',
+    series_ige:           'IGE',
+    series_nivel:         'Nível',
+    series_momentum:      'Momentum',
+    series_ige_desc:      'Índice composto: 60% Nível + 40% Momentum. Escala 0–100.',
+    series_nivel_desc:    'Pontuação estrutural ponderada por pilar (econômico, segurança, governança). Reflete o estado atual.',
+    series_momentum_desc: 'Velocidade de mudança do Nível nos últimos 2 anos. Indica se o país está melhorando ou piorando.',
 
     // Country list / search
     countries_label:    'RANKING · IGE',
@@ -86,7 +97,18 @@ export const TRANSLATIONS = {
     zone_estavel: 'Stable',
     zone_robusta: 'Robust',
 
-    region_ige: 'REGIONAL IGE',
+    region_ige:   'REGIONAL IGE',
+    data_updated: 'UPDATED',
+
+    // Chart
+    chart_title:          'Historical Series',
+    chart_no_data:        'NO HISTORICAL DATA',
+    series_ige:           'IGE',
+    series_nivel:         'Level',
+    series_momentum:      'Momentum',
+    series_ige_desc:      'Composite score: 60% Level + 40% Momentum. Scale 0–100.',
+    series_nivel_desc:    'Pillar-weighted structural score (economic, security, governance). Reflects current state.',
+    series_momentum_desc: 'Rate of change in Level over the past 2 years. Shows whether the country is improving or deteriorating.',
 
     countries_label:    'RANKING · IGE',
     search_placeholder: 'Search country…',
@@ -149,7 +171,18 @@ export const TRANSLATIONS = {
     zone_estavel: 'Estable',
     zone_robusta: 'Robusta',
 
-    region_ige: 'IGE REGIONAL',
+    region_ige:   'IGE REGIONAL',
+    data_updated: 'ACTUALIZADO',
+
+    // Chart
+    chart_title:          'Serie Histórica',
+    chart_no_data:        'SIN DATOS HISTÓRICOS',
+    series_ige:           'IGE',
+    series_nivel:         'Nivel',
+    series_momentum:      'Impulso',
+    series_ige_desc:      'Puntuación compuesta: 60% Nivel + 40% Impulso. Escala 0–100.',
+    series_nivel_desc:    'Puntuación estructural ponderada por pilar (económico, seguridad, gobernanza). Refleja el estado actual.',
+    series_momentum_desc: 'Velocidad de cambio del Nivel en los últimos 2 años. Indica si el país mejora o empeora.',
 
     countries_label:    'RANKING · IGE',
     search_placeholder: 'buscar país...',

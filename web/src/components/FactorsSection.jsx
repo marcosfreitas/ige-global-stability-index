@@ -4,6 +4,19 @@ import { BANDS } from '../lib/bands.js'
 import { useLang } from '../lib/LangContext.js'
 import { fmt, fmtInt } from '../lib/format.js'
 
+const FACTOR_I18N_KEY = {
+  inflation:    'inflation',
+  gdp_growth:   'gdp',
+  unemployment: 'unemployment',
+  debt:         'debt',
+  conflict:     'conflict',
+  governance:   'governance',
+}
+
+function translateFactor(key, t) {
+  return t(FACTOR_I18N_KEY[key] ?? key)
+}
+
 function buildFactors(entry, t) {
   if (!entry) return []
   return [
@@ -57,7 +70,7 @@ export function FactorsSection({ entry, mobile = false, style }) {
     <Panel padding={mobile ? '18px' : '24px 28px'} style={style}>
       <PanelHeader
         title={`${t('factors_label')} · ${entry.year}`}
-        meta={entry.factors_used?.length ? entry.factors_used.join(' · ') : undefined}
+        meta={entry.factors_used?.length ? entry.factors_used.map(k => translateFactor(k, t)).join(' · ') : undefined}
       />
 
       {hasMissing && (
@@ -75,7 +88,7 @@ export function FactorsSection({ entry, mobile = false, style }) {
               {t('incomplete_data')}
             </div>
             <div style={{ fontSize: 13, color: 'var(--text-body)', marginTop: 4, lineHeight: 1.5 }}>
-              {`${t('missing_factors')}: ${missing.join(', ')}. ${t('rebalanced')}`}
+              {`${t('missing_factors')}: ${missing.map(k => translateFactor(k, t)).join(', ')}. ${t('rebalanced')}`}
             </div>
           </div>
         </div>

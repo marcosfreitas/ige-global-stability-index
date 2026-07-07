@@ -5,6 +5,7 @@ export function useIgeData() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [countryMap, setCountryMap] = useState({})
+  const [generatedAt, setGeneratedAt] = useState(null)
 
   useEffect(() => {
     fetch(DATA_URL)
@@ -21,6 +22,7 @@ export function useIgeData() {
         })
         Object.values(map).forEach(c => c.entries.sort((a, b) => a.year - b.year))
         setCountryMap(map)
+        setGeneratedAt(json.meta?.generated_at ?? null)
         setLoading(false)
       })
       .catch(err => {
@@ -36,7 +38,7 @@ export function useIgeData() {
     return [...ordered, ...rest]
   }, [countryMap])
 
-  return { loading, error, countryMap, regions }
+  return { loading, error, countryMap, regions, generatedAt }
 }
 
 /** Return the most data-rich recent entry for a country's entries array. */
