@@ -6,7 +6,7 @@ export const TRANSLATIONS = {
     // App / loading
     title:    'Índice Global de Estabilidade',
     subtitle: 'ÍNDICE GLOBAL DE ESTABILIDADE',
-    tagline:  '259 PAÍSES · 1962–2025',
+    tagline:  '214 PAÍSES · 1962–2025',
     loading:  'CARREGANDO DATASET…',
     error:    'ERRO AO CARREGAR DADOS',
 
@@ -88,7 +88,7 @@ export const TRANSLATIONS = {
   en: {
     title:    'Global Stability Index',
     subtitle: 'GLOBAL STABILITY INDEX',
-    tagline:  '259 COUNTRIES · 1962–2025',
+    tagline:  '214 COUNTRIES · 1962–2025',
     loading:  'LOADING DATASET…',
     error:    'ERROR LOADING DATA',
 
@@ -162,7 +162,7 @@ export const TRANSLATIONS = {
   es: {
     title:    'Índice Global de Estabilidad',
     subtitle: 'ÍNDICE GLOBAL DE ESTABILIDAD',
-    tagline:  '259 PAÍSES · 1962–2025',
+    tagline:  '214 PAÍSES · 1962–2025',
     loading:  'CARGANDO DATOS…',
     error:    'ERROR AL CARGAR DATOS',
 

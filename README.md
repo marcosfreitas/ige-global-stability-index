@@ -12,9 +12,9 @@ The index is designed for analysts, journalists, and researchers who need a sing
 
 | Stat | Value |
 |------|-------|
-| Countries | 215 sovereign states |
+| Countries | 214 sovereign states |
 | Year range | 1962–2025 |
-| Records | 12,038 country-year rows |
+| Records | 12,042 country-year rows |
 | Update frequency | Weekly (GitHub Actions, every Monday 06:00 UTC) |
 
 ---
@@ -202,4 +202,4 @@ Two workflows:
 - **Conflict data starts 1989**: UCDP/PRIO Battle-Related Deaths Dataset covers 1989 onward. Earlier years have the conflict factor absent (not zero), and weights redistribute to remaining factors.
 - **Debt coverage irregular**: World Bank debt data is missing for many countries pre-2000. IMF WEO is used as fallback; combined coverage is ~55% of country-years.
 - **Relative scale**: IGE measures stability relative to each country's own history. South Sudan in a relative recovery year may score higher than Switzerland in a relative downturn year. IGE is not a cross-country ranking.
-- **PERCEPÇÃO not fully implemented**: A third governance sub-dimension (World Bank WGI, Freedom House, RSF Press Freedom) would improve the Governance pillar but lacks a stable programmatic source at the required frequency.
+- **Governance perception dimension not fully implemented**: A third governance sub-dimension (World Bank WGI, Freedom House, RSF Press Freedom) would improve the Governance pillar but lacks a stable programmatic source at the required frequency.
