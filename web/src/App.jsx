@@ -121,7 +121,7 @@ export default function App() {
     // Validate country — must exist in countryMap and belong to the target region
     if (country && countryMap[country]) {
       const countryRegion = countryMap[country].region
-      if (!validRegion || countryRegion === targetRegion || !validRegion) {
+      if (!validRegion || countryRegion === targetRegion) {
         setSelectedIso(country)
         if (!validRegion && countryRegion) setSelectedRegion(countryRegion)
       } else {
@@ -142,12 +142,13 @@ export default function App() {
     if (pool[0]) setSelectedIso(pool[0].iso)
   }
 
-  // Auto-select best country on first load (when no URL params)
+  // Fallback: pick best country if URL application left nothing selected.
+  // Gated on urlApplied so it can't race the URL-param effect and stomp its selection.
   useEffect(() => {
-    if (!loading && !selectedIso && effectiveRegion && Object.keys(countryMap).length > 0) {
+    if (!loading && urlApplied && !selectedIso && effectiveRegion && Object.keys(countryMap).length > 0) {
       pickBestInRegion(effectiveRegion)
     }
-  }, [loading, effectiveRegion])
+  }, [loading, urlApplied, selectedIso, effectiveRegion, countryMap])
 
   // Sync URL whenever region, country, or lang changes (after initial load)
   useEffect(() => {
