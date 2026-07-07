@@ -8,6 +8,7 @@ import { HeroSection } from './HeroSection.jsx'
 import { ChartSection } from './ChartSection.jsx'
 import { FactorsSection } from './FactorsSection.jsx'
 import { Panel } from './ui/Panel.jsx'
+import { Footer } from './Footer.jsx'
 import { bandForScore } from '../lib/bands.js'
 import { useLang } from '../lib/LangContext.js'
 import { fmt } from '../lib/format.js'
@@ -213,6 +214,9 @@ export function MobileLayout({
           </Tabs.Root>
         </div>
       )}
+      <div style={{ padding: '0 16px' }}>
+        <Footer mobile />
+      </div>
     </div>
   )
 }

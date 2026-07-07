@@ -7,6 +7,7 @@ import { t } from './lib/i18n.js'
 import { TopBar } from './components/TopBar.jsx'
 import { DesktopLayout } from './components/DesktopLayout.jsx'
 import { MobileLayout } from './components/MobileLayout.jsx'
+import { Footer } from './components/Footer.jsx'
 
 // ── Language initialisation ────────────────────────────────────────────────────
 const VALID_LANGS = ['en', 'es', 'pt']
@@ -246,6 +247,7 @@ export default function App() {
               generatedAt={generatedAt}
             />
             <DesktopLayout {...sharedProps} />
+            <Footer />
           </div>
         </div>
       )}

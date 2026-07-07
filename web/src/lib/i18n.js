@@ -68,6 +68,11 @@ export const TRANSLATIONS = {
     tab_detail:  'DETALHE',
     tab_ranking: 'RANKING',
 
+    // Footer
+    footer_disclaimer: 'O IGE mede estabilidade em relação ao histórico próprio de cada país — não é um ranking entre países. Pontuações refletem mudanças relativas dentro da história de cada nação.',
+    footer_update:     'Dados atualizados toda segunda-feira às 06:00 UTC.',
+    footer_source:     'Código-fonte',
+
     // Region names
     region_east_asia_pacific:        'Leste Asiático & Pacífico',
     region_europe_central_asia:      'Europa & Ásia Central',
@@ -143,6 +148,11 @@ export const TRANSLATIONS = {
     tab_detail:  'DETAIL',
     tab_ranking: 'RANKING',
 
+    // Footer
+    footer_disclaimer: 'IGE measures stability relative to each country\'s own historical baseline — not as a cross-country ranking. Scores reflect relative changes within each country\'s history.',
+    footer_update:     'Data refreshed every Monday at 06:00 UTC.',
+    footer_source:     'Source code',
+
     region_east_asia_pacific:        'East Asia & Pacific',
     region_europe_central_asia:      'Europe & Central Asia',
     region_latin_america_caribbean:  'Latin America & Caribbean',
@@ -216,6 +226,11 @@ export const TRANSLATIONS = {
 
     tab_detail:  'DETALLE',
     tab_ranking: 'RANKING',
+
+    // Footer
+    footer_disclaimer: 'El IGE mide la estabilidad en relación al historial propio de cada país — no es un ranking entre países. Las puntuaciones reflejan cambios relativos dentro de la historia de cada nación.',
+    footer_update:     'Datos actualizados cada lunes a las 06:00 UTC.',
+    footer_source:     'Código fuente',
 
     region_east_asia_pacific:        'Asia Oriental y Pacífico',
     region_europe_central_asia:      'Europa y Asia Central',
