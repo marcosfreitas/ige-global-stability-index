@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-07-06T07:25:38.145706+00:00",
+    "generated_at": "2026-07-13T08:44:58.170956+00:00",
     "methodology_version": "3.0",
     "pillar_weights": {
       "economic": 0.4,
@@ -16,38 +16,38 @@
     "sources": {
       "inflation": {
         "name": "World Bank WDI FP.CPI.TOTL.ZG",
-        "fetched": "2026-07-06T07:25:25.327774+00:00",
+        "fetched": "2026-07-13T08:44:27.924388+00:00",
         "url": "https://api.worldbank.org/v2/country/all/indicator/FP.CPI.TOTL.ZG?format=json&per_page=20000&page=1"
       },
       "gdp_growth": {
         "name": "World Bank NY.GDP.PCAP.KD.ZG",
-        "fetched": "2026-07-06T07:25:26.064746+00:00",
+        "fetched": "2026-07-13T08:44:42.965328+00:00",
         "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.KD.ZG?format=json&per_page=20000&page=1"
       },
       "unemployment": {
         "name": "World Bank SL.UEM.TOTL.ZS",
-        "fetched": "2026-07-06T07:25:26.254321+00:00",
+        "fetched": "2026-07-13T08:44:43.243727+00:00",
         "url": "https://api.worldbank.org/v2/country/all/indicator/SL.UEM.TOTL.ZS?format=json&per_page=20000&page=1"
       },
       "debt": {
         "name": "World Bank GC.DOD.TOTL.GD.ZS + IMF WEO GGXWDG_NGDP",
-        "fetched": "2026-07-06T07:25:26.611317+00:00",
+        "fetched": "2026-07-13T08:44:43.979437+00:00",
         "url": "https://api.worldbank.org/v2/country/all/indicator/GC.DOD.TOTL.GD.ZS?format=json&per_page=20000&page=1"
       },
       "conflict": {
         "name": "UCDP/PRIO BRD",
-        "fetched": "2026-07-06T07:25:30.807092+00:00",
+        "fetched": "2026-07-13T08:44:47.388838+00:00",
         "url": "https://ucdp.uu.se/downloads/organizedviolencecy/organizedviolencecy-261-csv.zip"
       },
       "governance": {
         "name": "Transparency International CPI via OWID (2012–2024)",
-        "fetched": "2026-07-06T07:25:28.988627+00:00",
+        "fetched": "2026-07-13T08:44:45.486911+00:00",
         "url": "https://ourworldindata.org/grapher/ti-corruption-perception-index.csv?v=1&csvType=full&useColumnShortNames=true"
       }
     },
     "year_range": [
       1962,
-      2025
+      2026
     ],
     "countries": 215,
     "notes": "Hierarchical pillars: Economic 40% (GDP growth 30%, inflation 25%, unemployment 25%, debt 20%) | Security 30% (conflict) | Governance 30% (TI CPI). Expanding z-score, no look-ahead. Missing pillars reweighted proportionally. Governance coverage starts 2012 (CPI); pre-2012 records missing governance pillar. IGE = 0.60 * nivel + 0.40 * momentum (nivel-only first 2 years)."
@@ -978,6 +978,30 @@
       "nivel": 48.42,
       "momentum": 37.75,
       "ige": 44.15,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "ABW",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 60.3,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 51.09,
+      "momentum": 45.44,
+      "ige": 48.83,
       "factors_used": [
         "debt"
       ],
@@ -2840,6 +2864,30 @@
       ]
     },
     {
+      "iso": "AGO",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 51.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 52.52,
+      "momentum": 24.4,
+      "ige": 41.27,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "ALB",
       "region": "europe_central_asia",
       "year": 1983,
@@ -3857,6 +3905,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "ALB",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 51.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 63.75,
+      "momentum": 44.85,
+      "ige": 56.19,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -5133,6 +5205,30 @@
       ]
     },
     {
+      "iso": "AND",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 28.0,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 57.29,
+      "momentum": 59.66,
+      "ige": 58.24,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "ARE",
       "region": "middle_east_north_africa",
       "year": 1973,
@@ -6390,6 +6486,30 @@
       ],
       "data_quality": [
         "gdp_growth",
+        "governance"
+      ]
+    },
+    {
+      "iso": "ARE",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 31.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 29.47,
+      "momentum": 11.2,
+      "ige": 22.16,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -7901,6 +8021,30 @@
       ]
     },
     {
+      "iso": "ARG",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 70.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 48.34,
+      "momentum": 55.82,
+      "ige": 51.33,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "ARM",
       "region": "europe_central_asia",
       "year": 1991,
@@ -8726,6 +8870,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "ARM",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 50.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 38.37,
+      "momentum": 9.79,
+      "ige": 26.94,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -10266,6 +10434,30 @@
       ]
     },
     {
+      "iso": "ATG",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 66.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 66.42,
+      "momentum": 93.08,
+      "ige": 77.09,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "AUS",
       "region": "east_asia_pacific",
       "year": 1962,
@@ -11787,6 +11979,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "AUS",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 50.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 33.31,
+      "momentum": 17.3,
+      "ige": 26.9,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -13316,6 +13532,30 @@
       ]
     },
     {
+      "iso": "AUT",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 82.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 39.7,
+      "momentum": 55.57,
+      "ige": 46.05,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "AZE",
       "region": "europe_central_asia",
       "year": 1991,
@@ -14141,6 +14381,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "AZE",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 20.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 35.57,
+      "momentum": 34.54,
+      "ige": 35.15,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -15642,6 +15906,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "BDI",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 37.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 65.16,
+      "momentum": 88.69,
+      "ige": 74.58,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -17171,6 +17459,30 @@
       ]
     },
     {
+      "iso": "BEL",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 109.2,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 51.07,
+      "momentum": 73.81,
+      "ige": 60.17,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "BEN",
       "region": "sub_saharan_africa",
       "year": 1963,
@@ -18668,6 +18980,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "BEN",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 57.2,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 27.0,
+      "momentum": 13.7,
+      "ige": 21.68,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -20197,6 +20533,30 @@
       ]
     },
     {
+      "iso": "BFA",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 48.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 40.1,
+      "momentum": 46.92,
+      "ige": 42.83,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "BGD",
       "region": "south_asia",
       "year": 1963,
@@ -21698,6 +22058,30 @@
       ]
     },
     {
+      "iso": "BGD",
+      "region": "south_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 41.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 18.54,
+      "momentum": 8.52,
+      "ige": 14.53,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "BGR",
       "region": "europe_central_asia",
       "year": 1983,
@@ -22715,6 +23099,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "BGR",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 28.2,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 51.33,
+      "momentum": 40.21,
+      "ige": 46.88,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -24096,6 +24504,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "BHR",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 152.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 28.01,
+      "momentum": 0.0,
+      "ige": 16.8,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -25612,6 +26044,30 @@
       ]
     },
     {
+      "iso": "BHS",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 71.9,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 24.31,
+      "momentum": 0.0,
+      "ige": 14.59,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "BIH",
       "region": "europe_central_asia",
       "year": 1991,
@@ -26442,6 +26898,30 @@
       ]
     },
     {
+      "iso": "BIH",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 30.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 63.77,
+      "momentum": 84.28,
+      "ige": 71.97,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "BLR",
       "region": "europe_central_asia",
       "year": 1991,
@@ -27267,6 +27747,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "BLR",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 33.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 45.5,
+      "momentum": 45.1,
+      "ige": 45.34,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -28779,6 +29283,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "BLZ",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 63.2,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 48.03,
+      "momentum": 42.63,
+      "ige": 45.87,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -31796,6 +32324,30 @@
       ]
     },
     {
+      "iso": "BOL",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 102.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 27.72,
+      "momentum": 29.15,
+      "ige": 28.29,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "BRA",
       "region": "latin_america_caribbean",
       "year": 1963,
@@ -33293,6 +33845,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "BRA",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 96.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 32.82,
+      "momentum": 23.28,
+      "ige": 29.01,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -34802,6 +35378,30 @@
       ]
     },
     {
+      "iso": "BRB",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 89.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 47.55,
+      "momentum": 38.39,
+      "ige": 43.89,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "BRN",
       "region": "east_asia_pacific",
       "year": 1977,
@@ -35969,6 +36569,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "BRN",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 1.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 44.45,
+      "momentum": 35.09,
+      "ige": 40.71,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -37230,6 +37854,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "BTN",
+      "region": "south_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 120.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 21.4,
+      "momentum": 0.0,
+      "ige": 12.84,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -38735,6 +39383,30 @@
       ]
     },
     {
+      "iso": "BWA",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 47.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 21.43,
+      "momentum": 17.12,
+      "ige": 19.71,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "CAF",
       "region": "sub_saharan_africa",
       "year": 1963,
@@ -40232,6 +40904,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "CAF",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 64.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 47.75,
+      "momentum": 55.3,
+      "ige": 50.77,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -41757,6 +42453,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "CAN",
+      "region": "north_america",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 110.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 21.43,
+      "momentum": 0.21,
+      "ige": 12.94,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -43292,6 +44012,30 @@
         "debt"
       ],
       "data_quality": [
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "CHE",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 38.5,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 3.26,
+      "momentum": 0.0,
+      "ige": 1.95,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "conflict",
         "governance"
       ]
@@ -45590,6 +46334,30 @@
       ]
     },
     {
+      "iso": "CHL",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 42.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 32.34,
+      "momentum": 36.81,
+      "ige": 34.13,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "CHN",
       "region": "east_asia_pacific",
       "year": 1963,
@@ -47087,6 +47855,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "CHN",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 106.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 8.78,
+      "momentum": 0.0,
+      "ige": 5.27,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -48592,6 +49384,30 @@
       ]
     },
     {
+      "iso": "CIV",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 55.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 50.11,
+      "momentum": 14.75,
+      "ige": 35.97,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "CMR",
       "region": "sub_saharan_africa",
       "year": 1963,
@@ -50089,6 +50905,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "CMR",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 39.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 53.04,
+      "momentum": 53.21,
+      "ige": 53.11,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -51602,6 +52442,30 @@
       ]
     },
     {
+      "iso": "COD",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 24.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 62.07,
+      "momentum": 73.5,
+      "ige": 66.64,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "COG",
       "region": "sub_saharan_africa",
       "year": 1963,
@@ -53099,6 +53963,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "COG",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 91.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 41.9,
+      "momentum": 21.58,
+      "ige": 33.77,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -54628,6 +55516,30 @@
       ]
     },
     {
+      "iso": "COL",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 60.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 44.32,
+      "momentum": 18.9,
+      "ige": 34.16,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "COM",
       "region": "sub_saharan_africa",
       "year": 1983,
@@ -55649,6 +56561,30 @@
       ]
     },
     {
+      "iso": "COM",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 32.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 60.45,
+      "momentum": 70.67,
+      "ige": 64.54,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "CPV",
       "region": "sub_saharan_africa",
       "year": 1983,
@@ -56666,6 +57602,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "CPV",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 95.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 47.94,
+      "momentum": 25.46,
+      "ige": 38.95,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -58191,6 +59151,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "CRI",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 61.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 36.43,
+      "momentum": 7.95,
+      "ige": 25.04,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -61904,6 +62888,30 @@
       ]
     },
     {
+      "iso": "CYP",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 50.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 58.17,
+      "momentum": 68.34,
+      "ige": 62.24,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "CZE",
       "region": "europe_central_asia",
       "year": 1991,
@@ -62729,6 +63737,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "CZE",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 46.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 36.32,
+      "momentum": 12.72,
+      "ige": 26.88,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -64258,6 +65290,30 @@
       ]
     },
     {
+      "iso": "DEU",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 64.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 47.85,
+      "momentum": 71.59,
+      "ige": 57.35,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "DJI",
       "region": "middle_east_north_africa",
       "year": 1982,
@@ -65229,6 +66285,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "DJI",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 29.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 61.82,
+      "momentum": 62.54,
+      "ige": 62.1,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -66572,6 +67652,30 @@
         "conflict"
       ],
       "data_quality": [
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
+      "iso": "DMA",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 98.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 40.28,
+      "momentum": 12.89,
+      "ige": 29.33,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
         "unemployment",
         "governance"
       ]
@@ -68102,6 +69206,30 @@
       ]
     },
     {
+      "iso": "DNK",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 27.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 64.12,
+      "momentum": 67.23,
+      "ige": 65.36,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "DOM",
       "region": "latin_america_caribbean",
       "year": 1962,
@@ -69627,6 +70755,30 @@
       ]
     },
     {
+      "iso": "DOM",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 58.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 39.64,
+      "momentum": 1.35,
+      "ige": 24.32,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "DZA",
       "region": "middle_east_north_africa",
       "year": 1963,
@@ -71128,6 +72280,30 @@
       ]
     },
     {
+      "iso": "DZA",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 59.2,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 41.17,
+      "momentum": 24.06,
+      "ige": 34.33,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "EAP",
       "region": "east_asia_pacific",
       "year": 1962,
@@ -72152,6 +73328,22 @@
       "data_quality": []
     },
     {
+      "iso": "EAP",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": null,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 46.6,
+      "momentum": 35.44,
+      "ige": 42.14,
+      "factors_used": [],
+      "data_quality": []
+    },
+    {
       "iso": "ECA",
       "region": "europe_central_asia",
       "year": 1962,
@@ -73172,6 +74364,22 @@
       "nivel": 51.91,
       "momentum": 62.07,
       "ige": 55.97,
+      "factors_used": [],
+      "data_quality": []
+    },
+    {
+      "iso": "ECA",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": null,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 44.9,
+      "momentum": 43.09,
+      "ige": 44.17,
       "factors_used": [],
       "data_quality": []
     },
@@ -76226,6 +77434,30 @@
       ]
     },
     {
+      "iso": "EGY",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 87.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 43.93,
+      "momentum": 56.16,
+      "ige": 48.82,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "ERI",
       "region": "sub_saharan_africa",
       "year": 1991,
@@ -78591,6 +79823,30 @@
       ]
     },
     {
+      "iso": "ESP",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 98.2,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 51.03,
+      "momentum": 62.33,
+      "ige": 55.55,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "EST",
       "region": "europe_central_asia",
       "year": 1991,
@@ -79416,6 +80672,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "EST",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 27.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 25.06,
+      "momentum": 0.0,
+      "ige": 15.04,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -80893,6 +82173,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "ETH",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 40.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 60.68,
+      "momentum": 63.26,
+      "ige": 61.71,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -82422,6 +83726,30 @@
       ]
     },
     {
+      "iso": "FIN",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 93.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 30.56,
+      "momentum": 8.63,
+      "ige": 21.79,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "FJI",
       "region": "east_asia_pacific",
       "year": 1963,
@@ -83928,6 +85256,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "FJI",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 82.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 31.53,
+      "momentum": 10.8,
+      "ige": 23.24,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -85453,6 +86805,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "FRA",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 118.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 22.21,
+      "momentum": 7.74,
+      "ige": 16.42,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -87065,6 +88441,30 @@
       ]
     },
     {
+      "iso": "FSM",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 7.5,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 80.64,
+      "momentum": 88.29,
+      "ige": 83.7,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "GAB",
       "region": "sub_saharan_africa",
       "year": 1963,
@@ -88562,6 +89962,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "GAB",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 86.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 39.43,
+      "momentum": 47.11,
+      "ige": 42.51,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -90091,6 +91515,30 @@
       ]
     },
     {
+      "iso": "GBR",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 103.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 46.7,
+      "momentum": 55.09,
+      "ige": 50.06,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "GEO",
       "region": "europe_central_asia",
       "year": 1963,
@@ -91588,6 +93036,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "GEO",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 35.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 57.75,
+      "momentum": 64.65,
+      "ige": 60.51,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -93093,6 +94565,30 @@
       ]
     },
     {
+      "iso": "GHA",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 53.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 47.3,
+      "momentum": 46.36,
+      "ige": 46.92,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "GIN",
       "region": "sub_saharan_africa",
       "year": 1973,
@@ -94350,6 +95846,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "GIN",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 44.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 62.74,
+      "momentum": 60.12,
+      "ige": 61.69,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -95831,6 +97351,30 @@
       ]
     },
     {
+      "iso": "GMB",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 68.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 51.67,
+      "momentum": 36.94,
+      "ige": 45.78,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "GNB",
       "region": "sub_saharan_africa",
       "year": 1973,
@@ -97092,6 +98636,30 @@
       ]
     },
     {
+      "iso": "GNB",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 73.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 60.09,
+      "momentum": 50.83,
+      "ige": 56.39,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "GNQ",
       "region": "sub_saharan_africa",
       "year": 1982,
@@ -98143,6 +99711,30 @@
       ],
       "data_quality": [
         "inflation",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "GNQ",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 39.1,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 58.63,
+      "momentum": 100.0,
+      "ige": 75.18,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "conflict",
         "governance"
       ]
@@ -99673,6 +101265,30 @@
       ]
     },
     {
+      "iso": "GRC",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 136.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 46.08,
+      "momentum": 31.34,
+      "ige": 40.19,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "GRD",
       "region": "latin_america_caribbean",
       "year": 1979,
@@ -100796,6 +102412,30 @@
         "conflict"
       ],
       "data_quality": [
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
+      "iso": "GRD",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 69.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 51.19,
+      "momentum": 32.85,
+      "ige": 43.85,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
         "unemployment",
         "governance"
       ]
@@ -103550,6 +105190,30 @@
       ]
     },
     {
+      "iso": "GTM",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 27.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 33.02,
+      "momentum": 14.53,
+      "ige": 25.62,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "GUM",
       "region": "east_asia_pacific",
       "year": 1993,
@@ -105843,6 +107507,30 @@
       ]
     },
     {
+      "iso": "GUY",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 29.2,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 59.53,
+      "momentum": 43.22,
+      "ige": 53.0,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "HKG",
       "region": "east_asia_pacific",
       "year": 1964,
@@ -107326,6 +109014,30 @@
         "debt"
       ],
       "data_quality": [
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "HKG",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 14.1,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 1.64,
+      "momentum": 0.0,
+      "ige": 0.99,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "conflict",
         "governance"
       ]
@@ -108856,6 +110568,30 @@
       ]
     },
     {
+      "iso": "HND",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 43.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 53.7,
+      "momentum": 71.76,
+      "ige": 60.92,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "HRV",
       "region": "europe_central_asia",
       "year": 1988,
@@ -109753,6 +111489,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "HRV",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 56.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 50.05,
+      "momentum": 47.24,
+      "ige": 48.93,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -111282,6 +113042,30 @@
       ]
     },
     {
+      "iso": "HTI",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 10.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 91.01,
+      "momentum": 100.0,
+      "ige": 94.61,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "HUN",
       "region": "europe_central_asia",
       "year": 1963,
@@ -112779,6 +114563,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "HUN",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 77.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 50.95,
+      "momentum": 60.64,
+      "ige": 54.83,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -114304,6 +116112,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "IDN",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 41.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 46.86,
+      "momentum": 28.47,
+      "ige": 39.51,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -116721,6 +118553,30 @@
       ]
     },
     {
+      "iso": "IND",
+      "region": "south_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 83.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 21.81,
+      "momentum": 0.0,
+      "ige": 13.09,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "IRL",
       "region": "europe_central_asia",
       "year": 1962,
@@ -118242,6 +120098,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "IRL",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 31.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 58.64,
+      "momentum": 48.43,
+      "ige": 54.55,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -119771,6 +121651,30 @@
       ]
     },
     {
+      "iso": "IRN",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 37.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 34.49,
+      "momentum": 40.94,
+      "ige": 37.07,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "IRQ",
       "region": "middle_east_north_africa",
       "year": 1962,
@@ -121292,6 +123196,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "IRQ",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 61.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 52.85,
+      "momentum": 36.7,
+      "ige": 46.39,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -122821,6 +124749,30 @@
       ]
     },
     {
+      "iso": "ISL",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 53.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 54.46,
+      "momentum": 59.55,
+      "ige": 56.5,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "ISR",
       "region": "middle_east_north_africa",
       "year": 1962,
@@ -124342,6 +126294,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "ISR",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 69.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 59.04,
+      "momentum": 80.12,
+      "ige": 67.47,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -125871,6 +127847,30 @@
       ]
     },
     {
+      "iso": "ITA",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 138.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 31.81,
+      "momentum": 0.0,
+      "ige": 19.09,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "JAM",
       "region": "latin_america_caribbean",
       "year": 1962,
@@ -127396,6 +129396,30 @@
       ]
     },
     {
+      "iso": "JAM",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 65.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 62.48,
+      "momentum": 54.87,
+      "ige": 59.44,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "JOR",
       "region": "middle_east_north_africa",
       "year": 1972,
@@ -128677,6 +130701,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "JOR",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 81.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 54.79,
+      "momentum": 57.02,
+      "ige": 55.68,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -130206,6 +132254,30 @@
       ]
     },
     {
+      "iso": "JPN",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 204.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 39.64,
+      "momentum": 48.6,
+      "ige": 43.23,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "KAZ",
       "region": "europe_central_asia",
       "year": 1991,
@@ -131031,6 +133103,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "KAZ",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 24.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 36.3,
+      "momentum": 3.94,
+      "ige": 23.36,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -132560,6 +134656,30 @@
       ]
     },
     {
+      "iso": "KEN",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 71.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 21.49,
+      "momentum": 0.0,
+      "ige": 12.9,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "KGZ",
       "region": "europe_central_asia",
       "year": 1989,
@@ -133433,6 +135553,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "KGZ",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 37.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 68.79,
+      "momentum": 90.39,
+      "ige": 77.43,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -134574,6 +136718,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "KHM",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 27.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 53.86,
+      "momentum": 47.06,
+      "ige": 51.14,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -135850,6 +138018,30 @@
       ]
     },
     {
+      "iso": "KIR",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 7.7,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 66.43,
+      "momentum": 65.68,
+      "ige": 66.13,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "KNA",
       "region": "latin_america_caribbean",
       "year": 1980,
@@ -136948,6 +139140,30 @@
         "conflict"
       ],
       "data_quality": [
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
+      "iso": "KNA",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 64.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 56.85,
+      "momentum": 64.63,
+      "ige": 59.96,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
         "inflation",
         "unemployment",
         "governance"
@@ -138479,6 +140695,30 @@
       ]
     },
     {
+      "iso": "KOR",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 54.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 31.88,
+      "momentum": 0.0,
+      "ige": 19.13,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "KWT",
       "region": "middle_east_north_africa",
       "year": 1973,
@@ -139740,6 +141980,30 @@
       ]
     },
     {
+      "iso": "KWT",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 22.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 39.72,
+      "momentum": 10.48,
+      "ige": 28.02,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "LAC",
       "region": "latin_america_caribbean",
       "year": 1962,
@@ -140764,6 +143028,22 @@
       "data_quality": []
     },
     {
+      "iso": "LAC",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": null,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 44.33,
+      "momentum": 36.3,
+      "ige": 41.12,
+      "factors_used": [],
+      "data_quality": []
+    },
+    {
       "iso": "LAO",
       "region": "east_asia_pacific",
       "year": 1987,
@@ -141685,6 +143965,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "LAO",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 74.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 46.66,
+      "momentum": 25.54,
+      "ige": 38.21,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -144016,6 +146320,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "LBR",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 53.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 60.29,
+      "momentum": 77.85,
+      "ige": 67.32,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -146924,6 +149252,30 @@
       ]
     },
     {
+      "iso": "LCA",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 77.5,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 27.15,
+      "momentum": 0.0,
+      "ige": 16.29,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "LIE",
       "region": "europe_central_asia",
       "year": 1973,
@@ -148112,6 +150464,30 @@
       "nivel": 48.13,
       "momentum": 50.29,
       "ige": 48.99,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "LIE",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 0.5,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 48.18,
+      "momentum": 50.26,
+      "ige": 49.01,
       "factors_used": [
         "debt"
       ],
@@ -151150,6 +153526,30 @@
       ]
     },
     {
+      "iso": "LSO",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 49.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 49.91,
+      "momentum": 57.64,
+      "ige": 53.0,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "LTU",
       "region": "europe_central_asia",
       "year": 1991,
@@ -151975,6 +154375,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "LTU",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 45.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 37.36,
+      "momentum": 3.37,
+      "ige": 23.77,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -153504,6 +155928,30 @@
       ]
     },
     {
+      "iso": "LUX",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 28.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 34.86,
+      "momentum": 24.96,
+      "ige": 30.9,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "LVA",
       "region": "europe_central_asia",
       "year": 1991,
@@ -154329,6 +156777,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "LVA",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 47.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 39.93,
+      "momentum": 18.62,
+      "ige": 31.4,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -155312,6 +157784,30 @@
         "debt"
       ],
       "data_quality": [
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "MAC",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 0.0,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 50.0,
+      "momentum": 33.86,
+      "ige": 43.54,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "conflict",
         "governance"
       ]
@@ -156838,6 +159334,30 @@
       ],
       "data_quality": [
         "gdp_growth",
+        "governance"
+      ]
+    },
+    {
+      "iso": "MAR",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 65.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 40.96,
+      "momentum": 34.5,
+      "ige": 38.37,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -158943,6 +161463,30 @@
       ]
     },
     {
+      "iso": "MDA",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 39.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 48.45,
+      "momentum": 18.37,
+      "ige": 36.42,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "MDG",
       "region": "sub_saharan_africa",
       "year": 1963,
@@ -160444,6 +162988,30 @@
       ]
     },
     {
+      "iso": "MDG",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 49.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 54.87,
+      "momentum": 54.85,
+      "ige": 54.87,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "MDV",
       "region": "south_asia",
       "year": 1973,
@@ -161709,6 +164277,30 @@
       ]
     },
     {
+      "iso": "MDV",
+      "region": "south_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 129.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 31.74,
+      "momentum": 9.77,
+      "ige": 22.95,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "MENA",
       "region": "middle_east_north_africa",
       "year": 1962,
@@ -162729,6 +165321,22 @@
       "nivel": 49.82,
       "momentum": 45.68,
       "ige": 48.16,
+      "factors_used": [],
+      "data_quality": []
+    },
+    {
+      "iso": "MENA",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": null,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 44.09,
+      "momentum": 36.47,
+      "ige": 41.04,
       "factors_used": [],
       "data_quality": []
     },
@@ -164258,6 +166866,30 @@
       ]
     },
     {
+      "iso": "MEX",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 62.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 16.4,
+      "momentum": 0.0,
+      "ige": 9.84,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "MHL",
       "region": "east_asia_pacific",
       "year": 1973,
@@ -165530,6 +168162,30 @@
       ]
     },
     {
+      "iso": "MHL",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 16.7,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 70.1,
+      "momentum": 57.65,
+      "ige": 65.12,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "MKD",
       "region": "europe_central_asia",
       "year": 1991,
@@ -166355,6 +169011,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "MKD",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 53.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 25.9,
+      "momentum": 0.0,
+      "ige": 15.54,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -167688,6 +170368,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "MLI",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 40.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 42.16,
+      "momentum": 70.32,
+      "ige": 53.42,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -169213,6 +171917,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "MLT",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 47.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 53.99,
+      "momentum": 74.26,
+      "ige": 62.1,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -170747,6 +173475,30 @@
       ]
     },
     {
+      "iso": "MMR",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 51.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 59.11,
+      "momentum": 100.0,
+      "ige": 75.47,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "MNE",
       "region": "europe_central_asia",
       "year": 1991,
@@ -171572,6 +174324,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "MNE",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 62.4,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 48.94,
+      "momentum": 30.64,
+      "ige": 41.62,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -172569,6 +175345,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "MNG",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 43.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 55.17,
+      "momentum": 69.46,
+      "ige": 60.89,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -174022,6 +176822,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "MOZ",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 106.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 24.35,
+      "momentum": 8.42,
+      "ige": 17.98,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -175499,6 +178323,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "MRT",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 37.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 67.6,
+      "momentum": 80.62,
+      "ige": 72.81,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -177004,6 +179852,30 @@
       ]
     },
     {
+      "iso": "MUS",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 86.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 32.52,
+      "momentum": 14.95,
+      "ige": 25.49,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "MWI",
       "region": "sub_saharan_africa",
       "year": 1963,
@@ -178501,6 +181373,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "MWI",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 74.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 40.21,
+      "momentum": 34.86,
+      "ige": 38.07,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -180026,6 +182922,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "MYS",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 69.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 24.87,
+      "momentum": 0.0,
+      "ige": 14.92,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -182071,6 +184991,46 @@
       "nivel": 48.7,
       "momentum": 53.72,
       "ige": 50.71,
+      "factors_used": [],
+      "data_quality": []
+    },
+    {
+      "iso": "NAM",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 70.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 28.13,
+      "momentum": 4.27,
+      "ige": 18.58,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "NAM",
+      "region": "north_america",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": null,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 21.49,
+      "momentum": 1.95,
+      "ige": 13.68,
       "factors_used": [],
       "data_quality": []
     },
@@ -184968,6 +187928,30 @@
       ]
     },
     {
+      "iso": "NER",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 45.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 48.21,
+      "momentum": 64.69,
+      "ige": 54.8,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "NGA",
       "region": "sub_saharan_africa",
       "year": 1962,
@@ -186493,6 +189477,30 @@
       ]
     },
     {
+      "iso": "NGA",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 32.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 42.07,
+      "momentum": 36.73,
+      "ige": 39.93,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "NIC",
       "region": "latin_america_caribbean",
       "year": 1963,
@@ -187990,6 +190998,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "NIC",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 33.2,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 61.59,
+      "momentum": 86.63,
+      "ige": 71.6,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -189519,6 +192551,30 @@
       ]
     },
     {
+      "iso": "NLD",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 44.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 72.55,
+      "momentum": 100.0,
+      "ige": 83.53,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "NOR",
       "region": "europe_central_asia",
       "year": 1962,
@@ -191044,6 +194100,30 @@
       ]
     },
     {
+      "iso": "NOR",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 42.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 42.36,
+      "momentum": 66.52,
+      "ige": 52.03,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "NPL",
       "region": "south_asia",
       "year": 1963,
@@ -192545,6 +195625,30 @@
       ]
     },
     {
+      "iso": "NPL",
+      "region": "south_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 49.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 48.29,
+      "momentum": 24.55,
+      "ige": 38.8,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "NRU",
       "region": "east_asia_pacific",
       "year": 1973,
@@ -193810,6 +196914,30 @@
         "debt"
       ],
       "data_quality": [
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "NRU",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 12.7,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 66.1,
+      "momentum": 61.45,
+      "ige": 64.24,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
         "inflation",
         "unemployment",
         "conflict",
@@ -195342,6 +198470,30 @@
       ]
     },
     {
+      "iso": "NZL",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 56.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 39.75,
+      "momentum": 54.93,
+      "ige": 45.82,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "OMN",
       "region": "middle_east_north_africa",
       "year": 1963,
@@ -196839,6 +199991,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "OMN",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 32.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 44.64,
+      "momentum": 21.43,
+      "ige": 35.35,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -198368,6 +201544,30 @@
       ]
     },
     {
+      "iso": "PAK",
+      "region": "south_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 70.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 39.41,
+      "momentum": 53.38,
+      "ige": 45.0,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "PAN",
       "region": "latin_america_caribbean",
       "year": 1962,
@@ -199889,6 +203089,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "PAN",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 57.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 44.67,
+      "momentum": 64.6,
+      "ige": 52.64,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -201418,6 +204642,30 @@
       ]
     },
     {
+      "iso": "PER",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 30.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 55.8,
+      "momentum": 84.91,
+      "ige": 67.45,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "PHL",
       "region": "east_asia_pacific",
       "year": 1962,
@@ -202943,6 +206191,30 @@
       ]
     },
     {
+      "iso": "PHL",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 60.2,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 35.29,
+      "momentum": 7.98,
+      "ige": 24.37,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "PLW",
       "region": "east_asia_pacific",
       "year": 1973,
@@ -204209,6 +207481,30 @@
         "debt"
       ],
       "data_quality": [
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "PLW",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 56.7,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 42.64,
+      "momentum": 0.0,
+      "ige": 25.58,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
         "unemployment",
         "conflict",
         "governance"
@@ -205716,6 +209012,30 @@
       ]
     },
     {
+      "iso": "PNG",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 49.2,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 45.8,
+      "momentum": 23.27,
+      "ige": 36.79,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "POL",
       "region": "europe_central_asia",
       "year": 1973,
@@ -206973,6 +210293,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "POL",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 65.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 9.88,
+      "momentum": 0.0,
+      "ige": 5.93,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -208484,6 +211828,30 @@
       ],
       "data_quality": [
         "inflation",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "PRI",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 18.8,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 75.47,
+      "momentum": 58.05,
+      "ige": 68.51,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "conflict",
         "governance"
       ]
@@ -210854,6 +214222,30 @@
       ]
     },
     {
+      "iso": "PRT",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 85.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 49.81,
+      "momentum": 78.97,
+      "ige": 61.47,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "PRY",
       "region": "latin_america_caribbean",
       "year": 1962,
@@ -212375,6 +215767,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "PRY",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 37.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 37.68,
+      "momentum": 36.65,
+      "ige": 37.27,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -215824,6 +219240,30 @@
       ]
     },
     {
+      "iso": "QAT",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 43.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 48.34,
+      "momentum": 53.53,
+      "ige": 50.42,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "ROU",
       "region": "europe_central_asia",
       "year": 1991,
@@ -216653,6 +220093,30 @@
       ]
     },
     {
+      "iso": "ROU",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 61.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 19.84,
+      "momentum": 0.0,
+      "ige": 11.91,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "RUS",
       "region": "europe_central_asia",
       "year": 1991,
@@ -217478,6 +220942,30 @@
       ],
       "data_quality": [
         "gdp_growth",
+        "governance"
+      ]
+    },
+    {
+      "iso": "RUS",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 19.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 54.35,
+      "momentum": 100.0,
+      "ige": 72.61,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -218983,6 +222471,30 @@
       ]
     },
     {
+      "iso": "RWA",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 66.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 41.79,
+      "momentum": 2.47,
+      "ige": 26.06,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "SAS",
       "region": "south_asia",
       "year": 1962,
@@ -220003,6 +223515,22 @@
       "nivel": 61.06,
       "momentum": 61.64,
       "ige": 61.29,
+      "factors_used": [],
+      "data_quality": []
+    },
+    {
+      "iso": "SAS",
+      "region": "south_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": null,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 30.2,
+      "momentum": 16.04,
+      "ige": 24.53,
       "factors_used": [],
       "data_quality": []
     },
@@ -221504,6 +225032,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "SAU",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 32.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 54.24,
+      "momentum": 20.63,
+      "ige": 40.8,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -223035,6 +226587,30 @@
       ]
     },
     {
+      "iso": "SDN",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 169.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 53.21,
+      "momentum": 83.97,
+      "ige": 65.51,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "SEN",
       "region": "sub_saharan_africa",
       "year": 1963,
@@ -224532,6 +228108,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "SEN",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 132.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 16.01,
+      "momentum": 0.0,
+      "ige": 9.61,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -226037,6 +229637,30 @@
       ]
     },
     {
+      "iso": "SGP",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 171.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 29.8,
+      "momentum": 13.53,
+      "ige": 23.29,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "SLB",
       "region": "east_asia_pacific",
       "year": 1974,
@@ -227274,6 +230898,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "SLB",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 29.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 43.65,
+      "momentum": 22.84,
+      "ige": 35.33,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -228775,6 +232423,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "SLE",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 44.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 54.01,
+      "momentum": 43.53,
+      "ige": 49.82,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -230304,6 +233976,30 @@
       ]
     },
     {
+      "iso": "SLV",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 84.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 24.39,
+      "momentum": 9.96,
+      "ige": 18.62,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "SMR",
       "region": "europe_central_asia",
       "year": 1991,
@@ -231139,6 +234835,30 @@
       ],
       "data_quality": [
         "gdp_growth",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
+      "iso": "SMR",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 77.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 41.29,
+      "momentum": 29.31,
+      "ige": 36.5,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
         "unemployment",
         "governance"
       ]
@@ -233485,6 +237205,30 @@
       ]
     },
     {
+      "iso": "SRB",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 42.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 58.01,
+      "momentum": 72.57,
+      "ige": 63.83,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "SSA",
       "region": "sub_saharan_africa",
       "year": 1962,
@@ -234509,6 +238253,22 @@
       "data_quality": []
     },
     {
+      "iso": "SSA",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": null,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 45.62,
+      "momentum": 43.16,
+      "ige": 44.64,
+      "factors_used": [],
+      "data_quality": []
+    },
+    {
       "iso": "SSD",
       "region": "sub_saharan_africa",
       "year": 1991,
@@ -235344,6 +239104,30 @@
         "gdp_growth",
         "inflation",
         "unemployment",
+        "governance"
+      ]
+    },
+    {
+      "iso": "SSD",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 57.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 47.38,
+      "momentum": 67.58,
+      "ige": 55.46,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -236615,6 +240399,30 @@
         "debt"
       ],
       "data_quality": [
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "STP",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 50.4,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 63.24,
+      "momentum": 65.84,
+      "ige": 64.28,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "conflict",
         "governance"
       ]
@@ -238147,6 +241955,30 @@
       ]
     },
     {
+      "iso": "SUR",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 87.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 40.2,
+      "momentum": 27.05,
+      "ige": 34.94,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "SVK",
       "region": "europe_central_asia",
       "year": 1991,
@@ -238972,6 +242804,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "SVK",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 63.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 35.48,
+      "momentum": 19.49,
+      "ige": 29.09,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -239993,6 +243849,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "SVN",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 65.2,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 42.49,
+      "momentum": 23.6,
+      "ige": 34.93,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -241522,6 +245402,30 @@
       ]
     },
     {
+      "iso": "SWE",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 36.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 58.1,
+      "momentum": 87.8,
+      "ige": 69.98,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "SWZ",
       "region": "sub_saharan_africa",
       "year": 1968,
@@ -242906,6 +246810,30 @@
       ],
       "data_quality": [
         "inflation",
+        "governance"
+      ]
+    },
+    {
+      "iso": "SWZ",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 50.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 25.65,
+      "momentum": 33.51,
+      "ige": 28.8,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -244848,6 +248776,30 @@
         "debt"
       ],
       "data_quality": [
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "SYC",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 55.0,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 67.87,
+      "momentum": 61.67,
+      "ige": 65.39,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
         "unemployment",
         "conflict",
         "governance"
@@ -248251,6 +252203,30 @@
       ]
     },
     {
+      "iso": "TCD",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 29.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 52.73,
+      "momentum": 43.91,
+      "ige": 49.2,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "TGO",
       "region": "sub_saharan_africa",
       "year": 1963,
@@ -249748,6 +253724,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "TGO",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 64.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 38.0,
+      "momentum": 35.6,
+      "ige": 37.04,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -251277,6 +255277,30 @@
       ]
     },
     {
+      "iso": "THA",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 66.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 16.4,
+      "momentum": 0.0,
+      "ige": 9.84,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "TJK",
       "region": "europe_central_asia",
       "year": 1988,
@@ -252186,6 +256210,30 @@
       ]
     },
     {
+      "iso": "TJK",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 21.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 66.77,
+      "momentum": 100.0,
+      "ige": 80.06,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "TKM",
       "region": "europe_central_asia",
       "year": 1990,
@@ -253050,6 +257098,30 @@
       ]
     },
     {
+      "iso": "TKM",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 3.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 57.69,
+      "momentum": 71.74,
+      "ige": 63.31,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "TLS",
       "region": "east_asia_pacific",
       "year": 1991,
@@ -253875,6 +257947,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "TLS",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 14.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 31.64,
+      "momentum": 0.0,
+      "ige": 18.98,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -255026,6 +259122,30 @@
         "debt"
       ],
       "data_quality": [
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "TON",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 34.4,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 70.55,
+      "momentum": 68.37,
+      "ige": 69.68,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "conflict",
         "governance"
       ]
@@ -256556,6 +260676,30 @@
       ]
     },
     {
+      "iso": "TTO",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 84.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 20.34,
+      "momentum": 0.0,
+      "ige": 12.2,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "TUN",
       "region": "middle_east_north_africa",
       "year": 1964,
@@ -258029,6 +262173,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "TUN",
+      "region": "middle_east_north_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 84.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 18.06,
+      "momentum": 0.0,
+      "ige": 10.83,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -259558,6 +263726,30 @@
       ]
     },
     {
+      "iso": "TUR",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 25.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 67.54,
+      "momentum": 93.69,
+      "ige": 78.0,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "TUV",
       "region": "east_asia_pacific",
       "year": 1973,
@@ -260830,6 +265022,30 @@
       ]
     },
     {
+      "iso": "TUV",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 3.2,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 72.11,
+      "momentum": 57.67,
+      "ige": 66.34,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "TWN",
       "region": "east_asia_pacific",
       "year": 1999,
@@ -261466,6 +265682,30 @@
       "nivel": 83.58,
       "momentum": 88.78,
       "ige": 85.66,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "TWN",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 27.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 64.83,
+      "momentum": 39.93,
+      "ige": 54.87,
       "factors_used": [
         "debt"
       ],
@@ -262979,6 +267219,30 @@
       ]
     },
     {
+      "iso": "TZA",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 48.7,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 31.73,
+      "momentum": 0.0,
+      "ige": 19.04,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "UGA",
       "region": "sub_saharan_africa",
       "year": 1985,
@@ -263952,6 +268216,30 @@
       ]
     },
     {
+      "iso": "UGA",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 55.0,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 30.65,
+      "momentum": 0.0,
+      "ige": 18.39,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "UKR",
       "region": "europe_central_asia",
       "year": 1990,
@@ -264804,6 +269092,30 @@
       "data_quality": [
         "gdp_growth",
         "unemployment",
+        "governance"
+      ]
+    },
+    {
+      "iso": "UKR",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 122.6,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 6.56,
+      "momentum": 0.0,
+      "ige": 3.94,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -266333,6 +270645,30 @@
       ]
     },
     {
+      "iso": "URY",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 66.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 42.69,
+      "momentum": 6.2,
+      "ige": 28.09,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "USA",
       "region": "north_america",
       "year": 1962,
@@ -267858,6 +272194,30 @@
       ]
     },
     {
+      "iso": "USA",
+      "region": "north_america",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 125.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 21.56,
+      "momentum": 3.69,
+      "ige": 14.41,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "UZB",
       "region": "europe_central_asia",
       "year": 1990,
@@ -268707,6 +273067,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "UZB",
+      "region": "europe_central_asia",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 27.5,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 36.95,
+      "momentum": 0.0,
+      "ige": 22.17,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     },
@@ -270208,6 +274592,30 @@
         "conflict"
       ],
       "data_quality": [
+        "governance"
+      ]
+    },
+    {
+      "iso": "VCT",
+      "region": "latin_america_caribbean",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 120.1,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 25.22,
+      "momentum": 0.0,
+      "ige": 15.13,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "governance"
       ]
     },
@@ -273438,6 +277846,30 @@
       ]
     },
     {
+      "iso": "VNM",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 29.8,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 58.06,
+      "momentum": 45.34,
+      "ige": 52.97,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "VUT",
       "region": "east_asia_pacific",
       "year": 1979,
@@ -274560,6 +278992,30 @@
       ]
     },
     {
+      "iso": "VUT",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 43.2,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 42.53,
+      "momentum": 11.12,
+      "ige": 29.96,
+      "factors_used": [
+        "debt",
+        "conflict"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "governance"
+      ]
+    },
+    {
       "iso": "WORLD",
       "region": "global",
       "year": 1962,
@@ -275580,6 +280036,22 @@
       "nivel": 50.04,
       "momentum": 54.48,
       "ige": 51.81,
+      "factors_used": [],
+      "data_quality": []
+    },
+    {
+      "iso": "WORLD",
+      "region": "global",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": null,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 44.47,
+      "momentum": 38.69,
+      "ige": 42.16,
       "factors_used": [],
       "data_quality": []
     },
@@ -277067,6 +281539,30 @@
         "debt"
       ],
       "data_quality": [
+        "conflict",
+        "governance"
+      ]
+    },
+    {
+      "iso": "WSM",
+      "region": "east_asia_pacific",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 17.1,
+      "conflict_deaths": null,
+      "governance_cpi": null,
+      "nivel": 87.0,
+      "momentum": 100.0,
+      "ige": 92.2,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
         "conflict",
         "governance"
       ]
@@ -280277,6 +284773,30 @@
       ]
     },
     {
+      "iso": "ZAF",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 78.9,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 20.05,
+      "momentum": 15.54,
+      "ige": 18.24,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
+        "governance"
+      ]
+    },
+    {
       "iso": "ZMB",
       "region": "sub_saharan_africa",
       "year": 1963,
@@ -283277,6 +287797,30 @@
       ],
       "data_quality": [
         "inflation",
+        "governance"
+      ]
+    },
+    {
+      "iso": "ZWE",
+      "region": "sub_saharan_africa",
+      "year": 2026,
+      "inflation": null,
+      "gdp_growth": null,
+      "unemployment": null,
+      "debt": 42.3,
+      "conflict_deaths": 0.0,
+      "governance_cpi": null,
+      "nivel": 48.84,
+      "momentum": 73.32,
+      "ige": 58.63,
+      "factors_used": [
+        "debt"
+      ],
+      "data_quality": [
+        "gdp_growth",
+        "inflation",
+        "unemployment",
+        "conflict",
         "governance"
       ]
     }
