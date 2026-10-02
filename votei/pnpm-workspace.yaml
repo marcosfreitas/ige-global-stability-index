@@ -1,0 +1,16 @@
+allowBuilds:
+  # Pulled in by next-intl >= 4.13.7 for its file watcher. Its install script is
+  # a no-op unless npm_config_build_from_source=true; the prebuilt binary for the
+  # platform arrives as an optional dependency. Listed only so pnpm stops asking.
+  '@parcel/watcher': true
+  # Pulled in by next-intl >= 4.13.7 for its SWC plugin.
+  '@swc/core': true
+  sharp: true
+  unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@anthropic-ai/sdk@0.121.0'
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - '@swc/core'
+  - sharp
+  - unrs-resolver

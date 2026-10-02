@@ -1,0 +1,48 @@
+{
+  "common": {
+    "loading": "A carregar...",
+    "error": "Erro",
+    "success": "Sucesso",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Fechar",
+    "back": "Voltar",
+    "next": "Seguinte",
+    "search": "Pesquisar"
+  },
+  "navigation": {
+    "home": "Início",
+    "dashboard": "Painel",
+    "settings": "Definições",
+    "billing": "Faturação",
+    "help": "Ajuda"
+  },
+  "auth": {
+    "signIn": "Iniciar sessão",
+    "signUp": "Criar conta",
+    "signOut": "Terminar sessão",
+    "email": "E-mail",
+    "magicLink": "Continuar com e-mail",
+    "checkInbox": "Verifique a sua caixa de entrada para o link de acesso."
+  },
+  "dashboard": {
+    "title": "Painel",
+    "welcome": "Bem-vindo de volta",
+    "getStarted": "Começar"
+  },
+  "settings": {
+    "title": "Definições",
+    "language": "Idioma",
+    "profile": "Perfil",
+    "preferences": "Preferências"
+  },
+  "errors": {
+    "generic": "Algo correu mal. Tente novamente.",
+    "unauthorized": "Não tem autorização para realizar esta ação.",
+    "notFound": "O recurso solicitado não foi encontrado.",
+    "rateLimited": "Demasiados pedidos. Tente novamente mais tarde."
+  }
+}
