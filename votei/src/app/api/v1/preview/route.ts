@@ -3,14 +3,11 @@ import { z } from 'zod';
 import { PREVIEW_SIZE } from '@/config/limits';
 import { GetStyledPhotoService } from '@/core/compose/services/get-styled-photo.service';
 import { ValidateComposeSpecService } from '@/core/compose/services/validate-compose-spec.service';
-import { createAdminClient } from '@/infrastructure/database/admin';
-import { getOrCreateAnonymousUser } from '@/infrastructure/database/anonymous-session';
+import { getSessionUserId } from '@/infrastructure/auth/session';
+import { createPhotoStore } from '@/infrastructure/local/backend.factory';
 import { createStylizer } from '@/infrastructure/imaging/stylizer.factory';
 import { SatoriSharpComposer } from '@/infrastructure/imaging/satori-sharp.composer';
-import {
-  SupabasePhotoStore,
-  isPhotoKeyOwnedBy,
-} from '@/infrastructure/storage/supabase-photo.store';
+import { isPhotoKeyOwnedBy } from '@/infrastructure/storage/supabase-photo.store';
 import { ForbiddenError } from '@/shared/errors';
 import { handleError } from '@/shared/utils/api-handler';
 import { checkRateLimit } from '@/shared/utils/rate-limit';
@@ -33,17 +30,17 @@ const Schema = z.object({
  */
 export async function POST(req: NextRequest) {
   try {
-    const user = await getOrCreateAnonymousUser();
-    await checkRateLimit(`preview:${user.id}`);
+    const userId = await getSessionUserId();
+    await checkRateLimit(`preview:${userId}`);
 
     const input = Schema.parse(await req.json());
-    if (!isPhotoKeyOwnedBy(input.photoKey, user.id)) {
+    if (!isPhotoKeyOwnedBy(input.photoKey, userId)) {
       throw new ForbiddenError('Esta foto não pertence à sua sessão.');
     }
 
     const spec = new ValidateComposeSpecService().execute(input);
 
-    const store = new SupabasePhotoStore(createAdminClient());
+    const store = createPhotoStore();
     const photo = await new GetStyledPhotoService(store, createStylizer()).execute({
       photoKey: input.photoKey,
       styleId: spec.styleId,

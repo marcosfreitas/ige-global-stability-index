@@ -1,5 +1,5 @@
 import { ValidateComposeSpecService } from '@/core/compose/services/validate-compose-spec.service';
-import { ORDER_TTL_SECONDS } from '@/config/limits';
+import { DATA_RETENTION_SECONDS, PIX_EXPIRY_SECONDS } from '@/config/limits';
 import type { IOrderRepository, IPixProvider } from '../contracts';
 import type { Order, PixCharge } from '../entities/order';
 
@@ -27,7 +27,7 @@ export class CreateOrderService {
 
     const charge = await this.pix.createCharge({
       amountCents: input.amountCents,
-      expiresInSeconds: ORDER_TTL_SECONDS,
+      expiresInSeconds: PIX_EXPIRY_SECONDS,
       reference: `Moldura VOTEI`,
     });
 
@@ -38,6 +38,7 @@ export class CreateOrderService {
       spec,
       photoKey: input.photoKey,
       expiresAt: charge.expiresAt,
+      purgeAfter: new Date(Date.now() + DATA_RETENTION_SECONDS * 1000).toISOString(),
     });
 
     return { order, charge };

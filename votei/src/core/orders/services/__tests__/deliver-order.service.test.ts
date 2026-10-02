@@ -16,6 +16,7 @@ function makeOrder(overrides: Partial<Order> = {}): Order {
     photoKey: 'user-1/abc.jpg',
     createdAt: new Date().toISOString(),
     expiresAt: new Date(Date.now() + 60_000).toISOString(),
+    purgeAfter: new Date(Date.now() + 7_200_000).toISOString(),
     deliveredAt: null,
     ...overrides,
   };
@@ -95,6 +96,19 @@ describe('DeliverOrderService', () => {
 
     await service.execute(INPUT);
     expect(markDelivered).not.toHaveBeenCalled();
+  });
+
+  it('still delivers a paid order after the charge window closed', async () => {
+    // The charge expiring must not take the paid file with it: purge_after is
+    // what governs how long the buyer can come back for it.
+    const settled = makeOrder({
+      status: 'paid',
+      expiresAt: new Date(Date.now() - 1_000).toISOString(),
+    });
+    const { service, compose } = harness(settled, false);
+
+    await expect(service.execute(INPUT)).resolves.toEqual(new Uint8Array([9, 9, 9]));
+    expect(compose).toHaveBeenCalled();
   });
 
   it('expires a pending order whose charge window has closed', async () => {

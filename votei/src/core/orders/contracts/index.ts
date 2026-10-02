@@ -8,6 +8,7 @@ export interface CreateOrderRecord {
   spec: ComposeSpec;
   photoKey: string;
   expiresAt: string;
+  purgeAfter: string;
 }
 
 export interface IOrderRepository {

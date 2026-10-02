@@ -5,9 +5,8 @@ import {
   MAX_PHOTO_BYTES,
   STORED_PHOTO_MAX_EDGE,
 } from '@/config/limits';
-import { getOrCreateAnonymousUser } from '@/infrastructure/database/anonymous-session';
-import { createAdminClient } from '@/infrastructure/database/admin';
-import { SupabasePhotoStore } from '@/infrastructure/storage/supabase-photo.store';
+import { getSessionUserId } from '@/infrastructure/auth/session';
+import { createPhotoStore } from '@/infrastructure/local/backend.factory';
 import { PayloadTooLargeError, ValidationError } from '@/shared/errors';
 import { created, handleError } from '@/shared/utils/api-handler';
 import { checkRateLimit } from '@/shared/utils/rate-limit';
@@ -23,7 +22,7 @@ export const runtime = 'nodejs';
  */
 export async function POST(req: NextRequest) {
   try {
-    const user = await getOrCreateAnonymousUser();
+    const userId = await getSessionUserId();
     await checkRateLimit(`photos:${getRequestIp(req)}`);
 
     const form = await req.formData();
@@ -58,14 +57,14 @@ export async function POST(req: NextRequest) {
       throw new ValidationError('Não conseguimos ler essa imagem. Tente outra foto.');
     }
 
-    const store = new SupabasePhotoStore(createAdminClient());
+    const store = createPhotoStore();
     const { key } = await store.put({
       bytes: normalised,
       contentType: 'image/jpeg',
-      ownerId: user.id,
+      ownerId: userId,
     });
 
-    return created({ photoKey: key, userId: user.id });
+    return created({ photoKey: key, userId });
   } catch (err) {
     return handleError(err);
   }

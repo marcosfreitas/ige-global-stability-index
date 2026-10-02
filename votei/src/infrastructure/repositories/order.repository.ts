@@ -4,7 +4,7 @@ import type { Order, OrderStatus } from '@/core/orders/entities/order';
 import { BaseRepository } from './base.repository';
 
 const COLUMNS =
-  'id, user_id, status, amount_cents, txid, spec, photo_key, created_at, expires_at, delivered_at';
+  'id, user_id, status, amount_cents, txid, spec, photo_key, created_at, expires_at, purge_after, delivered_at';
 
 export class OrderRepository extends BaseRepository implements IOrderRepository {
   async create(record: CreateOrderRecord): Promise<Order> {
@@ -17,6 +17,7 @@ export class OrderRepository extends BaseRepository implements IOrderRepository 
         spec: record.spec,
         photo_key: record.photoKey,
         expires_at: record.expiresAt,
+        purge_after: record.purgeAfter,
       })
       .select(COLUMNS)
       .single();
@@ -75,7 +76,7 @@ export class OrderRepository extends BaseRepository implements IOrderRepository 
     const { data, error } = await this.db
       .from('orders')
       .select(COLUMNS)
-      .lt('expires_at', new Date().toISOString())
+      .lt('purge_after', new Date().toISOString())
       .or('spec.not.is.null,photo_key.not.is.null')
       .limit(limit);
 
@@ -94,6 +95,7 @@ export class OrderRepository extends BaseRepository implements IOrderRepository 
       photoKey: (row.photo_key as string | null) ?? null,
       createdAt: row.created_at as string,
       expiresAt: row.expires_at as string,
+      purgeAfter: row.purge_after as string,
       deliveredAt: (row.delivered_at as string | null) ?? null,
     };
   }

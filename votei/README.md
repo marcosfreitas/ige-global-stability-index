@@ -30,7 +30,14 @@ cp .env.local.example .env.local   # preencha o Supabase; deixe EFI_FAKE_PIX=tru
 pnpm dev                           # http://localhost:3100
 ```
 
-Com `EFI_FAKE_PIX=true` as cobranças se confirmam sozinhas depois de alguns segundos, então dá para percorrer o fluxo inteiro antes de existir certificado da EFI. A flag é ignorada quando `NODE_ENV=production`.
+Dois atalhos deixam o fluxo inteiro rodar sem provisionar nada, e os dois são ignorados em deploy de produção:
+
+- `EFI_FAKE_PIX=true` — as cobranças se confirmam sozinhas depois de alguns segundos.
+- `LOCAL_DEV_BACKEND=true` — troca Supabase por disco: fotos em `.local-store/photos`, pedidos em `.local-store/orders.json`, sessão por cookie. Sem banco, sem bucket, sem login anônimo para configurar.
+
+Com os dois ligados, `pnpm dev` já percorre foto → número → moldura → Pix → download. As seções de Supabase e EFI abaixo só são necessárias para valer.
+
+> Em `pnpm dev`, acesse por `http://localhost:3100`. O Next 16 bloqueia recursos de dev vindos de outra origem, então abrir por `127.0.0.1` impede a hidratação do React e a página fica parada em "Carregando…".
 
 ### Supabase
 

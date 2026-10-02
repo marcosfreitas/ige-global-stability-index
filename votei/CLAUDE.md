@@ -24,6 +24,7 @@ Derivado do boilerplate `nextjs-saas-starter` (Next 16 / React 19, DDD + Clean A
 | `(authenticated)/`, `auth/sign-in`, domínio `users` removidos | — |
 | `sharp` e `satori` adicionados | `src/infrastructure/imaging/` |
 | Estilo opcional da foto por IA (Replicate ou Gemini) | `src/infrastructure/imaging/stylizer.factory.ts` |
+| Backend local em disco, sem Supabase | `src/infrastructure/local/` |
 | `serverExternalPackages: ['sharp', 'satori']` | `next.config.ts` |
 | Porta padrão do dev é 3100 | `package.json` |
 
@@ -46,6 +47,7 @@ core/orders/    pedido, cobrança Pix, entrega, purga
 6. **Chave de foto é prefixada com o id do dono** e checada com `isPhotoKeyOwnedBy` em toda rota que a aceita.
 7. **O estilizador degrada, nunca lança.** Sem credencial, com timeout, recusa do modelo ou resposta sem imagem, ele devolve a foto original com `applied: false`. Um pedido pago jamais pode morrer porque um modelo de terceiro falhou.
 8. **O estilo é cacheado por (foto, estilo).** Sem isso, cada toque em moldura na tela de prévia vira uma chamada paga ao modelo.
+9. **`expires_at` e `purge_after` são coisas diferentes.** O primeiro é o prazo do Pix (30 min); o segundo é a retenção dos dados (2 h), que é o que permite rebaixar o arquivo já pago. Confundir os dois ou apaga a compra cedo demais, ou mantém a opinião política por tempo demais.
 
 ## Armadilhas já pagas
 
@@ -53,6 +55,7 @@ core/orders/    pedido, cobrança Pix, entrega, purga
 - **As fontes são embutidas em base64** (`fonts.generated.ts`, via `scripts/embed-fonts.mjs`). Não troque por leitura de arquivo: o file tracing do Next não garante o `.woff` no bundle serverless.
 - **HEIC não chega ao servidor.** O sharp pré-compilado não decodifica HEIF; o navegador reconverte em `lib/resize-image.ts`. Não adicione `image/heic` em `ACCEPTED_PHOTO_TYPES`.
 - **Pasta de rota com `_` na frente é privada** no App Router e não vira rota.
+- **Em dev, abra por `localhost`, não `127.0.0.1`.** O Next 16 bloqueia recursos de dev cross-origin; pela origem errada o React não hidrata e a tela fica em "Carregando…" sem erro nenhum no servidor.
 - **A EFI acrescenta `/pix`** à URL de webhook registrada.
 - A regra `react-hooks/set-state-in-effect` do React Compiler é erro, não aviso. Estado assíncrono vai em React Query; hidratação do zustand vai por `useComposerHydrated()`.
 
@@ -67,3 +70,13 @@ NODE_OPTIONS="--max-old-space-size=2048" pnpm test --runInBand
 ```
 
 `pnpm typecheck`, `pnpm lint` e `pnpm test` precisam passar antes de commitar. Conventional Commits, uma unidade lógica por commit.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

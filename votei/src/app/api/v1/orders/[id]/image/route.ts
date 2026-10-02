@@ -1,12 +1,10 @@
 import { NextRequest } from 'next/server';
 import { z } from 'zod';
 import { DeliverOrderService } from '@/core/orders/services/deliver-order.service';
-import { createAdminClient } from '@/infrastructure/database/admin';
-import { getOrCreateAnonymousUser } from '@/infrastructure/database/anonymous-session';
+import { getSessionUserId } from '@/infrastructure/auth/session';
+import { createOrderRepository, createPhotoStore } from '@/infrastructure/local/backend.factory';
 import { SatoriSharpComposer } from '@/infrastructure/imaging/satori-sharp.composer';
 import { createPixProvider } from '@/infrastructure/payments/pix.factory';
-import { OrderRepository } from '@/infrastructure/repositories/order.repository';
-import { SupabasePhotoStore } from '@/infrastructure/storage/supabase-photo.store';
 import { handleError } from '@/shared/utils/api-handler';
 import { checkRateLimit } from '@/shared/utils/rate-limit';
 
@@ -20,19 +18,18 @@ const Params = z.object({ id: z.string().uuid() });
  */
 export async function GET(_req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
   try {
-    const user = await getOrCreateAnonymousUser();
+    const userId = await getSessionUserId();
     const { id } = Params.parse(await ctx.params);
-    await checkRateLimit(`orders-image:${user.id}`);
+    await checkRateLimit(`orders-image:${userId}`);
 
-    const admin = createAdminClient();
     const service = new DeliverOrderService(
-      new OrderRepository(admin),
+      createOrderRepository(),
       createPixProvider(),
-      new SupabasePhotoStore(admin),
+      createPhotoStore(),
       new SatoriSharpComposer()
     );
 
-    const bytes = await service.execute({ orderId: id, userId: user.id });
+    const bytes = await service.execute({ orderId: id, userId });
 
     return new Response(new Uint8Array(bytes), {
       status: 200,

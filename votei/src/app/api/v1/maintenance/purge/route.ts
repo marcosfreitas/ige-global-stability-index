@@ -1,9 +1,7 @@
 import { NextRequest } from 'next/server';
 import { timingSafeEqual } from 'node:crypto';
 import { PurgeExpiredOrdersService } from '@/core/orders/services/purge-expired-orders.service';
-import { createAdminClient } from '@/infrastructure/database/admin';
-import { OrderRepository } from '@/infrastructure/repositories/order.repository';
-import { SupabasePhotoStore } from '@/infrastructure/storage/supabase-photo.store';
+import { createOrderRepository, createPhotoStore } from '@/infrastructure/local/backend.factory';
 import { assertEnv } from '@/shared/config/assert-env';
 import { UnauthorizedError } from '@/shared/errors';
 import { ok, handleError } from '@/shared/utils/api-handler';
@@ -25,11 +23,7 @@ export async function POST(req: NextRequest) {
   try {
     if (!isAuthorized(req)) throw new UnauthorizedError();
 
-    const admin = createAdminClient();
-    const service = new PurgeExpiredOrdersService(
-      new OrderRepository(admin),
-      new SupabasePhotoStore(admin)
-    );
+    const service = new PurgeExpiredOrdersService(createOrderRepository(), createPhotoStore());
 
     return ok(await service.execute({ limit: 500 }));
   } catch (err) {

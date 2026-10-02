@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { timedFetch } from '@/infrastructure/database/timed-fetch';
+import { isLocalBackendEnabled } from '@/infrastructure/local/local-backend';
 
 export async function proxy(req: NextRequest) {
   let response = NextResponse.next({ request: req });
+
+  // The local backend issues its own cookie; there is no Supabase session to refresh.
+  if (isLocalBackendEnabled()) return response;
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

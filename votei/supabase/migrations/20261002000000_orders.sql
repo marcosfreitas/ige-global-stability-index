@@ -16,7 +16,11 @@ create table if not exists public.orders (
   spec          jsonb,
   photo_key     text,
   created_at    timestamptz not null default now(),
+  -- When the Pix charge stops being payable.
   expires_at    timestamptz not null,
+  -- When the photo and spec are erased. Longer than expires_at: a buyer who
+  -- paid can still come back for the file after the charge window closed.
+  purge_after   timestamptz not null,
   delivered_at  timestamptz
 );
 
@@ -25,7 +29,7 @@ create index if not exists orders_user_id_created_at_idx
 
 -- Drives the purge job: only rows that still carry something to erase.
 create index if not exists orders_purgeable_idx
-  on public.orders (expires_at)
+  on public.orders (purge_after)
   where spec is not null or photo_key is not null;
 
 alter table public.orders enable row level security;

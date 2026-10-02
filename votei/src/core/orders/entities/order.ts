@@ -19,7 +19,10 @@ export interface Order {
   spec: ComposeSpec | null;
   photoKey: string | null;
   createdAt: string;
+  /** When the Pix charge stops being payable. */
   expiresAt: string;
+  /** When the photo and spec are erased, regardless of status. */
+  purgeAfter: string;
   deliveredAt: string | null;
 }
 

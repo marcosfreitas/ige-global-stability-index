@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import type { CreatedOrder, OrderStatusResponse } from '../lib/api';
+import { formatCountdown } from '../lib/countdown';
 import { Button, Card, ErrorNote, Spinner, StepTitle } from './ui';
 
 function useCountdown(expiresAt: string | undefined) {
@@ -21,9 +22,7 @@ function useCountdown(expiresAt: string | undefined) {
     return () => clearInterval(timer);
   }, [expiresAt]);
 
-  const minutes = Math.floor(remaining / 60);
-  const seconds = remaining % 60;
-  return { remaining, label: `${minutes}:${String(seconds).padStart(2, '0')}` };
+  return { remaining, label: formatCountdown(remaining) };
 }
 
 export function PagamentoStep({

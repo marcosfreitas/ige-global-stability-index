@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ConfirmPaymentService } from '@/core/orders/services/confirm-payment.service';
-import { createAdminClient } from '@/infrastructure/database/admin';
 import { createPixProvider } from '@/infrastructure/payments/pix.factory';
-import { OrderRepository } from '@/infrastructure/repositories/order.repository';
+import { createOrderRepository } from '@/infrastructure/local/backend.factory';
 
 export const runtime = 'nodejs';
 
@@ -28,10 +27,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ received: true }, { status: 200 });
   }
 
-  const service = new ConfirmPaymentService(
-    new OrderRepository(createAdminClient()),
-    createPixProvider()
-  );
+  const service = new ConfirmPaymentService(createOrderRepository(), createPixProvider());
 
   // Always 200: EFI retries on a non-2xx, and a transient failure here is
   // recovered by the client's own status polling.

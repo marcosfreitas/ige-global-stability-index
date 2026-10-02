@@ -16,5 +16,15 @@ export const OUTPUT_SIZE = 1080;
 /** Preview is deliberately smaller and watermarked. */
 export const PREVIEW_SIZE = 720;
 
-/** A Pix charge and its uploaded photo both die after this. */
-export const ORDER_TTL_SECONDS = 2 * 60 * 60;
+/**
+ * How long the Pix charge stays payable. Short on purpose: this is an impulse
+ * purchase, and an abandoned charge should clear rather than linger.
+ */
+export const PIX_EXPIRY_SECONDS = 30 * 60;
+
+/**
+ * How long the photo and the declared number are kept, so a buyer who closed
+ * the tab can still come back for the file they paid for. Deliberately longer
+ * than the charge window: the two answer different questions.
+ */
+export const DATA_RETENTION_SECONDS = 2 * 60 * 60;
