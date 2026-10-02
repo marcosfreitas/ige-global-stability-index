@@ -54,12 +54,20 @@ export function ComposerFlow() {
 
   const status = useOrderStatus(store.step === 'pagamento' ? store.orderId : null);
 
-  const { step, setStep } = store;
+  const { step, setStep, orderId, setOrderId } = store;
   useEffect(() => {
     if (status.data?.downloadReady && step === 'pagamento') {
       setStep('pronto');
     }
   }, [status.data?.downloadReady, step, setStep]);
+
+  // A reload during payment loses the in-memory charge but keeps the order id.
+  // The recovery panel below covers that; this only handles a persisted step
+  // with nothing to recover.
+  const orphanedPayment = step === 'pagamento' && !order;
+  useEffect(() => {
+    if (orphanedPayment && !orderId) setStep('moldura');
+  }, [orphanedPayment, orderId, setStep]);
 
   if (!hydrated || catalogue.isLoading) {
     return (
@@ -75,39 +83,31 @@ export function ComposerFlow() {
 
   const priceLabel = formatBrl(priceCents);
 
-  // A persisted order id with the charge details gone (new tab, cleared
-  // memory) still resolves: the status poll decides whether it is payable.
-  if (store.step === 'pagamento' && !order) {
-    if (!store.orderId) {
-      store.setStep('moldura');
-    } else if (status.data?.downloadReady) {
-      store.setStep('pronto');
-    } else {
-      return (
-        <div>
-          <Stepper current="pagamento" />
-          <div className="mt-6">
-            <p className="mb-4 text-sm text-zinc-400">
-              Você tem um Pix em aberto neste navegador.
-            </p>
-            {status.isLoading ? <Spinner label="Verificando pagamento…" /> : null}
-            {status.data?.status === 'expired' ? (
-              <ErrorNote>Esse Pix expirou. Volte e gere outro.</ErrorNote>
-            ) : null}
-            <button
-              type="button"
-              onClick={() => {
-                store.setOrderId(null);
-                store.setStep('moldura');
-              }}
-              className="mt-4 min-h-12 w-full rounded-xl border border-zinc-700 text-base font-semibold text-zinc-100"
-            >
-              Voltar e gerar outro Pix
-            </button>
-          </div>
+  if (orphanedPayment) {
+    return (
+      <div>
+        <Stepper current="pagamento" />
+        <div className="mt-6">
+          <p className="mb-4 text-sm text-zinc-400">
+            Você tem um Pix em aberto neste navegador.
+          </p>
+          {status.isLoading ? <Spinner label="Verificando pagamento…" /> : null}
+          {status.data?.status === 'expired' ? (
+            <ErrorNote>Esse Pix expirou. Gere outro.</ErrorNote>
+          ) : null}
+          <button
+            type="button"
+            onClick={() => {
+              setOrderId(null);
+              setStep('moldura');
+            }}
+            className="mt-4 min-h-12 w-full rounded-xl border border-zinc-700 text-base font-semibold text-zinc-100"
+          >
+            Voltar e gerar outro Pix
+          </button>
         </div>
-      );
-    }
+      </div>
+    );
   }
 
   return (
