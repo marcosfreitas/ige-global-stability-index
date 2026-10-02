@@ -5,7 +5,7 @@ import { GetStyledPhotoService } from '@/core/compose/services/get-styled-photo.
 import { ValidateComposeSpecService } from '@/core/compose/services/validate-compose-spec.service';
 import { createAdminClient } from '@/infrastructure/database/admin';
 import { getOrCreateAnonymousUser } from '@/infrastructure/database/anonymous-session';
-import { GeminiStylizer } from '@/infrastructure/imaging/gemini-stylizer';
+import { createStylizer } from '@/infrastructure/imaging/stylizer.factory';
 import { SatoriSharpComposer } from '@/infrastructure/imaging/satori-sharp.composer';
 import {
   SupabasePhotoStore,
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     const spec = new ValidateComposeSpecService().execute(input);
 
     const store = new SupabasePhotoStore(createAdminClient());
-    const photo = await new GetStyledPhotoService(store, new GeminiStylizer()).execute({
+    const photo = await new GetStyledPhotoService(store, createStylizer()).execute({
       photoKey: input.photoKey,
       styleId: spec.styleId,
     });

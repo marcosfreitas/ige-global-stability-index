@@ -64,7 +64,9 @@ Dois detalhes que costumam derrubar essa integração:
 
 **O número nunca passa por IA.** Para escrever "VOTEI 13" um modelo de imagem é a ferramenta errada: erra dígito e mexe no rosto. O texto vira path vetorial com [satori](https://github.com/vercel/satori) e é sobreposto com [sharp](https://sharp.pixelplumbing.com/) — sempre exato, custo zero, ~200 ms.
 
-**O Nano Banana entra antes disso, e só na foto.** O seletor "Estilo da foto" manda o retrato para o Gemini (aquarela, pop art, grafite, vitral) e a moldura com o número é aplicada por cima do resultado. Assim o visual estilizado existe sem que o dígito dependa do modelo.
+**O Nano Banana entra antes disso, e só na foto.** O seletor "Estilo da foto" manda o retrato para o modelo (aquarela, pop art, grafite, vitral) e a moldura com o número é aplicada por cima do resultado. Assim o visual estilizado existe sem que o dígito dependa do modelo.
+
+Dois provedores, escolhidos por variável de ambiente: `REPLICATE_API_TOKEN` (roda `google/nano-banana`) ou `GEMINI_API_KEY` (direto no Google). Replicate ganha quando os dois existirem. Sem nenhum, a lista de estilos sai vazia da API e a interface esconde o controle — o produto continua inteiro.
 
 Três cuidados nessa integração:
 
@@ -72,7 +74,7 @@ Três cuidados nessa integração:
 - **Degradação total.** Chave ausente, timeout, recusa do modelo, resposta sem imagem: tudo devolve a foto original com `applied: false`. Um modelo com mau humor nunca derruba uma venda.
 - **O prompt proíbe texto, logo, bandeira e símbolo político.** O modelo restiliza o retrato e nada mais.
 
-Sem `GEMINI_API_KEY` o produto funciona inteiro, só sem os estilos.
+Vale notar que a chamada ao Replicate usa `Prefer: wait`, ou seja, é síncrona e pode levar dezenas de segundos — daí o `maxDuration` nas rotas que renderizam.
 
 **As fontes vão embutidas em base64** (`fonts.generated.ts`, gerado por `scripts/embed-fonts.mjs`). Depender do file tracing do Next para achar um `.woff` é a causa clássica do "funciona local e dá 500 no deploy".
 

@@ -23,6 +23,7 @@ Derivado do boilerplate `nextjs-saas-starter` (Next 16 / React 19, DDD + Clean A
 | Auth por magic link trocada por sessão anônima | `src/infrastructure/database/anonymous-session.ts` |
 | `(authenticated)/`, `auth/sign-in`, domínio `users` removidos | — |
 | `sharp` e `satori` adicionados | `src/infrastructure/imaging/` |
+| Estilo opcional da foto por IA (Replicate ou Gemini) | `src/infrastructure/imaging/stylizer.factory.ts` |
 | `serverExternalPackages: ['sharp', 'satori']` | `next.config.ts` |
 | Porta padrão do dev é 3100 | `package.json` |
 
@@ -43,6 +44,8 @@ core/orders/    pedido, cobrança Pix, entrega, purga
 4. **A foto e o número são apagados na purga.** Opinião política é dado sensível na LGPD. Não adicione coluna, log ou analytics que persista o número além do TTL.
 5. **Sem catálogo de candidatos, logo de partido ou foto de candidato.** O número é digitado. Ver README.
 6. **Chave de foto é prefixada com o id do dono** e checada com `isPhotoKeyOwnedBy` em toda rota que a aceita.
+7. **O estilizador degrada, nunca lança.** Sem credencial, com timeout, recusa do modelo ou resposta sem imagem, ele devolve a foto original com `applied: false`. Um pedido pago jamais pode morrer porque um modelo de terceiro falhou.
+8. **O estilo é cacheado por (foto, estilo).** Sem isso, cada toque em moldura na tela de prévia vira uma chamada paga ao modelo.
 
 ## Armadilhas já pagas
 
