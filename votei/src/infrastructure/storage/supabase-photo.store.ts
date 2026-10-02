@@ -60,6 +60,32 @@ export class SupabasePhotoStore implements IPhotoStore {
     return { key };
   }
 
+  async putAt({
+    key,
+    bytes,
+    contentType,
+  }: {
+    key: string;
+    bytes: Uint8Array;
+    contentType: string;
+  }): Promise<void> {
+    const { error } = await this.db.storage.from(PHOTO_BUCKET).upload(key, bytes, {
+      contentType,
+      upsert: true,
+    });
+
+    if (error) {
+      console.error('[SupabasePhotoStore:putAt]', error);
+      throw new DatabaseError('photo cache write failed', error.message);
+    }
+  }
+
+  async getOrNull(key: string): Promise<Uint8Array | null> {
+    const { data, error } = await this.db.storage.from(PHOTO_BUCKET).download(key);
+    if (error || !data) return null;
+    return new Uint8Array(await data.arrayBuffer());
+  }
+
   async get(key: string): Promise<Uint8Array> {
     const { data, error } = await this.db.storage.from(PHOTO_BUCKET).download(key);
 

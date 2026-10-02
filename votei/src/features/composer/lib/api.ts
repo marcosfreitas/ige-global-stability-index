@@ -1,5 +1,6 @@
 import type { Cargo } from '@/core/compose/entities/composition';
 import type { Frame } from '@/core/compose/entities/frame';
+import type { StyleId } from '@/core/compose/entities/style';
 
 export interface ApiFailure {
   code: string;
@@ -52,9 +53,15 @@ async function unwrapImage(res: Response): Promise<Blob> {
   );
 }
 
+export interface StyleOption {
+  id: StyleId;
+  label: string;
+}
+
 export interface CatalogueResponse {
   frames: Frame[];
   cargos: Cargo[];
+  styles: StyleOption[];
   priceCents: number;
 }
 
@@ -76,6 +83,7 @@ export interface SpecPayload {
   numero: string;
   nome?: string;
   frameId: string;
+  styleId: string;
 }
 
 export async function fetchPreview(payload: SpecPayload, signal?: AbortSignal): Promise<Blob> {

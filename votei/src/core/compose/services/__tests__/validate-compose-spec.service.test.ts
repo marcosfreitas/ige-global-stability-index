@@ -17,6 +17,7 @@ describe('ValidateComposeSpecService', () => {
       numero: '13',
       nome: undefined,
       frameId: 'vermelha',
+      styleId: 'nenhum',
     });
   });
 
@@ -50,6 +51,15 @@ describe('ValidateComposeSpecService', () => {
   it('treats an empty name as absent', () => {
     expect(service.execute({ ...valid, nome: '   ' }).nome).toBeUndefined();
     expect(service.execute({ ...valid, nome: '' }).nome).toBeUndefined();
+  });
+
+  it('defaults to no restyle when the style is absent', () => {
+    expect(service.execute(valid).styleId).toBe('nenhum');
+  });
+
+  it('accepts a known style and rejects an unknown one', () => {
+    expect(service.execute({ ...valid, styleId: 'aquarela' }).styleId).toBe('aquarela');
+    expect(() => service.execute({ ...valid, styleId: 'anime' })).toThrow(ValidationError);
   });
 
   it('rejects markup and over-long names', () => {

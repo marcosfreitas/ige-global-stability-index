@@ -26,6 +26,7 @@ export function ComposerFlow() {
 
   const cargos = catalogue.data?.cargos ?? [];
   const frames = catalogue.data?.frames ?? [];
+  const styles = catalogue.data?.styles ?? [];
   const priceCents = catalogue.data?.priceCents;
 
   const digits = cargos.find((item) => item.id === store.cargo)?.digits;
@@ -40,8 +41,17 @@ export function ComposerFlow() {
       numero: store.numero,
       nome: store.nome.trim() || undefined,
       frameId: store.frameId,
+      styleId: store.styleId,
     };
-  }, [specComplete, store.photoKey, store.cargo, store.numero, store.nome, store.frameId]);
+  }, [
+    specComplete,
+    store.photoKey,
+    store.cargo,
+    store.numero,
+    store.nome,
+    store.frameId,
+    store.styleId,
+  ]);
 
   // Only render previews on the step that shows one.
   const preview = usePreview(store.step === 'moldura' ? specPayload : null);
@@ -141,6 +151,8 @@ export function ComposerFlow() {
           <MolduraStep
             frames={frames}
             frameId={store.frameId}
+            styles={styles}
+            styleId={store.styleId}
             previewUrl={preview.url}
             previewLoading={preview.loading}
             previewError={preview.error}
@@ -150,6 +162,7 @@ export function ComposerFlow() {
               createOrder.error instanceof ApiRequestError ? createOrder.error.message : null
             }
             onFrame={store.setFrameId}
+            onStyle={store.setStyleId}
             onPay={() => specPayload && createOrder.mutate(specPayload)}
             onBack={() => store.setStep('candidato')}
           />

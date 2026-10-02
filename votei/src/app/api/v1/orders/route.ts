@@ -19,6 +19,7 @@ const Schema = z.object({
   numero: z.string(),
   nome: z.string().optional(),
   frameId: z.string(),
+  styleId: z.string().optional(),
 });
 
 export async function POST(req: NextRequest) {

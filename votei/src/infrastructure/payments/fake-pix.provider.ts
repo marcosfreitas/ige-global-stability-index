@@ -45,6 +45,19 @@ export class FakePixProvider implements IPixProvider {
   }
 }
 
+/**
+ * Allowed everywhere except a real production deployment.
+ *
+ * Keying this off NODE_ENV alone would be wrong on Vercel, which sets
+ * NODE_ENV=production on preview deployments too — the fake would be dead
+ * exactly where it is most useful. VERCEL_ENV is the honest signal when it is
+ * present; off Vercel we fall back to NODE_ENV.
+ */
 export function isFakePixEnabled(): boolean {
-  return process.env.NODE_ENV !== 'production' && process.env.EFI_FAKE_PIX === 'true';
+  if (process.env.EFI_FAKE_PIX !== 'true') return false;
+
+  const vercelEnv = process.env.VERCEL_ENV;
+  if (vercelEnv) return vercelEnv !== 'production';
+
+  return process.env.NODE_ENV !== 'production';
 }

@@ -6,6 +6,7 @@ import {
   type ComposeSpec,
 } from '../entities/composition';
 import { findFrame, isFrameId } from '../entities/frame';
+import { DEFAULT_STYLE_ID, isStyleId } from '../entities/style';
 
 const DIGITS_ONLY = /^[0-9]+$/;
 /** Letters (incl. accents), spaces, dot, hyphen and apostrophe. */
@@ -21,12 +22,19 @@ export class ValidateComposeSpecService {
     numero: unknown;
     nome?: unknown;
     frameId: unknown;
+    styleId?: unknown;
   }): ComposeSpec {
     if (!isCargoId(input.cargo)) {
       throw new ValidationError('Cargo inválido.');
     }
     if (!isFrameId(input.frameId)) {
       throw new ValidationError('Moldura inválida.');
+    }
+
+    // Absent means "no restyle", so an older client keeps working.
+    const styleId = input.styleId === undefined ? DEFAULT_STYLE_ID : input.styleId;
+    if (!isStyleId(styleId)) {
+      throw new ValidationError('Estilo inválido.');
     }
 
     const cargo = findCargo(input.cargo);
@@ -62,6 +70,6 @@ export class ValidateComposeSpecService {
       }
     }
 
-    return { cargo: cargo.id, numero: input.numero, nome, frameId: frame.id };
+    return { cargo: cargo.id, numero: input.numero, nome, frameId: frame.id, styleId };
   }
 }

@@ -1,4 +1,5 @@
 import type { FrameId } from './frame';
+import type { StyleId } from './style';
 
 /**
  * Ballot number length is fixed per office in Brazil, so the office doubles as
@@ -40,6 +41,7 @@ export interface ComposeSpec {
   /** Optional label the voter types themselves. Never sourced from a catalogue. */
   nome?: string;
   frameId: FrameId;
+  styleId: StyleId;
 }
 
 export function isCargoId(value: unknown): value is CargoId {

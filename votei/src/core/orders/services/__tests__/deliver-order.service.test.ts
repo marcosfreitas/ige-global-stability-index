@@ -3,7 +3,7 @@ import type { IImageComposer, IOrderRepository, IPhotoStore, IPixProvider } from
 import type { Order } from '../../entities/order';
 import { DeliverOrderService } from '../deliver-order.service';
 
-const SPEC = { cargo: 'presidente', numero: '13', frameId: 'vermelha' } as const;
+const SPEC = { cargo: 'presidente', numero: '13', frameId: 'vermelha', styleId: 'nenhum' } as const;
 
 function makeOrder(overrides: Partial<Order> = {}): Order {
   return {
@@ -40,7 +40,9 @@ function harness(order: Order | null, settled: boolean) {
 
   const photos: IPhotoStore = {
     put: jest.fn(),
+    putAt: jest.fn(),
     get: jest.fn().mockResolvedValue(new Uint8Array([1, 2, 3])),
+    getOrNull: jest.fn().mockResolvedValue(null),
     remove: jest.fn(),
   };
 

@@ -34,8 +34,11 @@ export interface IPixProvider {
 }
 
 export interface IPhotoStore {
-  put(params: { bytes: Uint8Array; contentType: string }): Promise<{ key: string }>;
+  put(params: { bytes: Uint8Array; contentType: string; ownerId: string }): Promise<{ key: string }>;
+  putAt(params: { key: string; bytes: Uint8Array; contentType: string }): Promise<void>;
   get(key: string): Promise<Uint8Array>;
+  /** Null instead of throwing, so a cache miss is not an error. */
+  getOrNull(key: string): Promise<Uint8Array | null>;
   remove(key: string): Promise<void>;
 }
 

@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 import type { Frame, FrameId } from '@/core/compose/entities/frame';
+import type { StyleId } from '@/core/compose/entities/style';
+import type { StyleOption } from '../lib/api';
 import { cn } from '@/shared/utils';
 import { Button, ErrorNote, Spinner, StepTitle } from './ui';
 
@@ -47,6 +49,8 @@ function Swatch({
 export function MolduraStep({
   frames,
   frameId,
+  styles,
+  styleId,
   previewUrl,
   previewLoading,
   previewError,
@@ -54,11 +58,14 @@ export function MolduraStep({
   creating,
   createError,
   onFrame,
+  onStyle,
   onPay,
   onBack,
 }: {
   frames: Frame[];
   frameId: FrameId;
+  styles: StyleOption[];
+  styleId: StyleId;
   previewUrl: string | null;
   previewLoading: boolean;
   previewError: string | null;
@@ -66,6 +73,7 @@ export function MolduraStep({
   creating: boolean;
   createError: string | null;
   onFrame: (id: FrameId) => void;
+  onStyle: (id: StyleId) => void;
   onPay: () => void;
   onBack: () => void;
 }) {
@@ -92,6 +100,37 @@ export function MolduraStep({
       </div>
 
       {previewError ? <ErrorNote>{previewError}</ErrorNote> : null}
+
+      {styles.length > 1 ? (
+        <fieldset className="mt-4">
+          <legend className="mb-2 text-sm font-medium text-zinc-400">Estilo da foto</legend>
+          <div className="flex flex-wrap gap-2">
+            {styles.map((style) => (
+              <button
+                key={style.id}
+                type="button"
+                onClick={() => onStyle(style.id)}
+                aria-pressed={style.id === styleId}
+                disabled={previewLoading}
+                className={cn(
+                  'min-h-11 rounded-full border px-4 text-sm font-semibold transition-colors disabled:opacity-50',
+                  style.id === styleId
+                    ? 'border-emerald-500 bg-emerald-500 text-emerald-950'
+                    : 'border-zinc-700 text-zinc-300 hover:border-zinc-500'
+                )}
+              >
+                {style.label}
+              </button>
+            ))}
+          </div>
+          {styleId !== 'nenhum' ? (
+            <p className="mt-2 text-xs text-zinc-500">
+              O estilo é gerado por IA e leva alguns segundos na primeira vez. Se não der certo,
+              a foto original é usada.
+            </p>
+          ) : null}
+        </fieldset>
+      ) : null}
 
       {/* Horizontal scroll keeps every frame one thumb-swipe away. */}
       <div className="-mx-4 mt-4 overflow-x-auto px-4">

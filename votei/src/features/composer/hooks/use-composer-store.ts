@@ -6,6 +6,7 @@ import {
   type CargoId,
 } from '@/core/compose/entities/composition';
 import { DEFAULT_FRAME_ID, type FrameId } from '@/core/compose/entities/frame';
+import { DEFAULT_STYLE_ID, type StyleId } from '@/core/compose/entities/style';
 
 /**
  * The flow is persisted to localStorage because paying by Pix means leaving
@@ -27,6 +28,7 @@ interface ComposerState {
   numero: string;
   nome: string;
   frameId: FrameId;
+  styleId: StyleId;
   orderId: string | null;
 
   setStep: (step: Step) => void;
@@ -35,6 +37,7 @@ interface ComposerState {
   setNumero: (numero: string) => void;
   setNome: (nome: string) => void;
   setFrameId: (frameId: FrameId) => void;
+  setStyleId: (styleId: StyleId) => void;
   setOrderId: (orderId: string | null) => void;
   reset: () => void;
 }
@@ -46,6 +49,7 @@ const INITIAL = {
   numero: '',
   nome: '',
   frameId: DEFAULT_FRAME_ID,
+  styleId: DEFAULT_STYLE_ID,
   orderId: null,
 };
 
@@ -60,6 +64,7 @@ export const useComposerStore = create<ComposerState>()(
       setNumero: (numero) => set({ numero }),
       setNome: (nome) => set({ nome }),
       setFrameId: (frameId) => set({ frameId }),
+      setStyleId: (styleId) => set({ styleId }),
       setOrderId: (orderId) => set({ orderId }),
       reset: () => set({ ...INITIAL }),
     }),
@@ -72,6 +77,7 @@ export const useComposerStore = create<ComposerState>()(
         numero: state.numero,
         nome: state.nome,
         frameId: state.frameId,
+        styleId: state.styleId,
         orderId: state.orderId,
       }),
     }

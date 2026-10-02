@@ -1,9 +1,11 @@
 import { NextRequest } from 'next/server';
 import { z } from 'zod';
 import { PREVIEW_SIZE } from '@/config/limits';
+import { GetStyledPhotoService } from '@/core/compose/services/get-styled-photo.service';
 import { ValidateComposeSpecService } from '@/core/compose/services/validate-compose-spec.service';
 import { createAdminClient } from '@/infrastructure/database/admin';
 import { getOrCreateAnonymousUser } from '@/infrastructure/database/anonymous-session';
+import { GeminiStylizer } from '@/infrastructure/imaging/gemini-stylizer';
 import { SatoriSharpComposer } from '@/infrastructure/imaging/satori-sharp.composer';
 import {
   SupabasePhotoStore,
@@ -21,6 +23,7 @@ const Schema = z.object({
   numero: z.string(),
   nome: z.string().optional(),
   frameId: z.string(),
+  styleId: z.string().optional(),
 });
 
 /**
@@ -41,7 +44,10 @@ export async function POST(req: NextRequest) {
     const spec = new ValidateComposeSpecService().execute(input);
 
     const store = new SupabasePhotoStore(createAdminClient());
-    const photo = await store.get(input.photoKey);
+    const photo = await new GetStyledPhotoService(store, new GeminiStylizer()).execute({
+      photoKey: input.photoKey,
+      styleId: spec.styleId,
+    });
 
     const bytes = await new SatoriSharpComposer().compose({
       spec,

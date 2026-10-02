@@ -21,6 +21,7 @@ const spec: ComposeSpec = {
   cargo: 'presidente',
   numero: '13',
   frameId: 'verde-amarela',
+  styleId: 'nenhum',
 };
 
 describe('SatoriSharpComposer', () => {
@@ -73,6 +74,7 @@ describe('SatoriSharpComposer', () => {
         numero: '54321',
         nome: 'Maria da Conceição',
         frameId: 'neon',
+        styleId: 'nenhum',
       },
       photo: await photo(),
       size: 1080,
