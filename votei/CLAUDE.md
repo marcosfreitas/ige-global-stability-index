@@ -59,6 +59,14 @@ core/orders/    pedido, cobrança Pix, entrega, purga
 - **A EFI acrescenta `/pix`** à URL de webhook registrada.
 - A regra `react-hooks/set-state-in-effect` do React Compiler é erro, não aviso. Estado assíncrono vai em React Query; hidratação do zustand vai por `useComposerHydrated()`.
 
+## Versão do Node
+
+`.nvmrc` fixa 24.22.1 e `engines.node` exige `>=22.23.4`. O piso existe por causa do CVE-2026-111497 (escrita fora dos limites no decodificador Brotli do Node, corrigida em 22.23.4 / 24.22.1 / 26.12.1, publicada em 21/10/2026). É piso, não pin: 24.x e 26.x continuam valendo.
+
+O que importa é a versão **dentro do alvo de deploy**, não o `.nvmrc`: a versão é resolvida no build, então uma imagem criada antes de 21/10/2026 continua com o runtime antigo mesmo em plataforma gerenciada. Depois de subir, confira o Node que o deploy roda de fato.
+
+Se `pnpm` avisar `Unsupported engine`, o runtime local está abaixo do piso — é aviso, não erro, e o build passa.
+
 ## Comandos
 
 ```bash

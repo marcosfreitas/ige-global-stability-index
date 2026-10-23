@@ -110,6 +110,12 @@ Em quem alguém votou é opinião política — dado pessoal sensível pela LGPD
 
 > Isto não é parecer jurídico. A legislação eleitoral brasileira restringe propaganda paga na internet, e vale passar o modelo de cobrança por um advogado eleitoral antes de divulgar.
 
+## Versão do Node
+
+`.nvmrc` fixa 24.22.1 e `engines.node` exige `>=22.23.4`, por causa do CVE-2026-111497 (escrita fora dos limites no decodificador Brotli, corrigida em 22.23.4 / 24.22.1 / 26.12.1). É piso, não pin.
+
+A versão do Node é resolvida no momento do build, então confira o runtime **dentro do alvo de deploy** — um build antigo continua com o Node antigo mesmo em plataforma gerenciada.
+
 ## Comandos
 
 ```bash
