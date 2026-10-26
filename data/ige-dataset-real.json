@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-19T11:27:38.300009+00:00",
+    "generated_at": "2026-10-26T11:46:26.887311+00:00",
     "methodology_version": "3.0",
     "pillar_weights": {
       "economic": 0.4,
@@ -16,32 +16,32 @@
     "sources": {
       "inflation": {
         "name": "World Bank WDI FP.CPI.TOTL.ZG",
-        "fetched": "2026-10-19T11:27:15.336024+00:00",
+        "fetched": "2026-10-26T11:46:04.171122+00:00",
         "url": "https://api.worldbank.org/v2/country/all/indicator/FP.CPI.TOTL.ZG?format=json&per_page=20000&page=1"
       },
       "gdp_growth": {
         "name": "World Bank NY.GDP.PCAP.KD.ZG",
-        "fetched": "2026-10-19T11:27:15.550914+00:00",
+        "fetched": "2026-10-26T11:46:04.347733+00:00",
         "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.KD.ZG?format=json&per_page=20000&page=1"
       },
       "unemployment": {
         "name": "World Bank SL.UEM.TOTL.ZS",
-        "fetched": "2026-10-19T11:27:15.698169+00:00",
+        "fetched": "2026-10-26T11:46:04.470875+00:00",
         "url": "https://api.worldbank.org/v2/country/all/indicator/SL.UEM.TOTL.ZS?format=json&per_page=20000&page=1"
       },
       "debt": {
         "name": "World Bank GC.DOD.TOTL.GD.ZS + IMF WEO GGXWDG_NGDP",
-        "fetched": "2026-10-19T11:27:15.886241+00:00",
+        "fetched": "2026-10-26T11:46:04.590127+00:00",
         "url": "https://api.worldbank.org/v2/country/all/indicator/GC.DOD.TOTL.GD.ZS?format=json&per_page=20000&page=1"
       },
       "conflict": {
         "name": "UCDP/PRIO BRD",
-        "fetched": "2026-10-19T11:27:19.068974+00:00",
+        "fetched": "2026-10-26T11:46:07.965586+00:00",
         "url": "https://ucdp.uu.se/downloads/organizedviolencecy/organizedviolencecy-261-csv.zip"
       },
       "governance": {
         "name": "Transparency International CPI via OWID (2012–2024)",
-        "fetched": "2026-10-19T11:27:17.338186+00:00",
+        "fetched": "2026-10-26T11:46:05.854514+00:00",
         "url": "https://ourworldindata.org/grapher/ti-corruption-perception-index.csv?v=1&csvType=full&useColumnShortNames=true"
       }
     },
